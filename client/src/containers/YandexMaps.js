@@ -7,6 +7,7 @@ const mapStateToProps = (state) => ({
   coordinates: state.coordinates,
 });
 
+
 class YandexMaps extends React.Component {
   constructor(props) {
     super(props);
@@ -24,20 +25,20 @@ class YandexMaps extends React.Component {
   placeMark = async (event) => {
     event.preventDefault();
     const APIkey = await this.getAPIKey();
-    console.log(APIkey, this.state.input);    
-    let res = await fetch (`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${this.state.input}`)
+    console.log(APIkey, this.state.input);
+    let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${this.state.input}`)
     let data = await res.json();
     let coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
     coordinates = coordinates.split(' ')
     let long = Number(coordinates[0]);
-    let lat = Number(coordinates[1])   
+    let lat = Number(coordinates[1])
     let arrayWithCoordinates = [lat, long];
     console.log(arrayWithCoordinates)
-    this.props.addCoordinate(arrayWithCoordinates);    
+    this.props.addCoordinate(arrayWithCoordinates);
   }
 
   inputHandler = async (input) => {
-    this.setState({input : input})    
+    this.setState({ input: input })
   }
 
   updateInput = input => {
@@ -64,8 +65,14 @@ class YandexMaps extends React.Component {
         <YMaps>
           <div>
             This is Yandex Map!
-            <Map defaultState={mapData}>
-              {coordinates.map(coordinate => <Placemark geometry={coordinate} />)}
+            <Map width='500px' height='500px' defaultState={mapData}>
+              {coordinates.map(coordinate => <Placemark geometry={coordinate} properties={{
+                balloonContentHeader: "Task Name",
+                balloonContentBody: "Task Description",
+                balloonContentFooter: "да что угодно",
+              }} modules={
+                ['geoObject.addon.balloon', 'geoObject.addon.hint']
+              } />)}
             </Map>
           </div>
         </YMaps>
