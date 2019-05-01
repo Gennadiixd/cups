@@ -1,7 +1,7 @@
 import React from "react";
 import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
-
+import { addCoordinateAC } from "../redux/actions/actions"
 
 const mapStateToProps = (state) => ({
   coordinates: state.coordinates,
@@ -24,7 +24,20 @@ class YandexMaps extends React.Component {
   placeMark = async (event) => {
     event.preventDefault();
     const APIkey = await this.getAPIKey();
-    //fetch (`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&geocode=${adress}`)
+    console.log(APIkey, this.state.input);    
+    let res = await fetch (`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${this.state.input}`)
+    let data = await res.json();
+    let coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
+    coordinates = coordinates.split(' ')
+    let long = Number(coordinates[0]);
+    let lat = Number(coordinates[1])   
+    let arrayWithCoordinates = [lat, long];
+    console.log(arrayWithCoordinates)
+    this.props.addCoordinate(arrayWithCoordinates);    
+  }
+
+  inputHandler = async (input) => {
+    this.setState({input : input})    
   }
 
   updateInput = input => {
@@ -56,11 +69,11 @@ class YandexMaps extends React.Component {
             </Map>
           </div>
         </YMaps>
-        <form onSubmit={this.placeMark}>
+        <form >
           <label>
-            <input type="text" name="Adress" value={this.state.input} onChange={e => this.placeMark(e.target.value)} />
+            <input type="text" name="Adress" value={this.state.input} onChange={event => this.inputHandler(event.target.value)} />
           </label>
-          <button className='getCoordinates' >
+          <button className='getCoordinates' onClick={event => this.placeMark(event)}>
             Place Mark
           </button>
         </form>
@@ -69,7 +82,13 @@ class YandexMaps extends React.Component {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    addCoordinate: (coordinates) => dispatch(addCoordinateAC(coordinates)),
+  }
+}
 
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(YandexMaps);
