@@ -2,6 +2,7 @@ import React from "react";
 import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
 
+
 const mapStateToProps = (state) => ({
   coordinates: state.coordinates,
 });
@@ -9,8 +10,26 @@ const mapStateToProps = (state) => ({
 class YandexMaps extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      input: ''
+    };
   }
+
+  async getAPIKey() {
+    let res = await fetch('/key');
+    let APIKey = res.text()
+    return APIKey;
+  }
+
+  placeMark = async (event) => {
+    event.preventDefault();
+    const APIkey = await this.getAPIKey();
+    //fetch (`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&geocode=${adress}`)
+  }
+
+  updateInput = input => {
+    this.setState({ input });
+  };
 
   async componentWillMount() {
     await fetch("/tasks/getall");
@@ -18,7 +37,7 @@ class YandexMaps extends React.Component {
 
   render() {
     const coordinates = [];
-    for (let i = 0; i <  this.props.coordinates.length; i++) {      
+    for (let i = 0; i < this.props.coordinates.length; i++) {
       coordinates.push(this.props.coordinates[i].coordinates)
     }
 
@@ -37,6 +56,14 @@ class YandexMaps extends React.Component {
             </Map>
           </div>
         </YMaps>
+        <form onSubmit={this.placeMark}>
+          <label>
+            <input type="text" name="Adress" value={this.state.input} onChange={e => this.placeMark(e.target.value)} />
+          </label>
+          <button className='getCoordinates' >
+            Place Mark
+          </button>
+        </form>
       </div>
     );
   }
