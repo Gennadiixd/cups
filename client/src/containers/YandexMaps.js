@@ -2,11 +2,11 @@ import React from "react";
 import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
 import { addCoordinateAC } from "../redux/actions/actions"
+import { fetchCoordinatesAC } from "../redux/actions/actions"
 
 const mapStateToProps = (state) => ({
   coordinates: state.coordinates,
 });
-
 
 class YandexMaps extends React.Component {
   constructor(props) {
@@ -16,25 +16,9 @@ class YandexMaps extends React.Component {
     };
   }
 
-  async getAPIKey() {
-    let res = await fetch('/key');
-    let APIKey = res.text()
-    return APIKey;
-  }
-
   placeMark = async (event) => {
     event.preventDefault();
-    const APIkey = await this.getAPIKey();
-    console.log(APIkey, this.state.input);
-    let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${this.state.input}`)
-    let data = await res.json();
-    let coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
-    coordinates = coordinates.split(' ')
-    let long = Number(coordinates[0]);
-    let lat = Number(coordinates[1])
-    let arrayWithCoordinates = [lat, long];
-    console.log(arrayWithCoordinates)
-    this.props.addCoordinate(arrayWithCoordinates);
+    this.props.fetchCoordinates(this.state.input);
   }
 
   inputHandler = async (input) => {
@@ -92,6 +76,7 @@ class YandexMaps extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     addCoordinate: (coordinates) => dispatch(addCoordinateAC(coordinates)),
+    fetchCoordinates: (adress) => dispatch(fetchCoordinatesAC(adress))
   }
 }
 
