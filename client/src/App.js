@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import SignUp from './components/Register'
+import Login from './components/Login'
 
 function App() {
 //Проверка подключения к экспрессу
@@ -13,6 +14,8 @@ function App() {
     <div className="App">
       <button onClick={checkConnect}>Check if express connected</button>
         <SignUp/>
+        <br/>
+        <Login/>
     </div>
   );
 }

@@ -1,36 +1,33 @@
-import React from 'react'
+import React from 'react';
 
-export default class SignUp extends React.Component {
+export default class Login extends React.Component {
+
     submitFormHandler = async (e) => {
         e.preventDefault()
-        let [name, mail, password] = e.target.elements;
-        let res = await fetch('/user/signup', {
+        let [mail, password] = e.target.elements;
+        let res = await fetch('/user/login', {
             method : 'POST',
             headers: {'Content-Type':'application/json'},
             body : JSON.stringify({
-                "name" : name.value,
                 "password" : password.value,
                 "email" : mail.value
             })
         });
         res = await res.text();
-        res === 'success' ? alert('Registered') : alert('Error');
+        alert(res);
     }
 
-    render() {
+    render () {
         return (
             <div>
                 <form onSubmit={this.submitFormHandler}>
-                    <label>Ник</label>
-                    <input type='text'/>
-                    <br/>
                     <label>Почта</label>
                     <input type='email'/>
                     <br/>
                     <label>Пароль</label>
                     <input type='password'/>
                     <br/>
-                    <button type='submit'>Зарегистрироваться</button>
+                    <button type='submit'>Войти</button>
                 </form>
             </div>
         )
