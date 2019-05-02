@@ -1,8 +1,8 @@
 import React from "react";
 import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
-import { addCoordinateAC } from "../redux/actions/actions"
 import { fetchCoordinatesAC } from "../redux/actions/actions"
+import { addCoordinateAC } from "../redux/actions/actions"
 
 const mapStateToProps = (state) => ({
   coordinates: state.coordinates,
@@ -30,14 +30,14 @@ class YandexMaps extends React.Component {
   };
 
   async componentWillMount() {
-    await fetch("/tasks/getall");
+    let res = await fetch("/tasks/getall");
+    let data = await res.json();
+    for (let i = 0; i < data.length; i++) {
+      this.props.addCoordinates(data[i].adress[0])
+    }    
   }
 
   render() {
-    const coordinates = [];
-    for (let i = 0; i < this.props.coordinates.length; i++) {
-      coordinates.push(this.props.coordinates[i].coordinates)
-    }
 
     const mapData = {
       center: [55.751574, 37.573856],
@@ -49,14 +49,16 @@ class YandexMaps extends React.Component {
         <YMaps>
           <div>
             This is Yandex Map!
-            <Map width='500px' height='500px' defaultState={mapData}>
-              {coordinates.map(coordinate => <Placemark geometry={coordinate} properties={{
+            <Map width='500px' height='500px' defaultState={mapData}>            
+
+              {this.props.coordinates.map(coordinate => <Placemark onClick={()=>console.log(coordinate.id)} geometry={coordinate.coordinates} properties={{
                 balloonContentHeader: "Task Name",
                 balloonContentBody: "Task Description",
                 balloonContentFooter: "да что угодно",
               }} modules={
                 ['geoObject.addon.balloon', 'geoObject.addon.hint']
               } />)}
+
             </Map>
           </div>
         </YMaps>
@@ -75,8 +77,8 @@ class YandexMaps extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addCoordinate: (coordinates) => dispatch(addCoordinateAC(coordinates)),
-    fetchCoordinates: (adress) => dispatch(fetchCoordinatesAC(adress))
+    fetchCoordinates: (adress) => dispatch(fetchCoordinatesAC(adress)),
+    addCoordinates : (coordinates) => dispatch(addCoordinateAC(coordinates))
   }
 }
 

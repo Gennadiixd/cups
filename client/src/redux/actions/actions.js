@@ -1,15 +1,13 @@
 import { ADD_COORDINATE } from './actionTypes'
 
-
-let nextTodoId = 1
+let nextPlaceId = 0
 export const addCoordinateAC = coordinates => ({
     type: ADD_COORDINATE,
     payload: {
-        id: ++nextTodoId,
+        id: ++nextPlaceId,
         coordinates: coordinates,
     }
 })
-
 
 async function getAPIKey() {
     let res = await fetch('/key');
@@ -27,7 +25,6 @@ export const fetchCoordinatesAC = (adress) => {
         let long = Number(coordinates[0]);
         let lat = Number(coordinates[1])
         let arrayWithCoordinates = [lat, long];
-        console.log(arrayWithCoordinates);
         dispatch(addCoordinateAC(arrayWithCoordinates));
     }
 }

@@ -1,7 +1,7 @@
 import { ADD_COORDINATE } from '../actions/actionTypes'
 
 const initialState = {
-    coordinates: [{id : 0, coordinates : [55.684758, 37.738521]}],
+    coordinates: [],
 };
 
 export default function (state = initialState, action) {
