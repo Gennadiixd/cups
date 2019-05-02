@@ -1,6 +1,13 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {userLogin} from '../reducers/action'
 
-export default class SignUp extends React.Component {
+const mapStateToProps = state => ({
+    isAuth : state.isAuth,
+    userName : state.username
+})
+
+class SignUp extends React.Component {
     submitFormHandler = async (e) => {
         e.preventDefault()
         let [name, mail, password] = e.target.elements;
@@ -13,8 +20,10 @@ export default class SignUp extends React.Component {
                 "email" : mail.value
             })
         });
-        res = await res.text();
-        res === 'success' ? alert('Registered') : alert('Error');
+        res = await res.json();
+        !res.message ?
+            this.props.login(name.value, res.role)
+            : alert(res.message);
     }
 
     render() {
@@ -36,3 +45,11 @@ export default class SignUp extends React.Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: (n,r) => dispatch(userLogin(n,r))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp)

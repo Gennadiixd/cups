@@ -1,20 +1,24 @@
 import React from 'react';
+import {connect} from 'react-redux'
+import {userLogin} from '../reducers/action'
 
-export default class Login extends React.Component {
+class Login extends React.Component {
 
     submitFormHandler = async (e) => {
         e.preventDefault()
-        let [mail, password] = e.target.elements;
-        let res = await fetch('/user/login', {
-            method : 'POST',
-            headers: {'Content-Type':'application/json'},
-            body : JSON.stringify({
-                "password" : password.value,
-                "email" : mail.value
-            })
-        });
-        res = await res.text();
-        alert(res);
+            let [mail, password] = e.target.elements;
+            let res = await fetch('/user/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    "password": password.value,
+                    "email": mail.value
+                })
+            });
+            res = await res.json();
+            if (!res.message)
+            this.props.login(res.name, res.role)
+            else alert(res.message)
     }
 
     render () {
@@ -33,3 +37,11 @@ export default class Login extends React.Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: (n,r) => dispatch(userLogin(n,r))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Login)
