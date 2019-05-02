@@ -31,14 +31,13 @@ class YandexMaps extends React.Component {
 
   async componentWillMount() {
     let res = await fetch("/tasks/getall");
-    let data = await res.json();
+    let data = await res.json();    
     for (let i = 0; i < data.length; i++) {
-      this.props.addCoordinates(data[i].adress[0])
+      this.props.addCoordinates(data[i].adress[0], data[i].title ,data[i].description)
     }    
   }
 
   render() {
-
     const mapData = {
       center: [55.751574, 37.573856],
       zoom: 9,
@@ -49,12 +48,12 @@ class YandexMaps extends React.Component {
         <YMaps>
           <div>
             This is Yandex Map!
-            <Map width='500px' height='500px' defaultState={mapData}>            
+            <Map width='500px' height='500px' defaultState={mapData}>     
 
               {this.props.coordinates.map(coordinate => <Placemark onClick={()=>console.log(coordinate.id)} geometry={coordinate.coordinates} properties={{
-                balloonContentHeader: "Task Name",
-                balloonContentBody: "Task Description",
-                balloonContentFooter: "да что угодно",
+                balloonContentHeader: `${coordinate.title}`,
+                balloonContentBody: `${coordinate.description}`,
+                balloonContentFooter: `ВЗЯТЬ ЗАДАНИЕ`,
               }} modules={
                 ['geoObject.addon.balloon', 'geoObject.addon.hint']
               } />)}
@@ -78,7 +77,7 @@ class YandexMaps extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchCoordinates: (adress) => dispatch(fetchCoordinatesAC(adress)),
-    addCoordinates : (coordinates) => dispatch(addCoordinateAC(coordinates))
+    addCoordinates : (coordinates, title, description) => dispatch(addCoordinateAC(coordinates,title, description))
   }
 }
 

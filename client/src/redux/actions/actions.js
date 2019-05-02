@@ -1,11 +1,13 @@
 import { ADD_COORDINATE } from './actionTypes'
 
 let nextPlaceId = 0
-export const addCoordinateAC = coordinates => ({
+export const addCoordinateAC = (coordinates, title, description) => ({
     type: ADD_COORDINATE,
     payload: {
         id: ++nextPlaceId,
         coordinates: coordinates,
+        title : title,
+        description: description,
     }
 })
 
