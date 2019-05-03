@@ -26,7 +26,7 @@ export const fetchCoordinatesAC = (adress) => {
         coordinates = coordinates.split(' ')
         let long = Number(coordinates[0]);
         let lat = Number(coordinates[1])
-        let arrayWithCoordinates = [lat, long];
+        let arrayWithCoordinates = [lat, long];        
         dispatch(addCoordinateAC(arrayWithCoordinates));
     }
 }

@@ -1,22 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const Task = require('../models/task');
-const mongoose = require('mongoose');;
+const mongoose = require('mongoose');
+const fetch = require('node-fetch');
 
-router.get('/getall', async function(req, res, next) {
-  let tasks = await Task.find()    
+router.get('/getall', async function (req, res, next) {
+  let tasks = await Task.find()
   let tasksFiltered = tasks.filter(tasks => tasks.expDate > new Date());
-  console.log(tasksFiltered);  
+  console.log(tasksFiltered);
   res.send(tasksFiltered);
 });
 
-router.get('/savetask', async function(req, res, next) {
+router.post('/savetask', async function (req, res, next) {
+  console.log(req.body);
+  const fs = require('fs');
+  let fileUrl = './APIkey.txt';
+  let APIkey = fs.readFileSync(fileUrl, "UTF-8");
+  let adress = encodeURIComponent("Москва " + req.body.adress);
+  let resp = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=${adress}`)
+  let data = await resp.json();
+  let coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
+  coordinates = coordinates.split(' ')
+  console.log(coordinates)
+  let long = Number(coordinates[0]);
+  let lat = Number(coordinates[1])
+  let arrayWithCoordinates = [lat, long];
+  console.log(arrayWithCoordinates);
+
   let task = new Task({
-    title : "TestTask",
-    adress : [[55.684758, 33.538521]],
-    reducerId : 1,
-    description: "JavaScript API поможет встроить на сайт или в приложение карту с поиском по топонимам и организациям, с возможностью строить маршруты и смотреть панорамы, а также с другими функциями, доступными на Яндекс.Картах.",
-    expDate: '2019-05-26 11:11:00.000'
+    title: req.body.title,
+    adress: [arrayWithCoordinates],
+    description: req.body.description,
+    expDate: req.body.expDate,
   })
   await task.save();
   res.send('all');

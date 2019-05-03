@@ -2,8 +2,9 @@ import React from "react";
 import './YandexMaps.css';
 import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
-import { fetchCoordinatesAC } from "../../redux/actions/actions"
-import { addCoordinateAC } from "../../redux/actions/actions"
+import { fetchCoordinatesAC } from "../../redux/actions/actions";
+import { addCoordinateAC } from "../../redux/actions/actions";
+import AddTaskForm from "../../components/AddTaskForm/AddTaskFrom"
 
 const mapStateToProps = (state) => ({
   coordinates: state.coordinates,
@@ -57,7 +58,7 @@ class YandexMaps extends React.Component {
               defaultState={mapData}
               state={{ center: this.state.center, zoom: this.state.zoom, }} >
 
-              {this.props.coordinates.map(coordinate => <Placemark key = {coordinate.id} onClick={() => console.log(coordinate.id)} geometry={coordinate.coordinates} properties={{
+              {this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} onClick={() => console.log(coordinate.id)} geometry={coordinate.coordinates} properties={{
                 balloonContentHeader: `${coordinate.title}`,
                 balloonContentBody: `${coordinate.description}`,
                 balloonContentFooter: `ВЗЯТЬ ЗАДАНИЕ`,
@@ -68,6 +69,10 @@ class YandexMaps extends React.Component {
             </Map>
           </div>
         </YMaps>
+        <div>
+          <AddTaskForm />
+        </div> 
+               
         <form >
           <label>
             <input type="text" name="Adress" value={this.state.input} onChange={event => this.inputHandler(event.target.value)} />
