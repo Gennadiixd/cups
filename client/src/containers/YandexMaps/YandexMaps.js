@@ -1,8 +1,9 @@
 import React from "react";
+import './YandexMaps.css';
 import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
-import { fetchCoordinatesAC } from "../redux/actions/actions"
-import { addCoordinateAC } from "../redux/actions/actions"
+import { fetchCoordinatesAC } from "../../redux/actions/actions"
+import { addCoordinateAC } from "../../redux/actions/actions"
 
 const mapStateToProps = (state) => ({
   coordinates: state.coordinates,
