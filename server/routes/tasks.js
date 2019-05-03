@@ -13,23 +13,9 @@ router.get('/getall', async function (req, res, next) {
 
 router.post('/savetask', async function (req, res, next) {
   console.log(req.body);
-  const fs = require('fs');
-  let fileUrl = './APIkey.txt';
-  let APIkey = fs.readFileSync(fileUrl, "UTF-8");
-  let adress = encodeURIComponent("Москва " + req.body.adress);
-  let resp = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=${adress}`)
-  let data = await resp.json();
-  let coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
-  coordinates = coordinates.split(' ')
-  console.log(coordinates)
-  let long = Number(coordinates[0]);
-  let lat = Number(coordinates[1])
-  let arrayWithCoordinates = [lat, long];
-  console.log(arrayWithCoordinates);
-
   let task = new Task({
     title: req.body.title,
-    adress: [arrayWithCoordinates],
+    adress: [req.body.arrayWithCoordinates],
     description: req.body.description,
     expDate: req.body.expDate,
   })

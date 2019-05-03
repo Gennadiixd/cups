@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { fetchCoordinatesAC } from "../../redux/actions/actions";
 
 class AddTaskForm extends React.Component {
     constructor(props) {
@@ -30,17 +31,7 @@ class AddTaskForm extends React.Component {
 
     async createTask(event) {
         event.preventDefault();
-
-        
-        // console.log(event.target.title.value);
-        // const resp = await fetch('/tasks/savetask', {
-        //     method: "POST",
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ title: event.target.title.value, description: event.target.description.value, adress: event.target.adress.value, expDate: event.target.expDate.value }),
-        // });
+        this.props.fetchCoordinates(event.target.adress.value, event.target.title.value, event.target.description.value, event.target.expDate.value);       
     }
 
 
@@ -73,6 +64,7 @@ class AddTaskForm extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
+        fetchCoordinates: (adress, title, description, expDate) => dispatch(fetchCoordinatesAC(adress, title, description, expDate)),
     }
 }
 
