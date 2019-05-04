@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/mysteryagent', {useNewUrlParser: true});
 
 const indexRouter = require('./routes/index');
+const tasksRouter = require('./routes/tasks');
 const userRouter = require('./routes/users');
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
+app.use('/tasks', tasksRouter);
 app.use('/users', userRouter);
 
 // catch 404 and forward to error handler
