@@ -1,9 +1,21 @@
 import React from 'react';
+
 import './App.css';
 import YandexMaps from './containers/YandexMaps/YandexMaps'
 import Header from './components/Header/Header'
 
-function App() {
+import {connect} from 'react-redux'
+import SignUp from './components/Auth/Register'
+import Login from './components/Auth/Login'
+import {userLogout} from "./reducers/action";
+
+
+const mapStateToProps = state => ({
+    isAuth : state.isAuth,
+    userName : state.username
+})
+
+function App(props) {
 //Проверка подключения к экспрессу
   const checkConnect = async () => {
       let check = await fetch('/test')
@@ -13,10 +25,27 @@ function App() {
   return (
     <div className="App">
       <button onClick={checkConnect}>Check if express connected</button>
+
       <Header />
       <YandexMaps />
+
+        {!props.isAuth && <SignUp/>}
+        <br/>
+        {!props.isAuth && <Login/>}
+        {props.isAuth &&
+        <div>
+            <button onClick={props.logout}>Выйти</button>
+        </div>
+        }
+
     </div>
   );
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => dispatch(userLogout())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
