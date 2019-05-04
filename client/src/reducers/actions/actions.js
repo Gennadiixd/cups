@@ -1,4 +1,5 @@
 import { ADD_COORDINATE } from './actionTypes'
+import {LOGOUT_USER, LOGIN_USER} from './actionTypes'
 
 let nextPlaceId = 0
 export const addCoordinateAC = (coordinates, title, description, mapCenter) => ({
@@ -43,3 +44,7 @@ export const fetchCoordinatesAC = (adress, title, description, expDate) => {
         dispatch(addCoordinateAC(arrayWithCoordinates, title, description));
     }
 }
+
+//Авторизация
+export const userLogin = (n,r) => ({type : LOGIN_USER, payload : {name : n, role : r}});
+export const userLogout = () => ({type : LOGOUT_USER});

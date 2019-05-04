@@ -1,10 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {userLogin} from '../../reducers/action'
+import {userLogin} from '../../reducers/actions/actions'
 
 const mapStateToProps = state => ({
-    isAuth : state.isAuth,
-    userName : state.username
+    isAuth : state.auth.isAuth,
+    userName : state.auth.username
 })
 
 class SignUp extends React.Component {

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchCoordinatesAC } from "../../redux/actions/actions";
+import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 
 class AddTaskForm extends React.Component {
     constructor(props) {

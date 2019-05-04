@@ -1,18 +1,17 @@
 import React from 'react';
 
-import './App.css';
 import YandexMaps from './containers/YandexMaps/YandexMaps'
 import Header from './components/Header/Header'
 
 import {connect} from 'react-redux'
 import SignUp from './components/Auth/Register'
 import Login from './components/Auth/Login'
-import {userLogout} from "./reducers/action";
+import {userLogout} from "./reducers/actions/actions";
 
 
 const mapStateToProps = state => ({
-    isAuth : state.isAuth,
-    userName : state.username
+    isAuth : state.auth.isAuth,
+    userName : state.auth.username
 })
 
 function App(props) {

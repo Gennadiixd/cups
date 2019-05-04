@@ -6,10 +6,10 @@ import * as serviceWorker from './serviceWorker';
 
 import { BrowserRouter } from 'react-router-dom';
 
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware} from 'redux'
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension'
-import reducers from './reducers/auth'
+import reducers from './reducers/index'
 import thunk from 'redux-thunk'
 
 

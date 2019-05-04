@@ -2,12 +2,12 @@ import React from "react";
 import './YandexMaps.css';
 import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
-import { fetchCoordinatesAC } from "../../redux/actions/actions";
-import { addCoordinateAC } from "../../redux/actions/actions";
+import { fetchCoordinatesAC } from "../../reducers/actions/actions";
+import { addCoordinateAC } from "../../reducers/actions/actions";
 import AddTaskForm from "../../components/AddTaskForm/AddTaskFrom"
 
 const mapStateToProps = (state) => ({
-  coordinates: state.coordinates,
+  coordinates: state.maps.coordinates,
 });
 
 class YandexMaps extends React.Component {
