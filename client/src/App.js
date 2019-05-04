@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import './App.css';
-import SignUp from './components/Register'
-import Login from './components/Login'
+import SignUp from './components/Auth/Register'
+import Login from './components/Auth/Login'
 import {userLogout} from "./reducers/action";
 
 const mapStateToProps = state => ({
