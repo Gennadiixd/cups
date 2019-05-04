@@ -7,7 +7,7 @@ class Login extends React.Component {
     submitFormHandler = async (e) => {
         e.preventDefault()
             let [mail, password] = e.target.elements;
-            let res = await fetch('/user/login', {
+            let res = await fetch('/users/login', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

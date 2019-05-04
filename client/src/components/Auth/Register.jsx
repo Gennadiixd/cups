@@ -11,7 +11,7 @@ class SignUp extends React.Component {
     submitFormHandler = async (e) => {
         e.preventDefault()
         let [name, mail, password] = e.target.elements;
-        let res = await fetch('/user/signup', {
+        let res = await fetch('/users/signup', {
             method : 'POST',
             headers: {'Content-Type':'application/json'},
             body : JSON.stringify({
