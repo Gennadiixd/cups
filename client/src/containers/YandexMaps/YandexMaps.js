@@ -22,7 +22,6 @@ class YandexMaps extends React.Component {
 
   placeMark = async (event) => {
     event.preventDefault();
-    await this.props.fetchCoordinates(this.state.input);
     await this.setState({ center: this.props.coordinates[this.props.coordinates.length - 1].coordinates })
   }
 
@@ -38,7 +37,7 @@ class YandexMaps extends React.Component {
     let res = await fetch("/tasks/getall");
     let data = await res.json();
     for (let i = 0; i < data.length; i++) {
-      this.props.addCoordinates(data[i].adress[0], data[i].title, data[i].description)
+      this.props.addCoordinates(data[i].adress[0], data[i].title, data[i].description, [55.751574, 37.573856])
     }
   }
 
@@ -48,6 +47,8 @@ class YandexMaps extends React.Component {
       zoom: this.state.zoom,
     };
 
+    console.log(this.props.coordinates[this.props.coordinates.length - 1].mapCenter )
+
     return (
       <div className="map">
         <YMaps>
@@ -56,7 +57,7 @@ class YandexMaps extends React.Component {
             <Map width='500px'
               height='500px'
               defaultState={mapData}
-              state={{ center: this.state.center, zoom: this.state.zoom, }} >
+              state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
               {this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} onClick={() => console.log(coordinate.id)} geometry={coordinate.coordinates} properties={{
                 balloonContentHeader: `${coordinate.title}`,
@@ -71,16 +72,7 @@ class YandexMaps extends React.Component {
         </YMaps>
         <div>
           <AddTaskForm />
-        </div> 
-               
-        <form >
-          <label>
-            <input type="text" name="Adress" value={this.state.input} onChange={event => this.inputHandler(event.target.value)} />
-          </label>
-          <button className='getCoordinates' onClick={event => this.placeMark(event)}>
-            Place Mark
-          </button>
-        </form>
+        </div>      
       </div>
     );
   }
@@ -89,7 +81,7 @@ class YandexMaps extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchCoordinates: (adress) => dispatch(fetchCoordinatesAC(adress)),
-    addCoordinates: (coordinates, title, description) => dispatch(addCoordinateAC(coordinates, title, description))
+    addCoordinates: (coordinates, title, description, mapCenter) => dispatch(addCoordinateAC(coordinates, title, description, mapCenter))
   }
 }
 
