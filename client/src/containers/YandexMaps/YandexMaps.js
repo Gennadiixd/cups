@@ -1,5 +1,4 @@
 import React from "react";
-import './YandexMaps.css';
 import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
 import { fetchCoordinatesAC } from "../../reducers/actions/actions";
@@ -16,7 +15,7 @@ class YandexMaps extends React.Component {
     this.state = {
       input: '',
       center: [55.751574, 37.573856],
-      zoom: 9
+      zoom: 9,
     };
   }
 
@@ -50,12 +49,12 @@ class YandexMaps extends React.Component {
     console.log(this.props.coordinates[this.props.coordinates.length - 1].mapCenter )
 
     return (
-      <div className="map">
+      <div>
+        <div className="test col-lg-6">
         <YMaps>
           <div>
-            This is Yandex Map!
-            <Map width='500px'
-              height='500px'
+            <Map width={window.innerWidth}
+              height={window.innerHeight-56}
               defaultState={mapData}
               state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
@@ -70,9 +69,8 @@ class YandexMaps extends React.Component {
             </Map>
           </div>
         </YMaps>
-        <div>
-          <AddTaskForm />
-        </div>      
+        </div>
+        <AddTaskForm />
       </div>
     );
   }

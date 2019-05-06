@@ -1,6 +1,7 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import {userLogin} from '../../reducers/actions/actions'
+import {connect} from 'react-redux';
+import {userLogin} from '../../reducers/actions/actions';
+import {Form, Button} from 'react-bootstrap';
 
 class Login extends React.Component {
 
@@ -25,15 +26,17 @@ class Login extends React.Component {
     render () {
         return (
             <div>
-                <form onSubmit={this.submitFormHandler}>
-                    <label>Почта</label>
-                    <input type='email'/>
-                    <br/>
-                    <label>Пароль</label>
-                    <input type='password'/>
-                    <br/>
-                    <button type='submit'>Войти</button>
-                </form>
+                <Form onSubmit={this.submitFormHandler}>
+                    <Form.Group>
+                    <Form.Label>Почта</Form.Label>
+                    <Form.Control type='email'/>
+                    </Form.Group>
+                    <Form.Group>
+                    <Form.Label>Пароль</Form.Label>
+                    <Form.Control type='password'/>
+                    </Form.Group>
+                    <Button type='submit'>Войти</Button>
+                </Form>
             </div>
         )
     }

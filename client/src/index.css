@@ -13,4 +13,30 @@ code {
     monospace;
 }
 
+.test {
+  position : absolute !important;
+  padding : 0px !important;
+}
+
+.task {
+  background: rgba(255,255,255,0.9);
+  border-radius: 5px;
+  padding: 10px;
+  float: right;
+  width: 33% !important;
+}
+
+@media (max-width: 960px) {
+  .test {
+    position: relative !important;
+  }
+  .task {
+    align-content: center;
+    background: rgba(255,255,255,0.84);
+    border-radius: 5px;
+    padding: 10px;
+    float: none;
+    width: 66% !important;
+  }
+}
 
