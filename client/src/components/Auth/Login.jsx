@@ -35,7 +35,7 @@ class Login extends React.Component {
                     <Form.Label>Пароль</Form.Label>
                     <Form.Control type='password'/>
                     </Form.Group>
-                    <Button type='submit'>Войти</Button>
+                    <Button variant="success" type='submit'>Войти</Button>
                 </Form>
             </div>
         )
