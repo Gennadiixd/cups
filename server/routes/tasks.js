@@ -20,7 +20,8 @@ router.post('/savetask', async function (req, res, next) {
     expDate: req.body.expDate,
   })
   await task.save();
-  res.send('all');
+  console.log(task)
+  res.send(task._id);
 });
 
 module.exports = router;

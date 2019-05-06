@@ -6,6 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom'
 
 import { createStore, applyMiddleware} from 'redux'
 import { Provider } from 'react-redux';
@@ -20,9 +21,9 @@ const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
-        <App />
-        </BrowserRouter>
+        <HashRouter>
+            <App />
+        </HashRouter>
     </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
