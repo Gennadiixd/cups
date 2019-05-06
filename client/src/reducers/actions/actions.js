@@ -2,10 +2,10 @@ import { ADD_COORDINATE } from './actionTypes'
 import {LOGOUT_USER, LOGIN_USER} from './actionTypes'
 
 let nextPlaceId = 0
-export const addCoordinateAC = (coordinates, title, description, mapCenter) => ({
+export const addCoordinateAC = (coordinates, title, description, adressId, mapCenter) => ({
     type: ADD_COORDINATE,
     payload: {
-        id: ++nextPlaceId,
+        id: adressId,
         coordinates: coordinates,
         title: title,
         description: description,
@@ -38,10 +38,11 @@ export const fetchCoordinatesAC = (adress, title, description, expDate) => {
             },
             body: JSON.stringify({ arrayWithCoordinates, title, description, expDate }),
         });
+        data = await res.text();
 
-        console.log(arrayWithCoordinates, title, description, expDate)
+        //console.log(arrayWithCoordinates, title, description, expDate, data)
 
-        dispatch(addCoordinateAC(arrayWithCoordinates, title, description));
+        dispatch(addCoordinateAC(arrayWithCoordinates, title, description , data));
     }
 }
 
