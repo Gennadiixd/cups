@@ -40,7 +40,7 @@ export const fetchCoordinatesAC = (adress, title, description, expDate) => {
         });
         data = await res.text();
 
-        console.log(arrayWithCoordinates, title, description, expDate, data)
+        //console.log(arrayWithCoordinates, title, description, expDate, data)
 
         dispatch(addCoordinateAC(arrayWithCoordinates, title, description , data));
     }

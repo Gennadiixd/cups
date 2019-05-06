@@ -1,6 +1,12 @@
 import React from 'react';
+import { connect } from "react-redux";
 
-export default class ClassName extends React.Component {
+const mapStateToProps = (state) => ({
+    auth: state.auth.username,
+  });
+
+
+class TakeTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -9,9 +15,15 @@ export default class ClassName extends React.Component {
     }
 
     render() {
-        console.log(this.props.match)
+        console.log(this.props.match.params.id)
+        console.log(this.props.auth)
         return (
             <div></div>
         );
     }
 }
+
+
+export default connect(
+    mapStateToProps,
+  )(TakeTask);
