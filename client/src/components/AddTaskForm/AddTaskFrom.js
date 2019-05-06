@@ -58,7 +58,7 @@ class AddTaskForm extends React.Component {
                     <Form.Control type="datetime-local" name="expDate" value={this.state.expDate} onChange={event => this.updateExpDate(event.target.value)} />
                 </Form.Group>
                 <Form.Group>
-                    <Button type="submit">Добавить</Button>
+                    <Button variant="success" type="submit">Добавить</Button>
                 </Form.Group>
             </Form>
             </div>

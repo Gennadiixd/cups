@@ -45,7 +45,7 @@ class SignUp extends React.Component {
                         <Form.Label>Пароль</Form.Label>
                         <Form.Control type='password'/>
                     </FormGroup>
-                    <Button type='submit'>Зарегистрироваться</Button>
+                    <Button variant="success" type='submit'>Зарегистрироваться</Button>
                 </Form>
             </div>
         )

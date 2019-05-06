@@ -3,11 +3,15 @@ import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
 import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import { addCoordinateAC } from "../../reducers/actions/actions";
+
 import AddTaskForm from "../../components/AddTaskForm/AddTaskFrom";
 import HashRouter from '../../components/HashRouter';
+import Info from "../../components/Auth/Info"
+
 
 const mapStateToProps = (state) => ({
   coordinates: state.maps.coordinates,
+  isAuth : state.auth.isAuth
 });
 
 class YandexMaps extends React.Component {
@@ -17,7 +21,22 @@ class YandexMaps extends React.Component {
       input: '',
       center: [55.751574, 37.573856],
       zoom: 9,
+      width: 0,
+      height: 0
     };
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight-56 });
+  }
+
+  componentDidMount() {
+    this.updateWindowDimensions()
+    window.addEventListener('resize', this.updateWindowDimensions)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions)
   }
 
   placeMark = async (event) => {
@@ -52,8 +71,8 @@ class YandexMaps extends React.Component {
         <div className="test col-lg-6">
         <YMaps>
           <div>
-            <Map width={window.innerWidth}
-              height={window.innerHeight-56}
+            <Map width={this.state.width}
+              height={this.state.height}
               defaultState={mapData}
               state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
@@ -70,7 +89,9 @@ class YandexMaps extends React.Component {
         </YMaps>
         </div>
         <HashRouter />
-        <AddTaskForm />
+       {this.props.isAuth ?
+        <AddTaskForm /> :
+            <Info/>}
       </div>
     );
   }
