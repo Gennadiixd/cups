@@ -19,6 +19,7 @@ class Login extends React.Component {
             if (!res.message)
             this.props.login(res.name, res.role)
             else alert(res.message)
+        this.props.close();
     }
 
     render () {
