@@ -4,6 +4,7 @@ import { delTaskFromReducerAC } from "../reducers/actions/actions"
 
 const mapStateToProps = (state) => ({
     auth: state.auth.username,
+    reducerTaskId: state.maps.coordinates
 });
 
 
@@ -24,9 +25,11 @@ class TakeTask extends React.Component {
             },
             body: JSON.stringify({ taskId: this.props.match.params.id, userName : this.props.auth }),
         });
-        let data = await res.text();
-        if (data !== 'empty') {
-            console.log(data)
+        let id = await res.text();
+        if (id !== 'empty') {
+            console.log(id);
+            console.log(this.props.reducerTaskId);
+            this.props.delTaskFromReducer(id);
             //удалить из редьюсера по id
         }
     }
@@ -34,7 +37,7 @@ class TakeTask extends React.Component {
     render() {
         this.sendId();
         console.log('THIS IS ID ' + this.props.match.params.id)
-        console.log('THIS IS USER ' +this.props.auth)
+        console.log('THIS IS USER ' + this.props.auth)
         return (
             <div></div>
         );
