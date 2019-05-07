@@ -50,7 +50,7 @@ class AddTaskForm extends React.Component {
                     <Form.Control type="text-field" name="description" value={this.state.description} onChange={event => this.updateDescription(event.target.value)} />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Адресс: </Form.Label>
+                    <Form.Label>Адрес: </Form.Label>
                     <Form.Control type="text" name="adress" value={this.state.adress} onChange={event => this.updateAdress(event.target.value)} />
                 </Form.Group>
                 <Form.Group>

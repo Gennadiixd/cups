@@ -1,7 +1,6 @@
-import { ADD_COORDINATE } from './actionTypes'
+import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER } from './actionTypes'
 import {LOGOUT_USER, LOGIN_USER} from './actionTypes'
 
-let nextPlaceId = 0
 export const addCoordinateAC = (coordinates, title, description, adressId, mapCenter) => ({
     type: ADD_COORDINATE,
     payload: {
@@ -11,6 +10,11 @@ export const addCoordinateAC = (coordinates, title, description, adressId, mapCe
         description: description,
         mapCenter: mapCenter ? mapCenter : coordinates,
     }
+})
+
+export const delTaskFromReducerAC = (id) => ({
+    id: id,
+    type: DEL_TASK_FROM_REDUCER,
 })
 
 async function getAPIKey() {

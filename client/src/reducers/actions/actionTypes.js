@@ -1,4 +1,5 @@
 export const ADD_COORDINATE = "ADD_COORDINATE";
+export const DEL_TASK_FROM_REDUCER = "DEL_TASK_FROM_REDUCER";
 
 export const LOGIN_USER = 'LOGIN_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'

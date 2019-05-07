@@ -6,6 +6,7 @@ const taskSchema = new mongoose.Schema({
   reducerId : Number,
   description: String,
   expDate: Date,
+  executor : String,
 })
 
 module.exports = mongoose.model('Task', taskSchema)
