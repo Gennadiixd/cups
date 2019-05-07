@@ -26,11 +26,11 @@ class TakeTask extends React.Component {
             body: JSON.stringify({ taskId: this.props.match.params.id, userName : this.props.auth }),
         });
         let id = await res.text();
+        //удалить из редьюсера по id, если бэк правильно отработал
         if (id !== 'empty') {
-            console.log(id);
-            console.log(this.props.reducerTaskId);
-            this.props.delTaskFromReducer(id);
-            //удалить из редьюсера по id
+            // console.log(id);
+            // console.log(this.props.reducerTaskId);
+            this.props.delTaskFromReducer(id);            
         }
     }
 
