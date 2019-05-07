@@ -10,6 +10,7 @@ class Login extends React.Component {
             let [mail, password] = e.target.elements;
             let res = await fetch('/users/login', {
                 method: 'POST',
+                credentials: 'include',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     "password": password.value,
