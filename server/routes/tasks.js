@@ -21,8 +21,7 @@ router.post('/take', async function (req, res) {
 
   //Находим задание по id, присваеваем ему пользователя(исполнителя), пушим в ActiveTasks пользователю(исполнителю) id задания.
   //Если в базе нет пользователя/задания шлём на фронт empty, он разберётся.
-  if (req.body.userName) {
-    
+  if (req.body.userName) {    
     if (req.body.taskId) {
       let task = await Task.findOne({ _id: req.body.taskId });
       task.executor = req.body.userName;
