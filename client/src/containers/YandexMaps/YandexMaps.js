@@ -65,7 +65,6 @@ class YandexMaps extends React.Component {
       center: this.state.center,
       zoom: this.state.zoom,
     }
-
     return (
       <div>
         <div className="test col-lg-6">
@@ -79,7 +78,7 @@ class YandexMaps extends React.Component {
               {this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                 balloonContentHeader: `${coordinate.title}`,
                 balloonContentBody: `${coordinate.description}`,
-                balloonContentFooter: `<a href = '#${coordinate.id}'>Взять задание</a>`,
+                balloonContentFooter: `<a href = '#${coordinate.id}'>Взять задание</a>`
               }} modules={
                 ['geoObject.addon.balloon', 'geoObject.addon.hint']
               } />)}

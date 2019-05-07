@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import YandexMaps from './containers/YandexMaps/YandexMaps'
 import Header from './components/Header/Header'
 
 import {connect} from 'react-redux'
-import {userLogout} from "./reducers/actions/actions";
+import {userLogin, userLogout} from "./reducers/actions/actions";
 
 
 const mapStateToProps = state => ({
@@ -13,6 +13,18 @@ const mapStateToProps = state => ({
 })
 
 function App(props) {
+
+    useEffect(() => {
+        async function checkUser() {
+            try {
+                let res = await fetch('/users/check')
+                res = await res.json()
+                props.login(res.name, res.role)
+            } catch (err) {console.log('Connection to server Failed')}
+        }
+        checkUser()
+    }, [])
+
   return (
     <div className="App">
       <Header />
@@ -23,7 +35,8 @@ function App(props) {
 
 const mapDispatchToProps = dispatch => {
     return {
-        logout: () => dispatch(userLogout())
+        logout: () => dispatch(userLogout()),
+        login: (n,r) => dispatch(userLogin(n,r))
     }
 }
 

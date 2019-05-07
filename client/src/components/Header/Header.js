@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 })
 
 class Header extends React.Component {
-        state = {
+    state = {
             showLogin: false,
             showRegister : false
         };
@@ -31,6 +31,12 @@ class Header extends React.Component {
     handleShowRegister = () => {
         this.setState({ showRegister: true });
     }
+
+    handleLogout = async () => {
+        this.props.logout()
+        await fetch('users/logout')
+    }
+
     render() {
         return (
             <div className='sticky-top'>
@@ -49,7 +55,7 @@ class Header extends React.Component {
                             :
                                 <Nav>
                                     <Navbar.Text>{this.props.userName}</Navbar.Text>
-                                <Nav.Link onClick={this.props.logout}>Выйти</Nav.Link>
+                                <Nav.Link onClick={this.handleLogout}>Выйти</Nav.Link>
                                 </Nav>
                             }
                         </Nav>
@@ -76,7 +82,9 @@ class Header extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        logout: () => dispatch(userLogout())
+        logout: () => {
+            dispatch(userLogout())
+        }
     }
 }
 
