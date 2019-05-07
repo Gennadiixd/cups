@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/task');
 const mongoose = require('mongoose');
-const fetch = require('node-fetch');
+const User = require('../models/user')
 
 router.get('/getall', async function (req, res, next) {
   let tasks = await Task.find()
@@ -10,6 +10,18 @@ router.get('/getall', async function (req, res, next) {
   console.log(tasksFiltered);
   res.send(tasksFiltered);
 });
+
+router.post('/take', async function (req, res) {
+  console.log('=================================')
+  console.log(req.body.taskId, req.body.userName);
+  if (req.body.userName) {
+    let user = await User.findOneAndUpdate({ name: req.body.userName }, { $push: { activeTasks: req.body.taskId } });
+    console.log(user);
+    res.send(req.body.taskId);
+  } else {
+    res.send('empty')
+  }
+})
 
 router.post('/savetask', async function (req, res, next) {
   console.log(req.body);
