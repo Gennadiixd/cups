@@ -28,7 +28,7 @@ router.post('/login', async (req,res,next) => {
     let user = await User.findOne({email : req.body.email})
     if (user) {
         if (await user.comparePassword(req.body.password)) {
-            res.json({role : user.role, name : user.name})
+            res.json({role : user.role, name : user.name, tasks : user.activeTasks})
         } else res.status(403).send({message : 'Wrong Password'})
     } else res.status(403).send({message : 'No such User'})
 })
