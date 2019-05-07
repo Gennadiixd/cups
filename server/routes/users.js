@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
+const Task = require('../models/task')
 
 
 router.get('/check', async (req, res) => {
@@ -39,8 +40,13 @@ router.post('/login', async (req,res,next) => {
     let user = await User.findOne({email : req.body.email})
     if (user) {
         if (await user.comparePassword(req.body.password)) {
+            let tasks = [];
+            for (let i = 0; i < user.activeTasks.length; i++) {              
+                 task = await Task.findOne ({_id : user.activeTasks[i]});
+                 tasks.push(task);
+            }
             req.session.user = user;
-            res.json({role : user.role, name : user.name})
+            res.json({role : user.role, name : user.name, tasks : tasks});            
         } else res.status(403).send({message : 'Wrong Password'})
     } else res.status(403).send({message : 'No such User'})
 })

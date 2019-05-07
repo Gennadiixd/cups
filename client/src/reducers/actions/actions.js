@@ -51,5 +51,5 @@ export const fetchCoordinatesAC = (adress, title, description, expDate) => {
 }
 
 //Авторизация
-export const userLogin = (n,r) => ({type : LOGIN_USER, payload : {name : n, role : r}});
+export const userLogin = (n,r, tasks) => ({type : LOGIN_USER, payload : {name : n, role : r, tasks : tasks}});
 export const userLogout = () => ({type : LOGOUT_USER});
