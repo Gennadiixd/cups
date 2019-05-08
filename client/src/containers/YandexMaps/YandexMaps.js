@@ -66,7 +66,6 @@ class YandexMaps extends React.Component {
       center: this.state.center,
       zoom: this.state.zoom,
     }
-      console.log(this.props.ownTasks)
     return (
       <div>
         <div className="test col-lg-6">
@@ -77,7 +76,7 @@ class YandexMaps extends React.Component {
                 defaultState={mapData}
                 state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
-                {this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
+                {this.props.coordinates.map(coordinate => <Placemark key={coordinate.title + coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
                   balloonContentFooter: `<a href = '#${coordinate.id}'>Взять задание</a>`,
