@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { delTaskFromReducerAC } from "../reducers/actions/actions"
+import { takeTaskAC } from "../reducers/actions/actions"
 
 const mapStateToProps = (state) => ({
     auth: state.auth.username,
@@ -24,12 +25,13 @@ class TakeTask extends React.Component {
             },
             body: JSON.stringify({ taskId: this.props.match.params.id, userName : this.props.auth }),
         });
-        let id = await res.text();
+        let data = await res.json();
+       
         //удалить из редьюсера по id, если бэк правильно отработал
-        if (id !== 'empty') {
-            // console.log(id);
+        if (data.respond !== 'empty') {            
+            this.props.takeTask(data.taskID, data.task)
             // console.log(this.props.reducerTaskId);
-            this.props.delTaskFromReducer(id);            
+            // this.props.delTaskFromReducer(id);            
         }
     }
 
@@ -43,7 +45,8 @@ class TakeTask extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        delTaskFromReducer: (id) => dispatch(delTaskFromReducerAC(id))
+        delTaskFromReducer: (id) => dispatch(delTaskFromReducerAC(id)),
+        takeTask: (id, task) => dispatch(takeTaskAC(id, task))
     }
 }
 

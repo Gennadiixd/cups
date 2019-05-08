@@ -21,31 +21,31 @@ router.post('/take', async function (req, res) {
 
   //Находим задание по id, присваеваем ему пользователя(исполнителя), пушим в ActiveTasks пользователю(исполнителю) id задания.
   //Если в базе нет пользователя/задания шлём на фронт empty, он разберётся.
-  if (req.body.userName) {    
-    if (req.body.taskId) {
-      let task = await Task.findOne({ _id: req.body.taskId });
-      task.executor = req.body.userName;
-      await task.save();
-    }
-
-    let multipleTaskFlag = false;
+  if (req.body.userName && req.body.taskId) {
+    console.log(req.body.taskId+ '======================================')  
+    let multipleTaskFlag = true;
     let user = await User.find({ name: req.body.userName });
     tasksArray = user[0].activeTasks;
 
     for (let i = 0; i < tasksArray.length; i++) {
       if (tasksArray[i] == req.body.taskId) {
-        multipleTaskFlag = true;
+        multipleTaskFlag = false;
       }
     }
-    if (!multipleTaskFlag) {
+
+    if (multipleTaskFlag) {
+      let task = await Task.findOne({ _id: req.body.taskId })
+      task.executor = req.body.userName;      
+      await task.save();
       user = await User.findOneAndUpdate({ name: req.body.userName }, { $push: { activeTasks: req.body.taskId } });
-      res.send(req.body.taskId);
+      console.log(task, req.body.taskId)
+      res.send({respond : 'full', taskID : req.body.taskId , task : task});
     } else {
-      res.send('empty')
+      res.send({respond : 'empty'})
     }
   }
   else {
-    res.send('empty')
+    res.send({respond : 'empty'})
   }
 })
 
