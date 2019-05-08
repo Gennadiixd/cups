@@ -24,6 +24,7 @@ class Header extends React.Component {
     handleShowLogin = () => {
         this.setState({ showLogin: true });
     }
+
     handleCloseRegister = () => {
         this.setState({ showRegister: false });
     }

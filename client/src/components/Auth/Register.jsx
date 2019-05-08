@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {userLogin} from '../../reducers/actions/actions'
-import {Form, Button} from 'react-bootstrap';
+import {Form, Button, Row, Col} from 'react-bootstrap';
 import FormGroup from "react-bootstrap/es/FormGroup";
 
 const mapStateToProps = state => ({
@@ -10,8 +10,21 @@ const mapStateToProps = state => ({
 })
 
 class SignUp extends React.Component {
-    submitFormHandler = async (e) => {
-        e.preventDefault()
+    state = {
+        validated: false,
+        role : ''
+    }
+
+    submitFormHandler = (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            this.setState({validated: true})
+        } else
+            this.submitSignUp(e)
+    }
+
+    submitSignUp = async (e) => {
         let [name, mail, password] = e.target.elements;
         let res = await fetch('/users/signup', {
             method : 'POST',
@@ -19,7 +32,8 @@ class SignUp extends React.Component {
             body : JSON.stringify({
                 "name" : name.value,
                 "password" : password.value,
-                "email" : mail.value
+                "email" : mail.value,
+                "role" : this.state.role
             })
         });
         res = await res.json();
@@ -30,20 +44,33 @@ class SignUp extends React.Component {
     }
 
     render() {
+        const {validated} = this.state;
         return (
             <div>
-                <Form onSubmit={this.submitFormHandler}>
+                <Form noValidate  validated={validated} onSubmit={this.submitFormHandler}>
                     <FormGroup>
-                        <Form.Label>Ник</Form.Label>
-                        <Form.Control type='text'/>
+                        <Form.Label>Логин</Form.Label>
+                        <Form.Control type='text' required/>
+                        <Form.Control.Feedback type='invalid'>Введите логин</Form.Control.Feedback>
                     </FormGroup>
                     <FormGroup>
                         <Form.Label>Почта</Form.Label>
-                        <Form.Control type='email'/>
+                        <Form.Control type='email' required/>
+                        <Form.Control.Feedback type='invalid'>Адрес электронной почты - обязателен</Form.Control.Feedback>
                     </FormGroup>
                     <FormGroup>
                         <Form.Label>Пароль</Form.Label>
-                        <Form.Control type='password'/>
+                        <Form.Control type='password' required/>
+                        <Form.Control.Feedback type='invalid'>Введите пароль</Form.Control.Feedback>
+                    </FormGroup>
+
+                    <FormGroup as={Row}>
+                        <Col sm={6}>
+                            <Form.Check onChange={() => this.setState({role : 'worker'})} type='radio' name='role' label='Я - Исполнитель' required/>
+                        </Col>
+                        <Col sm={6}>
+                            <Form.Check onChange={() => this.setState({role : 'customer'})} type='radio' name='role' label='Я - Работодатель'/>
+                        </Col>
                     </FormGroup>
                     <Button variant="success" type='submit'>Зарегистрироваться</Button>
                 </Form>

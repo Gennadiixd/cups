@@ -3,12 +3,21 @@ const router = express.Router();
 const User = require('../models/user')
 const Task = require('../models/task')
 
+const getUserTasks = async (activeTasks) => {
+    let tasks = [];
+    for (let i = 0; i < activeTasks.length; i++) {
+        task = await Task.findOne ({_id : activeTasks[i]});
+        tasks.push(task);
+    }
+    return tasks
+}
 
 router.get('/check', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
-    let user = await User.findOne({email : req.session.user.email})
-        res.json({role : user.role, name : user.name})
-    }
+        let user = await User.findOne({email : req.session.user.email})
+        let tasks = await getUserTasks(user.activeTasks)
+        res.json({role : user.role, name : user.name, tasks : tasks})
+    } res.send('false')
 })
 
 router.get('/logout', async (req,res) => {
@@ -24,7 +33,7 @@ router.post('/signup', async (req, res, next) => {
             name: req.body.name,
             password: req.body.password,
             email: req.body.email,
-            role: 'not provided yet',
+            role: req.body.role,
             balance: 0,
             statistics: 0,
             activeTasks: []
@@ -40,11 +49,7 @@ router.post('/login', async (req,res,next) => {
     let user = await User.findOne({email : req.body.email})
     if (user) {
         if (await user.comparePassword(req.body.password)) {
-            let tasks = [];
-            for (let i = 0; i < user.activeTasks.length; i++) {              
-                 task = await Task.findOne ({_id : user.activeTasks[i]});
-                 tasks.push(task);
-            }
+            let tasks = await getUserTasks(user.activeTasks)
             req.session.user = user;
             res.json({role : user.role, name : user.name, tasks : tasks});            
         } else res.status(403).send({message : 'Wrong Password'})

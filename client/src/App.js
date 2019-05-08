@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import YandexMaps from './containers/YandexMaps/YandexMaps'
 import Header from './components/Header/Header'
@@ -14,16 +14,23 @@ const mapStateToProps = state => ({
 
 function App(props) {
 
+    const [session, setSession] = useState({session : false})
+
     useEffect(() => {
         async function checkUser() {
             try {
                 let res = await fetch('/users/check')
+                console.log('here')
                 res = await res.json()
-                props.login(res.name, res.role)
+                setSession({session : true})
+                console.log(res.tasks)
+                if (res!==false)
+                props.login(res.name, res.role, res.tasks)
             } catch (err) {console.log('Connection to server Failed')}
         }
-        checkUser()
-    }, [])
+        if (!session.session && !props.isAuth)
+            checkUser()
+    }, [props, session])
 
   return (
     <div className="App">
@@ -36,7 +43,7 @@ function App(props) {
 const mapDispatchToProps = dispatch => {
     return {
         logout: () => dispatch(userLogout()),
-        login: (n,r) => dispatch(userLogin(n,r))
+        login: (n,r, tasks) => dispatch(userLogin(n,r, tasks))
     }
 }
 

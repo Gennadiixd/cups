@@ -5,7 +5,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { BrowserRouter } from 'react-router-dom';
 import { HashRouter } from 'react-router-dom'
 
 import { createStore, applyMiddleware} from 'redux'
