@@ -19,11 +19,9 @@ function App(props) {
     useEffect(() => {
         async function checkUser() {
             try {
-                let res = await fetch('/users/check')
-                console.log('here')
+                let res = await fetch('/users/check')                
                 res = await res.json()
                 setSession({session : true})
-                console.log(res.tasks)
                 if (res!==false)
                 props.login(res.name, res.role, res.tasks)
             } catch (err) {console.log('Connection to server Failed')}

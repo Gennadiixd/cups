@@ -42,11 +42,8 @@ export const fetchCoordinatesAC = (adress, title, description, expDate) => {
             },
             body: JSON.stringify({ arrayWithCoordinates, title, description, expDate }),
         });
-        data = await res.text();
-
-        //console.log(arrayWithCoordinates, title, description, expDate, data)
-
-        dispatch(addCoordinateAC(arrayWithCoordinates, title, description , data));
+        data = await res.json();
+        dispatch(addCoordinateAC(arrayWithCoordinates, title, description , data.id));
     }
 }
 

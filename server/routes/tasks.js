@@ -53,13 +53,13 @@ router.post('/take', async function (req, res) {
 router.post('/savetask', async function (req, res, next) {  
   let task = new Task({
     title: req.body.title,
-    adress: [req.body.arrayWithCoordinates],
+    coordinates: [req.body.arrayWithCoordinates],
     description: req.body.description,
     expDate: req.body.expDate,
     executor: '',
   })
   await task.save();
-  res.send(task._id);
+  res.send({id : task._id});
 });
 
 module.exports = router;
