@@ -6,7 +6,7 @@ const Task = require('../models/task')
 const getUserTasks = async (activeTasks) => {
     let tasks = [];
     for (let i = 0; i < activeTasks.length; i++) {
-        task = await Task.findOne ({_id : activeTasks[i]});
+        task = await Task.findOne({ _id: activeTasks[i] });
         tasks.push(task);
     }
     return tasks
@@ -14,13 +14,13 @@ const getUserTasks = async (activeTasks) => {
 
 router.get('/check', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
-        let user = await User.findOne({email : req.session.user.email})
+        let user = await User.findOne({ email: req.session.user.email })
         let tasks = await getUserTasks(user.activeTasks)
-        res.json({role : user.role, name : user.name, tasks : tasks})
-    } else res.send('false')
+        res.json({ role: user.role, name: user.name, tasks: tasks })
+    } else { res.send('false') }
 })
 
-router.get('/logout', async (req,res) => {
+router.get('/logout', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
         req.session.destroy()
         res.clearCookie('user_sid');
@@ -44,9 +44,9 @@ router.post('/signup', async (req, res, next) => {
     } catch (error) {res.status(400).send({message : 'Указанная почта уже используется'})}
 });
 
-router.post('/login', async (req,res,next) => {
+router.post('/login', async (req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    let user = await User.findOne({email : req.body.email})
+    let user = await User.findOne({ email: req.body.email })
     if (user) {
         if (await user.comparePassword(req.body.password)) {
             let tasks = await getUserTasks(user.activeTasks)
