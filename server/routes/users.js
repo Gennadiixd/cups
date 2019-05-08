@@ -17,7 +17,7 @@ router.get('/check', async (req, res) => {
         let user = await User.findOne({email : req.session.user.email})
         let tasks = await getUserTasks(user.activeTasks)
         res.json({role : user.role, name : user.name, tasks : tasks})
-    } res.send('false')
+    } else res.send('false')
 })
 
 router.get('/logout', async (req,res) => {
@@ -41,7 +41,7 @@ router.post('/signup', async (req, res, next) => {
         await user.save()
         req.session.user = user;
         res.json({role: user.role})
-    } catch (error) {res.send({message : 'Email existed'})}
+    } catch (error) {res.status(400).send({message : 'Указанная почта уже используется'})}
 });
 
 router.post('/login', async (req,res,next) => {
@@ -52,8 +52,8 @@ router.post('/login', async (req,res,next) => {
             let tasks = await getUserTasks(user.activeTasks)
             req.session.user = user;
             res.json({role : user.role, name : user.name, tasks : tasks});            
-        } else res.status(403).send({message : 'Wrong Password'})
-    } else res.status(403).send({message : 'No such User'})
+        } else res.status(400).send({message : 'Неверный пароль'})
+    } else res.status(400).send({message : 'Пользователь не найден'})
 })
 
 module.exports = router;

@@ -36,8 +36,6 @@ class TakeTask extends React.Component {
 
     render() {
         this.sendId();
-        console.log('THIS IS ID ' + this.props.match.params.id)
-        console.log('THIS IS USER ' + this.props.auth)
         return (
             <div></div>
         );

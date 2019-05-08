@@ -28,7 +28,7 @@ class YandexMaps extends React.Component {
   }
 
   updateWindowDimensions = () => {
-    this.setState({ width: window.innerWidth, height: window.innerHeight - 56 });
+    this.setState({ width: window.innerWidth, height: window.innerHeight});
   }
 
   componentDidMount() {
@@ -68,7 +68,7 @@ class YandexMaps extends React.Component {
     }
     return (
       <div>
-        <div className="test col-lg-6">
+        <div className="test">
           <YMaps>
             <div>
               <Map width={this.state.width}
@@ -76,7 +76,7 @@ class YandexMaps extends React.Component {
                 defaultState={mapData}
                 state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
-                {this.props.coordinates.map(coordinate => <Placemark key={coordinate.title + coordinate.id} geometry={coordinate.coordinates} properties={{
+                {this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
                   balloonContentFooter: `<a href = '#${coordinate.id}'>Взять задание</a>`,

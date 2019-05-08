@@ -13,31 +13,43 @@ code {
     monospace;
 }
 
+.modals {
+  background : rgba(59,89,153 ,1 );
+  color : white;
+  border-top-left-radius : 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
 .test {
   position : absolute !important;
   padding : 0px !important;
 }
 
 .task {
-  background: rgba(255,255,255,0.78);
-  border-radius: 5px;
-  margin: 25px;
+  background: white;
   padding: 15px;
-  float: left;
   width: 33% !important;
 }
 
+.noResize {
+  resize : none;
+}
+
 .info {
-  position: absolute;
-  background: rgba(255,255,255,0.78);
-  border-radius: 5px;
-  top : 30px;
-  margin: auto;
+  color : white;
+  background: rgba(59,89,153 ,0.85);
+  margin : auto;
   padding: 15px;
   width: 33% !important;
 }
 
 @media (max-width: 960px) {
+  .info {
+    left : 16.5%;
+    top : 25%;
+    position : absolute !important;
+    width: 66% !important;
+  }
   .test {
     position: relative !important;
   }
@@ -47,7 +59,7 @@ code {
     border-radius: 5px;
     padding: 10px;
     float: none;
-    width: 66% !important;
+    width: 80% !important;
   }
 }
 
