@@ -19,7 +19,7 @@ function App(props) {
     useEffect(() => {
         async function checkUser() {
             try {
-                let res = await fetch('/users/check')                
+                let res = await fetch('/users/check')
                 res = await res.json()
                 setSession({session : true})
                 if (res!==false)
@@ -32,7 +32,7 @@ function App(props) {
 
   return (
     <div className="App">
-      <Header />
+      <Header/>
       <YandexMaps />
     </div>
   );

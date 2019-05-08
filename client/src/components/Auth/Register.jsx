@@ -12,7 +12,8 @@ const mapStateToProps = state => ({
 class SignUp extends React.Component {
     state = {
         validated: false,
-        role : ''
+        role : '',
+        message : ''
     }
 
     submitFormHandler = (e) => {
@@ -37,10 +38,12 @@ class SignUp extends React.Component {
             })
         });
         res = await res.json();
-        !res.message ?
+        if (!res.message) {
             this.props.login(name.value, res.role)
-            : alert(res.message);
-        this.props.close();
+            this.props.close();
+        }
+            else this.setState({message : res.message});
+
     }
 
     render() {
@@ -48,6 +51,7 @@ class SignUp extends React.Component {
         return (
             <div>
                 <Form noValidate  validated={validated} onSubmit={this.submitFormHandler}>
+                    <Form.Text style={{color : 'red'}}>{this.state.message}</Form.Text>
                     <FormGroup>
                         <Form.Label>Логин</Form.Label>
                         <Form.Control type='text' required/>
@@ -72,7 +76,7 @@ class SignUp extends React.Component {
                             <Form.Check onChange={() => this.setState({role : 'customer'})} type='radio' name='role' label='Я - Работодатель'/>
                         </Col>
                     </FormGroup>
-                    <Button variant="success" type='submit'>Зарегистрироваться</Button>
+                    <Button variant="primary" type='submit'>Зарегистрироваться</Button>
                 </Form>
             </div>
         )

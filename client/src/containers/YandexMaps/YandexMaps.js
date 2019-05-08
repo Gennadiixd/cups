@@ -28,7 +28,7 @@ class YandexMaps extends React.Component {
   }
 
   updateWindowDimensions = () => {
-    this.setState({ width: window.innerWidth, height: window.innerHeight - 56 });
+    this.setState({ width: window.innerWidth, height: window.innerHeight});
   }
 
   componentDidMount() {
@@ -68,7 +68,7 @@ class YandexMaps extends React.Component {
     }
     return (
       <div>
-        <div className="test col-lg-6">
+        <div className="test">
           <YMaps>
             <div>
               <Map width={this.state.width}
