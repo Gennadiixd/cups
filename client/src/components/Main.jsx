@@ -1,8 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-// import TaskMap from './TaskMap';
-// import Login from './Login';
-// import Signup from './Signup';
+import YandexMaps from '../containers/YandexMaps/YandexMaps';
 import UserRouter from './UserRouter';
 // import TaskRouter from './TaskRouter';
 import NotFound from './NotFound';
@@ -11,11 +9,10 @@ class Main extends React.Component {
     render() {
         return (<main>
             <Switch>
-                {/* <Route exact path='/' component={TaskMap} /> */}
-                {/* <Route path='/login' component={Login} /> */}
-                {/* <Route path='/signup' component={Signup} /> */}
+                <Route exact path='/' component={YandexMaps} />
                 <Route path='/users' component={UserRouter} />
                 {/* <Route path='/tasks' component={TaskRouter} /> */}
+                {/* <Route path='/:id'  component = {TakeTask}  /> */}
                 <Route component={NotFound} />
             </Switch>
         </main>)

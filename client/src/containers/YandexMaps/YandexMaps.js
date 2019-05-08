@@ -5,7 +5,7 @@ import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import { addCoordinateAC } from "../../reducers/actions/actions";
 
 import AddTaskForm from "../../components/AddTaskForm/AddTaskFrom";
-import HashRouter from '../../components/HashRouter';
+// import HashRouter from '../../components/HashRouter';
 import Info from "../../components/Auth/Info"
 
 
@@ -90,7 +90,7 @@ class YandexMaps extends React.Component {
             </div>
           </YMaps>
         </div>
-        <HashRouter />
+        {/* <HashRouter /> */}
         {this.props.isAuth ?
           <AddTaskForm /> :
           <Info />}

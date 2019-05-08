@@ -1,21 +1,21 @@
 import React from "react";
-import {connect} from 'react-redux'
-import {Navbar, Nav, Modal} from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { Navbar, Nav, Modal } from 'react-bootstrap'
 import Login from '../Auth/Login'
 import Register from '../Auth/Register'
 
-import {userLogout} from "../../reducers/actions/actions";
+import { userLogout } from "../../reducers/actions/actions";
 
 const mapStateToProps = state => ({
-    isAuth : state.auth.isAuth,
-    userName : state.auth.username
+    isAuth: state.auth.isAuth,
+    userName: state.auth.username
 })
 
 class Header extends React.Component {
     state = {
-            showLogin: false,
-            showRegister : false
-        };
+        showLogin: false,
+        showRegister: false
+    };
 
     handleCloseLogin = () => {
         this.setState({ showLogin: false });
@@ -40,9 +40,9 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div className='sticky-top'>
+            <header className='sticky-top'>
                 <Navbar bg='light' expand="lg">
-                    <Navbar.Brand href="#home">Mysteryagent</Navbar.Brand>
+                    <Navbar.Brand href="/">Mysteryagent</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
@@ -50,13 +50,13 @@ class Header extends React.Component {
                         <Nav inline="true" className="mr-sm-2">
                             {!this.props.isAuth ?
                                 <Nav>
-                                <Nav.Link onClick={this.handleShowRegister}>Регистрация</Nav.Link>
-                                <Nav.Link onClick={this.handleShowLogin}>Войти</Nav.Link>
+                                    <Nav.Link onClick={this.handleShowRegister}>Регистрация</Nav.Link>
+                                    <Nav.Link onClick={this.handleShowLogin}>Войти</Nav.Link>
                                 </Nav>
-                            :
+                                :
                                 <Nav>
-                                    <Navbar.Text>{this.props.userName}</Navbar.Text>
-                                <Nav.Link onClick={this.handleLogout}>Выйти</Nav.Link>
+                                    <Nav.Link href={`/#/users/${this.props.userName}`}>{this.props.userName}</Nav.Link>
+                                    <Nav.Link onClick={this.handleLogout}>Выйти</Nav.Link>
                                 </Nav>
                             }
                         </Nav>
@@ -67,16 +67,16 @@ class Header extends React.Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Вход</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body><Login close={this.handleCloseLogin}/></Modal.Body>
+                    <Modal.Body><Login close={this.handleCloseLogin} /></Modal.Body>
                 </Modal>
 
                 <Modal show={this.state.showRegister} onHide={this.handleCloseRegister}>
                     <Modal.Header closeButton>
                         <Modal.Title>Регистрация</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body><Register close={this.handleCloseRegister}/></Modal.Body>
+                    <Modal.Body><Register close={this.handleCloseRegister} /></Modal.Body>
                 </Modal>
-            </div>
+            </header>
         );
     }
 }

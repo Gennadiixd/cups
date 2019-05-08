@@ -56,4 +56,9 @@ router.post('/login', async (req,res,next) => {
     } else res.status(403).send({message : 'No such User'})
 })
 
+router.get('/:userName', async (req, res) => {
+    let user = await User.findOne({name: req.params.userName});
+    res.json(user);
+});
+
 module.exports = router;

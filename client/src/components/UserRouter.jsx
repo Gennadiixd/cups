@@ -7,7 +7,7 @@ import UserPage from './UserPage';
 const UserRouter = () => (
     <Switch>
         {/* <Route path='/users/:id/edit' component={UserPageEdit} /> */}
-        <Route path='/users/:id' component={UserPage} />
+        <Route path='/users/:userName' component={UserPage} />
         <Route component={NotFound} />
     </Switch>
 )
