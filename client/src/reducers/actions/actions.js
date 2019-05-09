@@ -12,22 +12,23 @@ export const addCoordinateAC = (coordinates, title, description, adressId, mapCe
     }
 })
 
+//Удаляет задание из стора с тасками
 export const delTaskFromReducerAC = (id) => ({
     id: id,
     type: DEL_TASK_FROM_REDUCER,
 })
-
+//Добавляет задание в стор юзера
 export const addTaskToUserReducerAC = (task) =>({
     task : task,
     type : ADD_TASK_TO_USER_REDUCER
 })
-
+//достаёт API ключ из файла
 async function getAPIKey() {
     let res = await fetch('/key');
     let APIKey = res.text()
     return APIKey;
 }
-
+//получаем координаты из яндекса по API Яндекса по аддресу
 export const fetchCoordinatesAC = (adress, title, description, expDate) => {
     return async (dispatch) => {
         const APIkey = await getAPIKey();
@@ -52,10 +53,11 @@ export const fetchCoordinatesAC = (adress, title, description, expDate) => {
     }
 }
 
+
+//Логика *взять задание
 export const takeTaskAC = (id, task) => {
     return async (dispatch) => {
         //удалить из редьюсера тасков
-        console.log(id+'=============================================')
         await dispatch(delTaskFromReducerAC(id))
         //добавить в редьюсер пользователя
         await dispatch(addTaskToUserReducerAC(task))
