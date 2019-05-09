@@ -37,7 +37,6 @@ class TakeTask extends React.Component {
 
     render() {
         this.sendId();
-        console.log(this.props.history + '<==========================')
         return (
             <div>                
                 {/* <Redirect to={'/'}/> */}

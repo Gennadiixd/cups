@@ -12,8 +12,7 @@ class Main extends React.Component {
             <Switch>
                 <Route exact path='/users/:user' component={UserRouter} />
                 <Route path='/' component={YandexMaps} />
-                {/* <Route path='/tasks' component={TaskRouter} /> */}
-                <Route path='/:id'  component = {TakeTask}/>
+                {/* <Route path='/tasks' component={TaskRouter} /> */}               
                 <Route component={NotFound} />
             </Switch>
         </main>)
