@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import { addCoordinateAC } from "../../reducers/actions/actions";
 
-import AddTaskForm from "../../components/AddTaskForm/AddTaskFrom";
+import AddTaskForm from "../../components/AddTaskForm/AddTaskForm";
 import HashRouter from '../../components/HashRouter';
 import Info from "../../components/Auth/Info"
 
@@ -112,8 +112,8 @@ class YandexMaps extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchCoordinates: (adress) => dispatch(fetchCoordinatesAC(adress)),
-    addCoordinates: (coordinates, title, description, adressId = 1, mapCenter) => dispatch(addCoordinateAC(coordinates, title, description, adressId, mapCenter))
+    fetchCoordinates: (address) => dispatch(fetchCoordinatesAC(address)),
+    addCoordinates: (coordinates, title, description, addressId = 1, mapCenter) => dispatch(addCoordinateAC(coordinates, title, description, addressId, mapCenter))
   }
 }
 

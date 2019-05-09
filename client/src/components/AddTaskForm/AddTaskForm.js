@@ -9,7 +9,7 @@ class AddTaskForm extends React.Component {
         this.state = {
             title: '',
             description: '',
-            adress: 'Jeffreys Маросейка 15',
+            address: 'Jeffreys Маросейка 15',
             expDate: '',
         };
     }
@@ -22,8 +22,8 @@ class AddTaskForm extends React.Component {
         this.setState({ description });
     };
 
-    updateAdress = adress => {
-        this.setState({ adress });
+    updateAddress = address => {
+        this.setState({ address });
     };
 
     updateExpDate = expDate => {
@@ -32,7 +32,7 @@ class AddTaskForm extends React.Component {
 
     async createTask(event) {
         event.preventDefault();
-        this.props.fetchCoordinates(event.target.adress.value, event.target.title.value, event.target.description.value, event.target.expDate.value);       
+        this.props.fetchCoordinates(event.target.address.value, event.target.title.value, event.target.description.value, event.target.expDate.value);       
     }
 
 
@@ -43,7 +43,7 @@ class AddTaskForm extends React.Component {
                 <Form.Text style={{textAlign : 'center'}} as="h5">Создание заказа</Form.Text>
                 <Form.Group>
                     <Form.Label>Адрес: </Form.Label>
-                    <Form.Control type="text" name="adress" value={this.state.adress} onChange={event => this.updateAdress(event.target.value)} required />
+                    <Form.Control type="text" name="address" value={this.state.address} onChange={event => this.updateAddress(event.target.value)} required />
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Наименование: </Form.Label>
@@ -68,7 +68,7 @@ class AddTaskForm extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCoordinates: (adress, title, description, expDate) => dispatch(fetchCoordinatesAC(adress, title, description, expDate)),
+        fetchCoordinates: (address, title, description, expDate) => dispatch(fetchCoordinatesAC(address, title, description, expDate)),
     }
 }
 
