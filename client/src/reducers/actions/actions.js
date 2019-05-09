@@ -1,11 +1,11 @@
 import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER} from './actionTypes'
 import {LOGOUT_USER, LOGIN_USER} from './actionTypes'
-import AddTaskFrom from '../../components/AddTaskForm/AddTaskFrom';
+import AddTaskForm from '../../components/AddTaskForm/AddTaskForm';
 
-export const addCoordinateAC = (coordinates, title, description, adressId, mapCenter) => ({
+export const addCoordinateAC = (coordinates, title, description, addressId, mapCenter) => ({
     type: ADD_COORDINATE,
     payload: {
-        id: adressId,
+        id: addressId,
         coordinates: coordinates,
         title: title,
         description: description,
@@ -29,10 +29,10 @@ async function getAPIKey() {
     return APIKey;
 }
 
-export const fetchCoordinatesAC = (adress, title, description, expDate) => {
+export const fetchCoordinatesAC = (address, title, description, expDate) => {
     return async (dispatch) => {
         const APIkey = await getAPIKey();
-        let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${adress}`)
+        let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${address}`)
         let data = await res.json();
         let coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
         coordinates = coordinates.split(' ')
