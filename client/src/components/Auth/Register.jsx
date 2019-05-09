@@ -4,11 +4,6 @@ import {userLogin} from '../../reducers/actions/actions'
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import FormGroup from "react-bootstrap/es/FormGroup";
 
-const mapStateToProps = state => ({
-    isAuth : state.auth.isAuth,
-    userName : state.auth.username
-})
-
 class SignUp extends React.Component {
     state = {
         validated: false,
@@ -39,11 +34,10 @@ class SignUp extends React.Component {
         });
         res = await res.json();
         if (!res.message) {
-            this.props.login(name.value, res.role)
+            this.props.login(res)
             this.props.close();
         }
             else this.setState({message : res.message});
-
     }
 
     render() {
@@ -53,27 +47,27 @@ class SignUp extends React.Component {
                 <Form noValidate  validated={validated} onSubmit={this.submitFormHandler}>
                     <Form.Text style={{color : 'red'}}>{this.state.message}</Form.Text>
                     <FormGroup>
-                        <Form.Label>Логин</Form.Label>
+                        <Form.Label>Логин:</Form.Label>
                         <Form.Control type='text' required/>
                         <Form.Control.Feedback type='invalid'>Введите логин</Form.Control.Feedback>
                     </FormGroup>
                     <FormGroup>
-                        <Form.Label>Почта</Form.Label>
+                        <Form.Label>Почта:</Form.Label>
                         <Form.Control type='email' required/>
                         <Form.Control.Feedback type='invalid'>Адрес электронной почты - обязателен</Form.Control.Feedback>
                     </FormGroup>
                     <FormGroup>
-                        <Form.Label>Пароль</Form.Label>
+                        <Form.Label>Пароль:</Form.Label>
                         <Form.Control type='password' required/>
                         <Form.Control.Feedback type='invalid'>Введите пароль</Form.Control.Feedback>
                     </FormGroup>
-
+                        <Form.Label>Роль:</Form.Label>
                     <FormGroup as={Row}>
                         <Col sm={6}>
-                            <Form.Check onChange={() => this.setState({role : 'worker'})} type='radio' name='role' label='Я - Исполнитель' required/>
+                            <Form.Check onChange={() => this.setState({role : 'worker'})} type='radio' name='role' label='Агент' required/>
                         </Col>
                         <Col sm={6}>
-                            <Form.Check onChange={() => this.setState({role : 'customer'})} type='radio' name='role' label='Я - Работодатель'/>
+                            <Form.Check onChange={() => this.setState({role : 'customer'})} type='radio' name='role' label='Заказчик'/>
                         </Col>
                     </FormGroup>
                     <Button variant="primary" type='submit'>Зарегистрироваться</Button>
@@ -85,8 +79,8 @@ class SignUp extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: (n,r) => dispatch(userLogin(n,r))
+        login: (user) => dispatch(userLogin(user))
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(SignUp)
+export default connect(null,mapDispatchToProps)(SignUp)

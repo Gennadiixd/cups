@@ -16,14 +16,13 @@ router.get('/check', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
         let user = await User.findOne({ email: req.session.user.email })
         let tasks = await getUserTasks(user.activeTasks)
-        res.json({ role: user.role, name: user.name, tasks: tasks })
+        res.json({user : user, tasks : tasks})
     } else { res.send('false') }
 })
 
 router.get('/logout', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
         req.session.destroy()
-        res.clearCookie('user_sid');
     }
 })
 
@@ -40,7 +39,7 @@ router.post('/signup', async (req, res, next) => {
         })
         await user.save()
         req.session.user = user;
-        res.json({role: user.role})
+        res.json(user)
     } catch (error) {res.status(400).send({message : 'Указанная почта уже используется'})}
 });
 
@@ -51,12 +50,12 @@ router.post('/login', async (req, res, next) => {
         if (await user.comparePassword(req.body.password)) {
             let tasks = await getUserTasks(user.activeTasks)
             req.session.user = user;
-            res.json({role : user.role, name : user.name, tasks : tasks});            
+            res.json(user, tasks);
         } else res.status(400).send({message : 'Неверный пароль'})
     } else res.status(400).send({message : 'Пользователь не найден'})
 })
 
-router.get('/:userName', async (req, res) => {
+router.get('/profile', async (req, res) => {
     let user = await User.findOne({name: req.params.userName});
     res.json(user);
 });

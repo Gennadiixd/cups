@@ -6,7 +6,7 @@ import { takeTaskAC } from "../reducers/actions/actions"
 
 
 const mapStateToProps = (state) => ({
-    auth: state.auth.username,
+    auth: state.auth.name,
     reducerTaskId: state.maps.coordinates
 });
 

@@ -13,7 +13,7 @@ class UserPage extends React.Component {
         }
     }
     async componentDidMount() {
-        let response = await fetch(this.props.match.url);
+        let response = await fetch('/users/profile');
         let currentUser = await response.json();
         this.setState({
             user: currentUser

@@ -23,7 +23,8 @@ function App(props) {
                 res = await res.json()
                 setSession({session : true})
                 if (res!==false)
-                props.login(res.name, res.role, res.tasks)
+                props.login(res.user, res.tasks)
+                console.log(res.tasks)
             } catch (err) {console.log('Connection to server Failed')}
         }
         if (!session.session && !props.isAuth)
@@ -41,7 +42,7 @@ function App(props) {
 const mapDispatchToProps = dispatch => {
     return {
         logout: () => dispatch(userLogout()),
-        login: (n,r, tasks) => dispatch(userLogin(n,r, tasks))
+        login: (user, tasks) => dispatch(userLogin(user, tasks))
     }
 }
 
