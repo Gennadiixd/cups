@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
-import YandexMaps from './containers/YandexMaps/YandexMaps'
 import Header from './components/Header/Header'
+import Main from './components/Main'
 
 import {connect} from 'react-redux'
 import {userLogin, userLogout} from "./reducers/actions/actions";
@@ -32,8 +32,8 @@ function App(props) {
 
   return (
     <div className="App">
-      <Header/>
-      <YandexMaps />
+      <Header />
+      <Main />
     </div>
   );
 }

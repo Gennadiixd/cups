@@ -1,6 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
+const mapStateToProps = (state, ownProps) => ({
+    name: state.auth.username
+})
 class UserPage extends React.Component {
     constructor(props) {
         super(props);
@@ -17,14 +21,16 @@ class UserPage extends React.Component {
     }
     render() {
         return (
-            <div>
-                <h1>{this.state.user.name}</h1>
-                <p><b>Balance:</b> {this.state.user.balance} RUB</p>
-                <p><b>Tasks completed:</b> {this.state.user.statistics}</p>
-                <Link to='/'>Back</Link>
-                <Link to={`/users/${this.state.user._id}/edit`}>Edit</Link>
-            </div>
+            !this.state.user ?
+                <Redirect to='/404' /> :
+                <div>
+                    <h1>{this.props.name}</h1>
+                    <p>{this.state.user.email}</p>
+                    <p><b>Balance:</b> {this.state.user.balance} RUB</p>
+                    <p><b>Tasks completed:</b> {this.state.user.statistics}</p>
+                    <Link to={`/users/${this.state.user.name}/edit`}>Edit</Link>
+                </div>
         )
     }
 }
-export default UserPage;
+export default connect(mapStateToProps)(UserPage);

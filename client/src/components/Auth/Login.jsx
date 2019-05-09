@@ -1,7 +1,7 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {userLogin} from '../../reducers/actions/actions';
-import {Form, Button} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { userLogin } from '../../reducers/actions/actions';
+import { Form, Button } from 'react-bootstrap';
 
 class Login extends React.Component {
     state = {
@@ -62,7 +62,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: (n,r, tasks) => dispatch(userLogin(n,r, tasks))
+        login: (n, r, tasks) => dispatch(userLogin(n, r, tasks))
     }
 }
 

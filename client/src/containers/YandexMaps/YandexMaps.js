@@ -99,7 +99,7 @@ class YandexMaps extends React.Component {
             </div>
           </YMaps>
         </div>
-        <HashRouter />
+         <HashRouter />
         {this.props.isAuth ?
           <AddTaskForm /> :
           <Info />}
