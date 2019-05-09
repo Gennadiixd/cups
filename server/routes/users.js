@@ -50,7 +50,7 @@ router.post('/login', async (req, res, next) => {
         if (await user.comparePassword(req.body.password)) {
             let tasks = await getUserTasks(user.activeTasks)
             req.session.user = user;
-            res.json(user, tasks);
+            res.json({user : user, tasks : tasks});
         } else res.status(400).send({message : 'Неверный пароль'})
     } else res.status(400).send({message : 'Пользователь не найден'})
 })
