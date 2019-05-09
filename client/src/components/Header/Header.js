@@ -80,7 +80,7 @@ class Header extends React.Component {
                         <Modal.Body><Login close={this.handleCloseLogin}/></Modal.Body>
                     </Modal>
 
-                    <Modal show={this.state.showRegister} onHide={this.handleCloseRegister}>
+                <Modal show={this.state.showRegister} onHide={this.handleCloseRegister}>
                         <Modal.Header className="modals" closeButton>
                             <Modal.Title>Регистрация</Modal.Title>
                         </Modal.Header>
