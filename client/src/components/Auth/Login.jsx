@@ -31,7 +31,7 @@ class Login extends React.Component {
         });
         res = await res.json();
         if (!res.message) {
-            this.props.login(res.name, res.role, res.tasks)
+            this.props.login(res.user, res.tasks)
             this.props.close();
         }
         else this.setState({message : res.message})
@@ -62,7 +62,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: (n, r, tasks) => dispatch(userLogin(n, r, tasks))
+        login: (user, tasks) => dispatch(userLogin(user, tasks))
     }
 }
 

@@ -1,6 +1,5 @@
 import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER} from './actionTypes'
 import {LOGOUT_USER, LOGIN_USER} from './actionTypes'
-import AddTaskForm from '../../components/AddTaskForm/AddTaskForm';
 
 export const addCoordinateAC = (coordinates, title, description, addressId, mapCenter) => ({
     type: ADD_COORDINATE,
@@ -13,23 +12,25 @@ export const addCoordinateAC = (coordinates, title, description, addressId, mapC
     }
 })
 
+//Удаляет задание из стора с тасками
 export const delTaskFromReducerAC = (id) => ({
     id: id,
     type: DEL_TASK_FROM_REDUCER,
 })
-
+//Добавляет задание в стор юзера
 export const addTaskToUserReducerAC = (task) =>({
     task : task,
     type : ADD_TASK_TO_USER_REDUCER
 })
-
+//достаёт API ключ из файла
 async function getAPIKey() {
     let res = await fetch('/key');
     let APIKey = res.text()
     return APIKey;
 }
 
-export const fetchCoordinatesAC = (address, title, description, expDate) => {
+//получаем координаты из яндекса по API Яндекса по аддресу
+export const fetchCoordinatesAC = (adress, title, description, expDate) => {
     return async (dispatch) => {
         const APIkey = await getAPIKey();
         let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${address}`)
@@ -54,10 +55,10 @@ export const fetchCoordinatesAC = (address, title, description, expDate) => {
 }
 
 
+//Логика *взять задание
 export const takeTaskAC = (id, task) => {
     return async (dispatch) => {
         //удалить из редьюсера тасков
-        console.log(id+'=============================================')
         await dispatch(delTaskFromReducerAC(id))
         //добавить в редьюсер пользователя
         await dispatch(addTaskToUserReducerAC(task))
@@ -65,5 +66,5 @@ export const takeTaskAC = (id, task) => {
 }
 
 //Авторизация
-export const userLogin = (n,r, tasks) => ({type : LOGIN_USER, payload : {name : n, role : r, tasks : tasks}});
+export const userLogin = (user, tasks) => ({type : LOGIN_USER, user : user, tasks : tasks});
 export const userLogout = () => ({type : LOGOUT_USER});

@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import { delTaskFromReducerAC } from "../reducers/actions/actions"
 import { takeTaskAC } from "../reducers/actions/actions"
 
+
 const mapStateToProps = (state) => ({
-    auth: state.auth.username,
+    auth: state.auth.name,
     reducerTaskId: state.maps.coordinates
 });
 
@@ -30,17 +31,15 @@ class TakeTask extends React.Component {
        
         //удалить из редьюсера по id, если бэк правильно отработал
         if (data.respond !== 'empty') {            
-            this.props.takeTask(data.taskID, data.task)
-            // console.log(this.props.reducerTaskId);
-            // this.props.delTaskFromReducer(id);            
+            this.props.takeTask(data.taskID, data.task)          
         }
     }
 
     render() {
         this.sendId();
         return (
-            <div>
-                <Redirect to={'/'}/>
+            <div>                
+                {/* <Redirect to={'/'}/> */}
             </div>
         );
     }

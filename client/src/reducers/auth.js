@@ -1,8 +1,6 @@
 import {LOGIN_USER, LOGOUT_USER, ADD_TASK_TO_USER_REDUCER} from './actions/actionTypes'
 
 const initState = {
-    username : '',
-    userrole : '',
     isAuth : false,
     tasks : [],
 }
@@ -10,17 +8,10 @@ const initState = {
 export default (state = initState, action) => {
     switch (action.type) {
         case LOGIN_USER :
-            return  {...state,
-            isAuth: true,
-            userrole : action.payload.role,
-            username : action.payload.name,
-            tasks : action.payload.tasks,
-        }
+            return  {...action.user, tasks : action.tasks, isAuth : true}
         case LOGOUT_USER :
             return {
-                isAuth : false,
-                userrole : '',
-                username : '',                
+                isAuth : false
             }
         case ADD_TASK_TO_USER_REDUCER :
             return Object.assign({}, state, { tasks: [...state.tasks, action.task] })

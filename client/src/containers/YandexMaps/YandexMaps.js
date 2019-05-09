@@ -56,6 +56,8 @@ class YandexMaps extends React.Component {
   async componentWillMount() {
     let res = await fetch("/tasks/getall");
     let data = await res.json();
+    console.log(data);
+    
     for (let i = 0; i < data.length; i++) {
       this.props.addCoordinates(data[i].coordinates[0], data[i].title, data[i].description, data[i]._id, [55.751574, 37.573856])
     }
@@ -81,7 +83,7 @@ class YandexMaps extends React.Component {
                 {this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
-                  balloonContentFooter: `<a href = '#${coordinate.id}'>${coordinate.id}</a>`,
+                  balloonContentFooter: `<a href = '#tasks/${coordinate.id}'>Взять задание</a>`,
                 }} modules={
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
                 } />)}
@@ -89,7 +91,7 @@ class YandexMaps extends React.Component {
                 {this.props.ownTasks && this.props.ownTasks.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates[0]} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
-                  balloonContentFooter: `<a href = '#${coordinate.id}'>Выполнить задание</a>`,
+                  balloonContentFooter: `<a href = '#tasks/${coordinate.id}'>Выполнить задание</a>`,
                 }} modules={
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
                 } options = {{preset: 'islands#greenDotIconWithCaption'}} />)}           

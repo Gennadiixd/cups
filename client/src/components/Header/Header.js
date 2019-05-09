@@ -3,18 +3,20 @@ import { connect } from 'react-redux'
 import { Navbar, Nav, Modal } from 'react-bootstrap'
 import Login from '../Auth/Login'
 import Register from '../Auth/Register'
+import UserPage from '../UserPage'
 
 import { userLogout } from "../../reducers/actions/actions";
 
 const mapStateToProps = state => ({
     isAuth: state.auth.isAuth,
-    userName: state.auth.username
+    userName: state.auth.name
 })
 
 class Header extends React.Component {
     state = {
         showLogin: false,
-        showRegister: false
+        showRegister: false,
+        showProfile: false
     };
 
     handleCloseLogin = () => {
@@ -31,6 +33,14 @@ class Header extends React.Component {
 
     handleShowRegister = () => {
         this.setState({ showRegister: true });
+    }
+
+    handleCloseProfile = () => {
+        this.setState({ showProfile: false });
+    }
+
+    handleShowProfile = () => {
+        this.setState({ showProfile: true });
     }
 
     handleLogout = async () => {
@@ -55,7 +65,7 @@ class Header extends React.Component {
                                 </Nav>
                                 :
                                 <Nav>
-                                    <Nav.Link href={`/#/users/${this.props.userName}`}>{this.props.userName}</Nav.Link>
+                                    <Nav.Link onClick={this.handleShowProfile}>{this.props.userName}</Nav.Link>
                                     <Nav.Link onClick={this.handleLogout}>Выйти</Nav.Link>
                                 </Nav>
                             }
@@ -76,6 +86,13 @@ class Header extends React.Component {
                         </Modal.Header>
                         <Modal.Body><Register close={this.handleCloseRegister}/></Modal.Body>
                     </Modal>
+
+                <Modal show={this.state.showProfile} onHide={this.handleCloseProfile}>
+                    <Modal.Header className="modals" closeButton>
+                        <Modal.Title>Профиль</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body><UserPage close={this.handleCloseProfile}/></Modal.Body>
+                </Modal>
             </header>
         );
     }
