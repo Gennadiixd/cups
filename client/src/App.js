@@ -20,10 +20,8 @@ function App(props) {
         async function checkUser() {
             try {
                 let res = await fetch('/users/check')
-                console.log('here')
                 res = await res.json()
                 setSession({session : true})
-                console.log(res.tasks)
                 if (res!==false)
                 props.login(res.name, res.role, res.tasks)
             } catch (err) {console.log('Connection to server Failed')}

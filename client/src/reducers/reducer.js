@@ -1,7 +1,7 @@
 import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER } from './actions/actionTypes'
 
 const initialState = {
-    coordinates: [{mapCenter :  [55.751574, 37.573856],}],
+    coordinates: [{mapCenter :  [55.751574, 37.573856], id : 1}],
 };
 
 export default (state = initialState, action) => {

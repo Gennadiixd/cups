@@ -1,5 +1,6 @@
-import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER } from './actionTypes'
+import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER} from './actionTypes'
 import {LOGOUT_USER, LOGIN_USER} from './actionTypes'
+import AddTaskFrom from '../../components/AddTaskForm/AddTaskFrom';
 
 export const addCoordinateAC = (coordinates, title, description, adressId, mapCenter) => ({
     type: ADD_COORDINATE,
@@ -15,6 +16,11 @@ export const addCoordinateAC = (coordinates, title, description, adressId, mapCe
 export const delTaskFromReducerAC = (id) => ({
     id: id,
     type: DEL_TASK_FROM_REDUCER,
+})
+
+export const addTaskToUserReducerAC = (task) =>({
+    task : task,
+    type : ADD_TASK_TO_USER_REDUCER
 })
 
 async function getAPIKey() {
@@ -42,11 +48,19 @@ export const fetchCoordinatesAC = (adress, title, description, expDate) => {
             },
             body: JSON.stringify({ arrayWithCoordinates, title, description, expDate }),
         });
-        data = await res.text();
+        data = await res.json();
+        dispatch(addCoordinateAC(arrayWithCoordinates, title, description , data.id));
+    }
+}
 
-        //console.log(arrayWithCoordinates, title, description, expDate, data)
 
-        dispatch(addCoordinateAC(arrayWithCoordinates, title, description , data));
+export const takeTaskAC = (id, task) => {
+    return async (dispatch) => {
+        //удалить из редьюсера тасков
+        console.log(id+'=============================================')
+        await dispatch(delTaskFromReducerAC(id))
+        //добавить в редьюсер пользователя
+        await dispatch(addTaskToUserReducerAC(task))
     }
 }
 

@@ -1,12 +1,13 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom'
 import { connect } from "react-redux";
 import { delTaskFromReducerAC } from "../reducers/actions/actions"
+import { takeTaskAC } from "../reducers/actions/actions"
 
 const mapStateToProps = (state) => ({
     auth: state.auth.username,
     reducerTaskId: state.maps.coordinates
 });
-
 
 class TakeTask extends React.Component {
     constructor(props) {
@@ -25,28 +26,30 @@ class TakeTask extends React.Component {
             },
             body: JSON.stringify({ taskId: this.props.match.params.id, userName : this.props.auth }),
         });
-        let id = await res.text();
+        let data = await res.json();
+       
         //удалить из редьюсера по id, если бэк правильно отработал
-        if (id !== 'empty') {
-            // console.log(id);
+        if (data.respond !== 'empty') {            
+            this.props.takeTask(data.taskID, data.task)
             // console.log(this.props.reducerTaskId);
-            this.props.delTaskFromReducer(id);            
+            // this.props.delTaskFromReducer(id);            
         }
     }
 
     render() {
         this.sendId();
-        console.log('THIS IS ID ' + this.props.match.params.id)
-        console.log('THIS IS USER ' + this.props.auth)
         return (
-            <div></div>
+            <div>
+                <Redirect to={'/'}/>
+            </div>
         );
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        delTaskFromReducer: (id) => dispatch(delTaskFromReducerAC(id))
+        delTaskFromReducer: (id) => dispatch(delTaskFromReducerAC(id)),
+        takeTask: (id, task) => dispatch(takeTaskAC(id, task))
     }
 }
 

@@ -1,4 +1,4 @@
-import {LOGIN_USER, LOGOUT_USER} from './actions/actionTypes'
+import {LOGIN_USER, LOGOUT_USER, ADD_TASK_TO_USER_REDUCER} from './actions/actionTypes'
 
 const initState = {
     username : '',
@@ -22,6 +22,8 @@ export default (state = initState, action) => {
                 userrole : '',
                 username : '',                
             }
+        case ADD_TASK_TO_USER_REDUCER :
+            return Object.assign({}, state, { tasks: [...state.tasks, action.task] })
         default : return state
     }
 }

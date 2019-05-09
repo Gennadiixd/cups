@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import YandexMaps from '../containers/YandexMaps/YandexMaps';
 import UserRouter from './UserRouter';
 // import TaskRouter from './TaskRouter';
+import TakeTask from './TakeTask'
 import NotFound from './NotFound';
 
 class Main extends React.Component {
@@ -12,7 +13,7 @@ class Main extends React.Component {
                 <Route exact path='/' component={YandexMaps} />
                 <Route path='/users' component={UserRouter} />
                 {/* <Route path='/tasks' component={TaskRouter} /> */}
-                {/* <Route path='/:id'  component = {TakeTask}  /> */}
+                <Route path='/:id'  component = {TakeTask}/>
                 <Route component={NotFound} />
             </Switch>
         </main>)

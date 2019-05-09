@@ -41,9 +41,9 @@ class Header extends React.Component {
     render() {
         return (
             <header className='sticky-top'>
-                <Navbar bg='light' expand="lg">
-                    <Navbar.Brand href="/">Mysteryagent</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar style={{background : 'rgba(59,89,153 ,1 )'}} variant="dark" expand="lg">
+                    <Navbar.Brand href="#home">cups,_____?</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                         </Nav>
@@ -61,21 +61,21 @@ class Header extends React.Component {
                             }
                         </Nav>
                     </Navbar.Collapse>
+
                 </Navbar>
-
                 <Modal show={this.state.showLogin} onHide={this.handleCloseLogin}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Вход</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body><Login close={this.handleCloseLogin} /></Modal.Body>
-                </Modal>
+                        <Modal.Header className="modals" style={{background : 'rgba(59,89,153 ,1 )'}} closeButton>
+                            <Modal.Title>Вход</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body><Login close={this.handleCloseLogin}/></Modal.Body>
+                    </Modal>
 
-                <Modal show={this.state.showRegister} onHide={this.handleCloseRegister}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Регистрация</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body><Register close={this.handleCloseRegister} /></Modal.Body>
-                </Modal>
+                    <Modal show={this.state.showRegister} onHide={this.handleCloseRegister}>
+                        <Modal.Header className="modals" closeButton>
+                            <Modal.Title>Регистрация</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body><Register close={this.handleCloseRegister}/></Modal.Body>
+                    </Modal>
             </header>
         );
     }
