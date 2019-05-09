@@ -10,8 +10,8 @@ class Main extends React.Component {
     render() {
         return (<main>
             <Switch>
-                <Route exact path='/' component={YandexMaps} />
-                <Route path='/users' component={UserRouter} />
+                <Route exact path='/users/:user' component={UserRouter} />
+                <Route path='/' component={YandexMaps} />
                 {/* <Route path='/tasks' component={TaskRouter} /> */}
                 <Route path='/:id'  component = {TakeTask}/>
                 <Route component={NotFound} />
