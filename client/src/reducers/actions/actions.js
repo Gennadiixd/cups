@@ -1,6 +1,5 @@
 import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER} from './actionTypes'
 import {LOGOUT_USER, LOGIN_USER} from './actionTypes'
-import AddTaskFrom from '../../components/AddTaskForm/AddTaskFrom';
 
 export const addCoordinateAC = (coordinates, title, description, adressId, mapCenter) => ({
     type: ADD_COORDINATE,
@@ -53,7 +52,6 @@ export const fetchCoordinatesAC = (adress, title, description, expDate) => {
     }
 }
 
-
 export const takeTaskAC = (id, task) => {
     return async (dispatch) => {
         //удалить из редьюсера тасков
@@ -65,5 +63,5 @@ export const takeTaskAC = (id, task) => {
 }
 
 //Авторизация
-export const userLogin = (n,r, tasks) => ({type : LOGIN_USER, payload : {name : n, role : r, tasks : tasks}});
+export const userLogin = (user, tasks) => ({type : LOGIN_USER, user : user, tasks : tasks});
 export const userLogout = () => ({type : LOGOUT_USER});
