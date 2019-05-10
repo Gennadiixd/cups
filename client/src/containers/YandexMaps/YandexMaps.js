@@ -9,7 +9,6 @@ import AddTaskForm from "../../components/AddTaskForm/AddTaskForm";
 import HashRouter from '../../components/HashRouter';
 import Info from "../../components/Auth/Info"
 
-
 const mapStateToProps = (state) => ({
   coordinates: state.maps.coordinates,
   isAuth: state.auth.isAuth,
@@ -24,7 +23,8 @@ class YandexMaps extends React.Component {
       center: [55.751574, 37.573856],
       zoom: 9,
       width: 0,
-      height: 0
+      height: 0,
+      hint: [],
     };
   }
 
@@ -66,14 +66,32 @@ class YandexMaps extends React.Component {
     return (
       <div>
         <div className="test">
-          <YMaps>
+          <YMaps >
             <div>
-              <Map width={this.state.width}
+              <Map
+                onClick={(e) => {
+                  console.log(e.get('coords'));
+                  this.setState({ hint: e.get('coords') });
+                }}
+                width={this.state.width}
                 height={this.state.height}
                 defaultState={mapData}
                 state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
-                
+                {this.state.hint && <Placemark onDragEnd={(e) => { this.setState({hint : e.originalEvent.target.geometry._coordinates})}} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
+                  balloonContentHeader: ``,
+                  balloonContentBody: ` <form onsubmit = "console.log(this) ; return false; "  action="#" method="get">
+                  <p><b>${this.state.hint}</b></p>
+                  <p><input type="text" name="answer" value="a1">Офицерский состав<Br>
+                  <input type="text" name="answer" value="a2">Операционная система<Br>
+                  <input type="text" name="answer" value="a3">Большой полосатый мух</p>
+                  <p><input type="submit"></p>
+                  <a href = '#oooooooo/oooooooo/ooooooo'>Взять задание</a>
+                  </form>`,
+                  balloonContentFooter: ``,
+                }} modules={
+                  ['geoObject.addon.hint']
+                } options={{ preset: 'islands#redDotIconWithCaption', draggable: true }} />}
 
                 {this.props.isAuth && this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
@@ -91,7 +109,6 @@ class YandexMaps extends React.Component {
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
                 } options={{ preset: 'islands#greenDotIconWithCaption' }} />)}
 
-                
               </Map>
             </div>
           </YMaps>
@@ -108,8 +125,8 @@ class YandexMaps extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchCoordinates: (address) => dispatch(fetchCoordinatesAC(address)),
-    addCoordinates: (coordinates, title, description, addressId = 1, mapCenter) => dispatch(addCoordinateAC(coordinates, title, description, addressId, mapCenter)),
-    placeMarksOnMap: () => dispatch (placeMarksOnMapAC()),
+    //addCoordinates: (coordinates, title, description, addressId = 1, mapCenter) => dispatch(addCoordinateAC(coordinates, title, description, addressId, mapCenter)),
+    placeMarksOnMap: () => dispatch(placeMarksOnMapAC()),
   }
 }
 
