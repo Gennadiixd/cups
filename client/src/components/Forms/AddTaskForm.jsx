@@ -14,6 +14,7 @@ class AddTaskForm extends React.Component {
             description: '',
             address: 'Jeffreys Маросейка 15',
             expDate: '',
+
         };
     }
 
