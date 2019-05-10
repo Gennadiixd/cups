@@ -14,12 +14,8 @@ router.get('/getall', async function (req, res, next) {
   res.send(tasksFiltered);
 });
 
-
 //      Логика присовения задания 
 router.post('/take', async function (req, res) {
-  // console.log('=================================');
-  // console.log(req.body.taskId, req.body.userName);
-
   //Находим задание по id, присваеваем ему пользователя(исполнителя), пушим в ActiveTasks пользователю(исполнителю) id задания.
   //Если в базе нет пользователя/задания шлём на фронт empty, он разберётся.
   if (req.body.userName && req.body.taskId) {
@@ -35,22 +31,22 @@ router.post('/take', async function (req, res) {
 
     if (multipleTaskFlag) {
       let task = await Task.findOne({ _id: req.body.taskId })
-      task.executor = req.body.userName;      
+      task.executor = req.body.userName;
       await task.save();
       user = await User.findOneAndUpdate({ name: req.body.userName }, { $push: { activeTasks: req.body.taskId } });
       console.log(task, req.body.taskId)
-      res.send({respond : 'full', taskID : req.body.taskId , task : task});
+      res.send({ respond: 'full', taskID: req.body.taskId, task: task });
     } else {
-      res.send({respond : 'empty'})
+      res.send({ respond: 'empty' })
     }
   }
   else {
-    res.send({respond : 'empty'})
+    res.send({ respond: 'empty' })
   }
 })
 
 //      Логика сохранения задания
-router.post('/savetask', async function (req, res, next) {  
+router.post('/savetask', async function (req, res, next) {
   let task = new Task({
     title: req.body.title,
     coordinates: [req.body.arrayWithCoordinates],
@@ -58,11 +54,15 @@ router.post('/savetask', async function (req, res, next) {
     expDate: req.body.expDate,
     executor: '',
     author: req.body.author,
-    completed: false,
-    prettyDate: moment(req.body.expDate).format('llll')
+    status: 'active',
+    prettyDate: moment(req.body.expDate).format('llll'),
   })
   await task.save();
-  res.send({id : task._id});
+  res.send({ id: task._id });
 });
+router.post('/send', async (req, res) => {
+  let task = await Task.findByIdAndUpdate(req.body.id, {status: 'pending'});
+  res.send();
+})
 
 module.exports = router;
