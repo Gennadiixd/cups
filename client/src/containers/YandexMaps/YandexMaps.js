@@ -3,6 +3,7 @@ import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
 import { connect } from "react-redux";
 import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import { addCoordinateAC } from "../../reducers/actions/actions";
+import { placeMarksOnMapAC } from "../../reducers/actions/actions";
 
 import AddTaskForm from "../../components/AddTaskForm/AddTaskForm";
 import HashRouter from '../../components/HashRouter';
@@ -28,7 +29,7 @@ class YandexMaps extends React.Component {
   }
 
   updateWindowDimensions = () => {
-    this.setState({ width: window.innerWidth, height: window.innerHeight});
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
   componentDidMount() {
@@ -54,13 +55,7 @@ class YandexMaps extends React.Component {
   };
 
   async componentWillMount() {
-    let res = await fetch("/tasks/getall");
-    let data = await res.json();
-    console.log(data);
-    
-    for (let i = 0; i < data.length; i++) {
-      this.props.addCoordinates(data[i].coordinates[0], data[i].title, data[i].description, data[i]._id, [55.751574, 37.573856])
-    }
+    this.props.placeMarksOnMap();
   }
 
   render() {
@@ -77,10 +72,10 @@ class YandexMaps extends React.Component {
                 height={this.state.height}
                 defaultState={mapData}
                 state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
-                
-                {console.log(this.props.coordinates)}
 
-                {this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
+                
+
+                {this.props.isAuth && this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
                   balloonContentFooter: `<a href = '#tasks/${coordinate.id}'>Взять задание</a>`,
@@ -94,14 +89,14 @@ class YandexMaps extends React.Component {
                   balloonContentFooter: `<a href = '#tasks/${coordinate.id}'>Выполнить задание</a>`,
                 }} modules={
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
-                } options = {{preset: 'islands#greenDotIconWithCaption'}} />)}           
+                } options={{ preset: 'islands#greenDotIconWithCaption' }} />)}
 
-                {console.log(this.props.ownTasks)}
+                
               </Map>
             </div>
           </YMaps>
         </div>
-         <HashRouter />
+        <HashRouter />
         {this.props.isAuth ?
           <AddTaskForm /> :
           <Info />}
@@ -113,7 +108,8 @@ class YandexMaps extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchCoordinates: (address) => dispatch(fetchCoordinatesAC(address)),
-    addCoordinates: (coordinates, title, description, addressId = 1, mapCenter) => dispatch(addCoordinateAC(coordinates, title, description, addressId, mapCenter))
+    addCoordinates: (coordinates, title, description, addressId = 1, mapCenter) => dispatch(addCoordinateAC(coordinates, title, description, addressId, mapCenter)),
+    placeMarksOnMap: () => dispatch (placeMarksOnMapAC()),
   }
 }
 
