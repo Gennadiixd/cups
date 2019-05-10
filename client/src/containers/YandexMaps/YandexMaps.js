@@ -5,14 +5,16 @@ import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import { addCoordinateAC } from "../../reducers/actions/actions";
 import { placeMarksOnMapAC } from "../../reducers/actions/actions";
 
-import AddTaskForm from "../../components/AddTaskForm/AddTaskForm";
+import AddTaskForm from "../../components/Forms/AddTaskForm";
 import HashRouter from '../../components/HashRouter';
-import Info from "../../components/Auth/Info"
+import Info from "../../components/Forms/Info"
+import ShowActiveTasks from "../../components/Forms/ShowActiveTasks";
 
 const mapStateToProps = (state) => ({
   coordinates: state.maps.coordinates,
   isAuth: state.auth.isAuth,
   ownTasks: state.auth.tasks,
+  role: state.auth.role
 });
 
 class YandexMaps extends React.Component {
@@ -115,8 +117,8 @@ class YandexMaps extends React.Component {
           </YMaps>
         </div>
         <HashRouter />
-        {this.props.isAuth ?
-          <AddTaskForm /> :
+        {this.props.isAuth ? this.props.role==='author' ?
+          <AddTaskForm/> : <ShowActiveTasks/> :
           <Info />}
       </div>
     );

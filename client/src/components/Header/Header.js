@@ -51,10 +51,10 @@ class Header extends React.Component {
     render() {
         return (
             <header className='sticky-top'>
-                <Navbar style={{ background: 'rgba(59,89,153 ,1 )' }} variant="dark" expand='none'>
+                <Navbar style={{ background: 'rgba(59,89,153 ,1 )' }} variant="dark" expand='sm'>
                     <Navbar.Brand href="#home">cups,_____?</Navbar.Brand>
-                    {/* <Navbar.Toggle aria-controls="basic-navbar-nav"/> */}
-                    <Navbar id="basic-navbar-nav">
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                    <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                         </Nav>
                         <Nav inline="true" className="mr-sm-2">
@@ -70,7 +70,7 @@ class Header extends React.Component {
                                 </Nav>
                             }
                         </Nav>
-                    </Navbar>
+                    </Navbar.Collapse>
 
                 </Navbar>
                 <Modal show={this.state.showLogin} onHide={this.handleCloseLogin}>

@@ -1,7 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
-import { fetchCoordinatesAC } from "../../reducers/actions/actions";
-import {Form, Button} from 'react-bootstrap';
+import {connect} from "react-redux";
+import {fetchCoordinatesAC} from "../../reducers/actions/actions";
+import {Button, Form} from 'react-bootstrap';
 
 const mapStateToProps = (state, ownProps) => ({
     name: state.auth.name,
