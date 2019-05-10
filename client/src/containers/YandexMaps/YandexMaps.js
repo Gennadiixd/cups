@@ -74,6 +74,7 @@ class YandexMaps extends React.Component {
               <Map
                 onClick={(e) => {
                   console.log(e.get('coords'));
+                  if (this.props.role==='author')
                   this.setState({ hint: e.get('coords') });
                 }}
                 width={this.state.width}
@@ -81,7 +82,7 @@ class YandexMaps extends React.Component {
                 defaultState={mapData}
                 state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
-                {this.state.hint && <Placemark onDragEnd={(e) => { this.setState({hint : e.originalEvent.target.geometry._coordinates})}} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
+                {this.props.role==='author' ? this.state.hint && <Placemark onDragEnd={(e) => { this.setState({hint : e.originalEvent.target.geometry._coordinates})}} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
                   balloonContentHeader: ``,
                   balloonContentBody: ` <form onsubmit = "console.log(this) ; return false; "  action="#" method="get">
                   <p><b>${this.state.hint}</b></p>
@@ -94,7 +95,7 @@ class YandexMaps extends React.Component {
                   balloonContentFooter: ``,
                 }} modules={
                   ['geoObject.addon.hint']
-                } options={{ preset: 'islands#redDotIconWithCaption', draggable: true }} />}
+                } options={{ preset: 'islands#redDotIconWithCaption', draggable: true }} /> : null}
 
                 {this.props.isAuth && this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
