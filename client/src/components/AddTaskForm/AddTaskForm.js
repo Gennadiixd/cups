@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import {Form, Button} from 'react-bootstrap';
 
+const mapStateToProps = (state, ownProps) => ({
+    name: state.auth.name,
+})
 class AddTaskForm extends React.Component {
     constructor(props) {
         super(props);
@@ -32,11 +35,12 @@ class AddTaskForm extends React.Component {
 
     async createTask(event) {
         event.preventDefault();
-        this.props.fetchCoordinates(event.target.address.value, event.target.title.value, event.target.description.value, event.target.expDate.value);       
+        this.props.fetchCoordinates(event.target.address.value, event.target.title.value, event.target.description.value, event.target.expDate.value, this.props.name);       
     }
 
 
     render() {
+        console.log('name=',this.props.name,'author=', this.state.author)
         return (
             <div className='task col-lg-4'>
             <Form style={{'paddingTop' : '10px'}} onSubmit={(event) => this.createTask(event)}>
@@ -68,11 +72,11 @@ class AddTaskForm extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCoordinates: (address, title, description, expDate) => dispatch(fetchCoordinatesAC(address, title, description, expDate)),
+        fetchCoordinates: (address, title, description, expDate, author) => dispatch(fetchCoordinatesAC(address, title, description, expDate, author)),
     }
 }
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
 )(AddTaskForm);

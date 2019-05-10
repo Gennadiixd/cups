@@ -1,5 +1,5 @@
-import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER} from './actionTypes'
-import {LOGOUT_USER, LOGIN_USER} from './actionTypes'
+import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER } from './actionTypes'
+import { LOGOUT_USER, LOGIN_USER } from './actionTypes'
 
 export const addCoordinateAC = (coordinates, title, description, addressId, mapCenter) => ({
     type: ADD_COORDINATE,
@@ -18,9 +18,9 @@ export const delTaskFromReducerAC = (id) => ({
     type: DEL_TASK_FROM_REDUCER,
 })
 //Добавляет задание в стор юзера
-export const addTaskToUserReducerAC = (task) =>({
-    task : task,
-    type : ADD_TASK_TO_USER_REDUCER
+export const addTaskToUserReducerAC = (task) => ({
+    task: task,
+    type: ADD_TASK_TO_USER_REDUCER
 })
 //достаёт API ключ из файла
 async function getAPIKey() {
@@ -28,9 +28,19 @@ async function getAPIKey() {
     let APIKey = res.text()
     return APIKey;
 }
+//Запрос к базе, получение всех меток, сохранение их в сторе.
+export const placeMarksOnMapAC = (data) => {
+    return async (dispatch) => {
+        let res = await fetch("/tasks/getall");
+        let data = await res.json();
+        for (let i = 0; i < data.length; i++) {
+            dispatch(addCoordinateAC(data[i].coordinates[0], data[i].title, data[i].description, data[i]._id, [55.751574, 37.573856]))
+        }
+    }
+}
 
 //получаем координаты из яндекса по API Яндекса по аддресу
-export const fetchCoordinatesAC = (address, title, description, expDate) => {
+export const fetchCoordinatesAC = (address, title, description, expDate, author) => {
     return async (dispatch) => {
         const APIkey = await getAPIKey();
         let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${address}`)
@@ -47,10 +57,10 @@ export const fetchCoordinatesAC = (address, title, description, expDate) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ arrayWithCoordinates, title, description, expDate }),
+            body: JSON.stringify({ arrayWithCoordinates, title, description, expDate, author }),
         });
         data = await res.json();
-        dispatch(addCoordinateAC(arrayWithCoordinates, title, description , data.id));
+        dispatch(addCoordinateAC(arrayWithCoordinates, title, description, data.id));
     }
 }
 
@@ -66,5 +76,5 @@ export const takeTaskAC = (id, task) => {
 }
 
 //Авторизация
-export const userLogin = (user, tasks) => ({type : LOGIN_USER, user : user, tasks : tasks});
-export const userLogout = () => ({type : LOGOUT_USER});
+export const userLogin = (user, tasks) => ({ type: LOGIN_USER, user: user, tasks: tasks });
+export const userLogout = () => ({ type: LOGOUT_USER });

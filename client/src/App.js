@@ -24,7 +24,7 @@ function App(props) {
                 setSession({session : true})
                 if (res!==false)
                 props.login(res.user, res.tasks)
-                console.log(res.tasks)
+                
             } catch (err) {console.log('Connection to server Failed')}
         }
         if (!session.session && !props.isAuth)
