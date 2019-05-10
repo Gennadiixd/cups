@@ -74,18 +74,18 @@ class Header extends React.Component {
 
                 </Navbar>
                 <Modal show={this.state.showLogin} onHide={this.handleCloseLogin}>
-                    <Modal.Header className="modals" style={{ background: 'rgba(59,89,153 ,1 )' }} closeButton>
-                        <Modal.Title>Вход</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body><Login close={this.handleCloseLogin} /></Modal.Body>
-                </Modal>
+                        <Modal.Header className="modals" style={{background : 'rgba(59,89,153 ,1 )'}} closeButton>
+                            <Modal.Title>Вход</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body><Login close={this.handleCloseLogin}/></Modal.Body>
+                    </Modal>
 
                 <Modal show={this.state.showRegister} onHide={this.handleCloseRegister}>
-                    <Modal.Header className="modals" closeButton>
-                        <Modal.Title>Регистрация</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body><Register close={this.handleCloseRegister} /></Modal.Body>
-                </Modal>
+                        <Modal.Header className="modals" closeButton>
+                            <Modal.Title>Регистрация</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body><Register close={this.handleCloseRegister}/></Modal.Body>
+                    </Modal>
 
                 <Modal show={this.state.showProfile} onHide={this.handleCloseProfile}>
                     <Modal.Header className="modals" closeButton>
