@@ -56,7 +56,8 @@ router.post('/savetask', async function (req, res, next) {
     description: req.body.description,
     expDate: req.body.expDate,
     executor: '',
-    author: req.body.author
+    author: req.body.author,
+    completed: false
   })
   await task.save();
   res.send({id : task._id});
