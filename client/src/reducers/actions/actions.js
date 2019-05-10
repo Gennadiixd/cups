@@ -42,16 +42,20 @@ export const placeMarksOnMapAC = (data) => {
 //получаем координаты из яндекса по API Яндекса по аддресу
 export const fetchCoordinatesAC = (address, title, description, expDate, author) => {
     return async (dispatch) => {
-        const APIkey = await getAPIKey();
-        let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${address}`)
-        let data = await res.json();
-        let coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
-        coordinates = coordinates.split(' ')
-        let long = Number(coordinates[0]);
-        let lat = Number(coordinates[1])
-        let arrayWithCoordinates = [lat, long];
-
-        res = await fetch('/tasks/savetask', {
+        if (typeof (address) == "string") {            
+            const APIkey = await getAPIKey();
+            let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${address}`)
+            let data = await res.json();
+            address = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
+            address = address.split(' ');
+            address = address.reverse()
+            
+        }
+        let long = Number(address[0]);
+        let lat = Number(address[1])
+        let arrayWithCoordinates = [long ,lat];
+        console.log(arrayWithCoordinates )
+        let resp = await fetch('/tasks/savetask', {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -59,8 +63,9 @@ export const fetchCoordinatesAC = (address, title, description, expDate, author)
             },
             body: JSON.stringify({ arrayWithCoordinates, title, description, expDate, author }),
         });
-        data = await res.json();
-        dispatch(addCoordinateAC(arrayWithCoordinates, title, description, data.id));
+        let data1 = await resp.json();
+        dispatch(addCoordinateAC(arrayWithCoordinates, title, description, data1.id));
+
     }
 }
 

@@ -7,16 +7,20 @@ const mapStateToProps = (state, ownProps) => ({
     name: state.auth.name,
 })
 class AddTaskForm extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {
             title: '',
             description: '',
-            address: 'Jeffreys Маросейка 15',
+            address: '',
             expDate: '',
-
         };
     }
+
+componentWillReceiveProps = (newProps) => {
+    this.setState({address : newProps.address})
+}
 
     updateTitle = title => {
         this.setState({ title });
@@ -36,12 +40,10 @@ class AddTaskForm extends React.Component {
 
     async createTask(event) {
         event.preventDefault();
-        this.props.fetchCoordinates(event.target.address.value, event.target.title.value, event.target.description.value, event.target.expDate.value, this.props.name);       
+        this.props.fetchCoordinates(this.state.address, event.target.title.value, event.target.description.value, event.target.expDate.value, this.props.name);       
     }
-
-
-    render() {
-        console.log('name=',this.props.name,'author=', this.state.author)
+    
+       render() {       
         return (
             <div className='task col-lg-4'>
             <Form style={{'paddingTop' : '10px'}} onSubmit={(event) => this.createTask(event)}>
