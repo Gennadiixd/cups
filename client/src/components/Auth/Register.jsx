@@ -64,10 +64,10 @@ class SignUp extends React.Component {
                         <Form.Label>Роль:</Form.Label>
                     <FormGroup as={Row}>
                         <Col sm={6}>
-                            <Form.Check onChange={() => this.setState({role : 'worker'})} type='radio' name='role' label='Агент' required/>
+                            <Form.Check onChange={() => this.setState({role : 'executor'})} type='radio' name='role' label='Агент' required/>
                         </Col>
                         <Col sm={6}>
-                            <Form.Check onChange={() => this.setState({role : 'customer'})} type='radio' name='role' label='Заказчик'/>
+                            <Form.Check onChange={() => this.setState({role : 'author'})} type='radio' name='role' label='Заказчик'/>
                         </Col>
                     </FormGroup>
                     <Button variant="primary" type='submit'>Зарегистрироваться</Button>
