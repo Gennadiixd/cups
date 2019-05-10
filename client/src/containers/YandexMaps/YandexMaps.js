@@ -112,7 +112,7 @@ class YandexMaps extends React.Component {
         </div>
         <HashRouter />
         {this.props.isAuth ? this.props.role==='author' ?
-          <AddTaskForm/> : <ShowActiveTasks/> :
+          <AddTaskForm address={this.state.hint}/> : <ShowActiveTasks/> :
           <Info />}
       </div>
     );
