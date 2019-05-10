@@ -70,7 +70,7 @@ class YandexMaps extends React.Component {
     }
     return (
       <div>
-        <div className="test">
+        <div className="yMap">
           <YMaps>
             <div>
               <Map width={this.state.width}

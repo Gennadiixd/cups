@@ -6,7 +6,6 @@ const mapStateToProps = (state, ownProps) => ({
     user: state.auth
 })
 class UserPage extends React.Component {
-
     render() {
         return (
             !this.props.user ?
