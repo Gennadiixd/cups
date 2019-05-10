@@ -18,8 +18,8 @@ class AddTaskForm extends React.Component {
         };
     }
 
-componentWillReceiveProps = () => {
-    this.setState({address : this.props.address})
+componentWillReceiveProps = (newProps) => {
+    this.setState({address : newProps.address})
 }
 
     updateTitle = title => {
@@ -40,7 +40,7 @@ componentWillReceiveProps = () => {
 
     async createTask(event) {
         event.preventDefault();
-        this.props.fetchCoordinates(event.target.address.value, event.target.title.value, event.target.description.value, event.target.expDate.value, this.props.name);       
+        this.props.fetchCoordinates(this.state.address, event.target.title.value, event.target.description.value, event.target.expDate.value, this.props.name);       
     }
     
        render() {       
