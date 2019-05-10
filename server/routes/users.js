@@ -16,7 +16,7 @@ router.get('/check', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
         let user = await User.findOne({ email: req.session.user.email })
         let tasks = await getUserTasks(user.activeTasks)
-        res.json({user : user, tasks : tasks})
+        res.json({ user: user, tasks: tasks })
     } else { res.send('false') }
 })
 
@@ -40,7 +40,7 @@ router.post('/signup', async (req, res, next) => {
         await user.save()
         req.session.user = user;
         res.json(user)
-    } catch (error) {res.status(400).send({message : 'Указанная почта уже используется'})}
+    } catch (error) { res.status(400).send({ message: 'Указанная почта уже используется' }) }
 });
 
 router.post('/login', async (req, res, next) => {
@@ -50,14 +50,23 @@ router.post('/login', async (req, res, next) => {
         if (await user.comparePassword(req.body.password)) {
             let tasks = await getUserTasks(user.activeTasks)
             req.session.user = user;
-            res.json({user : user, tasks : tasks});
-        } else res.status(400).send({message : 'Неверный пароль'})
-    } else res.status(400).send({message : 'Пользователь не найден'})
+            res.json({ user: user, tasks: tasks });
+        } else res.status(400).send({ message: 'Неверный пароль' })
+    } else res.status(400).send({ message: 'Пользователь не найден' })
 })
 
 router.get('/profile', async (req, res) => {
-    let user = await User.findOne({name: req.params.userName});
+    let user = await User.findOne({ name: req.params.userName });
     res.json(user);
+});
+router.post('/:name', async (req, res) => {
+    // if (req.body.role === 'author') {
+        let activeByAuthor = await Task.find({author: req.params.name, completed: false});
+        res.json(activeByAuthor);
+    // } else {
+    //     let completedByExecutor = await Task.find({ executor: req.params.name, completed: true });
+    //     res.json(completedByExecutor);
+    // }
 });
 
 module.exports = router;

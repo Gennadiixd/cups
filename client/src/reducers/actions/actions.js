@@ -30,7 +30,7 @@ async function getAPIKey() {
 }
 
 //получаем координаты из яндекса по API Яндекса по аддресу
-export const fetchCoordinatesAC = (address, title, description, expDate) => {
+export const fetchCoordinatesAC = (address, title, description, expDate, author) => {
     return async (dispatch) => {
         const APIkey = await getAPIKey();
         let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${address}`)
@@ -47,7 +47,7 @@ export const fetchCoordinatesAC = (address, title, description, expDate) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ arrayWithCoordinates, title, description, expDate }),
+            body: JSON.stringify({ arrayWithCoordinates, title, description, expDate, author }),
         });
         data = await res.json();
         dispatch(addCoordinateAC(arrayWithCoordinates, title, description , data.id));
