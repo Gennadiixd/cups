@@ -27,7 +27,7 @@ class YandexMaps extends React.Component {
       hint: [],
     };
   }
-
+  
   updateWindowDimensions = () => {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
@@ -81,14 +81,7 @@ class YandexMaps extends React.Component {
 
                 {this.state.hint && <Placemark onDragEnd={(e) => { this.setState({hint : e.originalEvent.target.geometry._coordinates})}} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
                   balloonContentHeader: ``,
-                  balloonContentBody: ` <form onsubmit = "console.log(this) ; return false; "  action="#" method="get">
-                  <p><b>${this.state.hint}</b></p>
-                  <p><input type="text" name="answer" value="a1">Офицерский состав<Br>
-                  <input type="text" name="answer" value="a2">Операционная система<Br>
-                  <input type="text" name="answer" value="a3">Большой полосатый мух</p>
-                  <p><input type="submit"></p>
-                  <a href = '#oooooooo/oooooooo/ooooooo'>Взять задание</a>
-                  </form>`,
+                  balloonContentBody: ``,
                   balloonContentFooter: ``,
                 }} modules={
                   ['geoObject.addon.hint']
@@ -116,7 +109,7 @@ class YandexMaps extends React.Component {
         </div>
         <HashRouter />
         {this.props.isAuth ?
-          <AddTaskForm /> :
+        <AddTaskForm address = {this.state.hint}/> :
           <Info />}
       </div>
     );
