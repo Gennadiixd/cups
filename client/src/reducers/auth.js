@@ -8,7 +8,7 @@ const initState = {
 export default (state = initState, action) => {
     switch (action.type) {
         case LOGIN_USER :
-            return  {...action.user, tasks : action.tasks, isAuth : true}
+            return  {...action.user, tasks : action.tasks ? action.tasks : [], isAuth : true}
         case LOGOUT_USER :
             return {
                 isAuth : false
