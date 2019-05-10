@@ -5,14 +5,16 @@ import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import { addCoordinateAC } from "../../reducers/actions/actions";
 import { placeMarksOnMapAC } from "../../reducers/actions/actions";
 
-import AddTaskForm from "../../components/AddTaskForm/AddTaskForm";
+import AddTaskForm from "../../components/Forms/AddTaskForm";
 import HashRouter from '../../components/HashRouter';
-import Info from "../../components/Auth/Info"
+import Info from "../../components/Forms/Info"
+import ShowActiveTasks from "../../components/Forms/ShowActiveTasks";
 
 const mapStateToProps = (state) => ({
   coordinates: state.maps.coordinates,
   isAuth: state.auth.isAuth,
   ownTasks: state.auth.tasks,
+  role: state.auth.role
 });
 
 class YandexMaps extends React.Component {
@@ -72,6 +74,7 @@ class YandexMaps extends React.Component {
               <Map
                 onClick={(e) => {
                   console.log(e.get('coords'));
+                  if (this.props.role==='author')
                   this.setState({ hint: e.get('coords') });
                 }}
                 width={this.state.width}
@@ -79,13 +82,13 @@ class YandexMaps extends React.Component {
                 defaultState={mapData}
                 state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
-                {this.state.hint && <Placemark onDragEnd={(e) => { this.setState({hint : e.originalEvent.target.geometry._coordinates})}} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
+                {this.props.role==='author' ? this.state.hint && <Placemark onDragEnd={(e) => { this.setState({hint : e.originalEvent.target.geometry._coordinates})}} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
                   balloonContentHeader: ``,
                   balloonContentBody: ``,
                   balloonContentFooter: ``,
                 }} modules={
                   ['geoObject.addon.hint']
-                } options={{ preset: 'islands#redDotIconWithCaption', draggable: true }} />}
+                } options={{ preset: 'islands#redDotIconWithCaption', draggable: true }} /> : null}
 
                 {this.props.isAuth && this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
@@ -108,8 +111,8 @@ class YandexMaps extends React.Component {
           </YMaps>
         </div>
         <HashRouter />
-        {this.props.isAuth ?
-        <AddTaskForm address = {this.state.hint}/> :
+        {this.props.isAuth ? this.props.role==='author' ?
+          <AddTaskForm/> : <ShowActiveTasks/> :
           <Info />}
       </div>
     );

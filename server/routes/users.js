@@ -24,6 +24,7 @@ router.get('/logout', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
         req.session.destroy()
     }
+    res.status(200).send('Logged out')
 })
 
 router.post('/signup', async (req, res, next) => {
