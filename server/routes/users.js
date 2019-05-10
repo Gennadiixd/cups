@@ -63,8 +63,8 @@ router.get('/profile', async (req, res) => {
 router.post('/:name', async (req, res) => {
     // if (req.body.role === 'author') {
         let activeByAuthor = await Task.find({author: req.params.name, completed: false});
-        console.log(req.params.name);
-        res.json(activeByAuthor);
+        let completedByAuthor = await Task.find({author: req.params.name, completed: true});
+        res.json({active: activeByAuthor, completed: completedByAuthor});
     // } else {
     //     let completedByExecutor = await Task.find({ executor: req.params.name, completed: true });
     //     res.json(completedByExecutor);

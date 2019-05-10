@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/task');
 const mongoose = require('mongoose');
-const User = require('../models/user')
+const User = require('../models/user');
+const moment = require('moment');
 
 //Вывод всех заданий кроме с истёкшей датой(expDate) и тех которые уже кем-то взяты (executor не пустой)
 router.get('/getall', async function (req, res, next) {
@@ -57,7 +58,8 @@ router.post('/savetask', async function (req, res, next) {
     expDate: req.body.expDate,
     executor: '',
     author: req.body.author,
-    completed: false
+    completed: false,
+    prettyDate: moment(req.body.expDate).format('llll')
   })
   await task.save();
   res.send({id : task._id});
