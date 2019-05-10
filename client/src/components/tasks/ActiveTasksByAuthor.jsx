@@ -14,7 +14,6 @@ class ActiveTasksByAuthor extends React.Component {
         completedTasks: []
     }
     async componentDidMount() {
-        console.log(this.props.match.url);
         let response = await fetch(this.props.match.url, {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },

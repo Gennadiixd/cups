@@ -28,11 +28,11 @@ class Main extends React.Component {
     render() {
         return (<main>
             <Switch>
-                <Route path='/users/:name' render={(props) => (this.props.isAuth &&
+                <Route exact path='/users/:name' render={(props) => (this.props.isAuth &&
                     this.props.role === 'worker' ? <CompletedTasksByExecutor {...props} /> : <ActiveTasksByAuthor {...props} />
                 )} />
                 <Route path='/' component={YandexMaps} />
-                <Route component={NotFound} />
+                <Route exact path='/404' component={NotFound} />
             </Switch>
         </main>)
     }
