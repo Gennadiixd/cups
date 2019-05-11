@@ -78,7 +78,8 @@ class YandexMaps extends React.Component {
                   if (this.props.role === 'author') {
                     await this.setState({ hint: e.get('coords') });
                     let res = await this.props.convertCoordinatesToAddress(e.get('coords'));
-                    await this.setState({ address: res });
+                    let address = res.replace(/^(.*),(.*), (.*), (.*)/, '$3 $4, $2');
+                    await this.setState({ address: address });
                   }
                 }}
                 width={this.state.width}
@@ -89,7 +90,8 @@ class YandexMaps extends React.Component {
                 {this.props.role === 'author' ? this.state.hint && <Placemark onDragEnd={async (e) => {
                   this.setState({ hint: e.originalEvent.target.geometry._coordinates });
                   let res = await this.props.convertCoordinatesToAddress(e.originalEvent.target.geometry._coordinates);
-                  await this.setState({ address: res });
+                  let address = res.replace(/^(.*),(.*), (.*), (.*)/, '$3 $4, $2');
+                  await this.setState({ address: address });
                 }} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
                   balloonContentHeader: ``,
                   balloonContentBody: ``,
