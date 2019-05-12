@@ -10,6 +10,7 @@ const taskSchema = new mongoose.Schema({
   executor: String,
   status: String, //completed, pending, declined, active
   author: String,
+  report: String,
 })
 
 module.exports = mongoose.model('Task', taskSchema);
