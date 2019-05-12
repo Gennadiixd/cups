@@ -1,9 +1,9 @@
 import React from "react";
-import { connect } from 'react-redux'
-import { Navbar, Nav, Modal } from 'react-bootstrap'
-import Login from '../Auth/Login'
-import Register from '../Auth/Register'
-import UserPage from '../UserPage'
+import { connect } from 'react-redux';
+import { Navbar, Nav, Modal } from 'react-bootstrap';
+import Login from '../Auth/Login';
+import Register from '../Auth/Register';
+import UserPage from '../UserPage';
 
 import { userLogout } from "../../reducers/actions/actions";
 
@@ -45,7 +45,8 @@ class Header extends React.Component {
 
     handleLogout = async () => {
         this.props.logout()
-        await fetch('users/logout')
+        await fetch('users/logout');
+        window.location = '#/'
     }
 
     render() {

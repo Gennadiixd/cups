@@ -1,4 +1,9 @@
-import { ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER } from './actionTypes'
+import {
+    ADD_COORDINATE,
+    DEL_TASK_FROM_REDUCER,
+    ADD_TASK_TO_USER_REDUCER,
+    DEL_TASK_FROM_USER_REDUCER
+} from './actionTypes'
 import { LOGOUT_USER, LOGIN_USER } from './actionTypes'
 
 export const addCoordinateAC = (coordinates, title, description, addressId, mapCenter) => ({
@@ -79,6 +84,9 @@ export const takeTaskAC = (id, task) => {
         await dispatch(addTaskToUserReducerAC(task))
     }
 }
+
+//Логика *отказаться от задания
+export const delTaskAC = id => ({type: DEL_TASK_FROM_USER_REDUCER, taskid : id})
 
 //Авторизация
 export const userLogin = (user, tasks) => ({ type: LOGIN_USER, user: user, tasks: tasks });

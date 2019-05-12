@@ -33,6 +33,7 @@ class TakeTask extends React.Component {
         if (data.respond !== 'empty') {            
             this.props.takeTask(data.taskID, data.task)          
         }
+        window.location = '#/';
     }
 
     render() {

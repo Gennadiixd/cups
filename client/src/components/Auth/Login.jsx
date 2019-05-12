@@ -33,6 +33,7 @@ class Login extends React.Component {
         if (!res.message) {
             this.props.login(res.user, res.tasks)
             this.props.close();
+            window.location = '#/'
         }
         else this.setState({message : res.message})
     }

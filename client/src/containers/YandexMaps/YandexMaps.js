@@ -93,7 +93,7 @@ class YandexMaps extends React.Component {
                 {this.props.isAuth && this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
-                  balloonContentFooter: `<a href = '#tasks/${coordinate.id}'>Взять задание</a>`,
+                  balloonContentFooter: this.props.role==='worker' ? `<a href = '#tasks/${coordinate.id}'>Взять задание</a>` : null,
                 }} modules={
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
                 } />)}
@@ -101,7 +101,7 @@ class YandexMaps extends React.Component {
                 {this.props.ownTasks && this.props.ownTasks.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates[0]} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
-                  balloonContentFooter: `<a href = '#tasks/${coordinate.id}'>Выполнить задание</a>`,
+                  balloonContentFooter: this.props.role==='worker' ? `<a href = '#tasks/${coordinate.id}'>Выполнить задание</a>` : null,
                 }} modules={
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
                 } options={{ preset: 'islands#greenDotIconWithCaption' }} />)}

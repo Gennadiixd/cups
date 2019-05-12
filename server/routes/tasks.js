@@ -65,4 +65,13 @@ router.post('/savetask', async function (req, res, next) {
   res.send({id : task._id});
 });
 
+//      Отказ от задания
+router.delete('/discardtask', async (req,res) => {
+      let taskId = req.body.id;
+      let userId = req.session.user._id
+      await Task.findByIdAndUpdate(taskId, {"executor" : ''})
+      await User.findByIdAndUpdate(userId, {$pull : {activeTasks: taskId}});
+      res.send('success')
+})
+
 module.exports = router;
