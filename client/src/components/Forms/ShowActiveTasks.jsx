@@ -9,7 +9,6 @@ const mapStateToProps = (state, ownProps) => ({
     tasks: state.auth.tasks,    
 })
 
-
 class ShowActiveTasks extends React.Component {
     state = {
         showComplete: false,
