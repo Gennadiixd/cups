@@ -13,21 +13,23 @@ const mapStateToProps = state => ({
 })
 
 function App(props) {
-
-    const [session, setSession] = useState({session : false})
-
+    //React Hook для использования состояния в функциональном компоненте
+    const [session, setSession] = useState({checked : false})
+    //React Hook для использования ComponentWillMount в функциональном компоненте
     useEffect(() => {
+        //Проверяем на наличие сессии на сервере
         async function checkUser() {
             try {
                 let res = await fetch('/users/check')
                 res = await res.json()
-                setSession({session : true})
+                setSession({checked : true})
                 if (res!==false)
                 props.login(res.user, res.tasks)
                 
             } catch (err) {console.log('Connection to server Failed')}
         }
-        if (!session.session && !props.isAuth)
+        //Если сессия была проверена, больше этого не делать
+        if (!session.checked && !props.isAuth)
             checkUser()
     }, [props, session])
 

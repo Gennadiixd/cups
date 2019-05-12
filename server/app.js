@@ -5,17 +5,16 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
+
 //Сессии
 const session = require('express-session');
-const redis   = require("redis");
-const RedisStore = require('connect-redis')(session);
-const client  = redis.createClient();
+const MongoStore = require('connect-mongo')(session)
 const {cookiesCleaner} = require('./middleware/auth');
 //
 
-
-
 mongoose.connect('mongodb://localhost/mysteryagent', {useNewUrlParser: true});
+
+const db = mongoose.connection
 
 const indexRouter = require('./routes/index');
 const tasksRouter = require('./routes/tasks');
@@ -23,13 +22,12 @@ const userRouter = require('./routes/users');
 
 const app = express();
 
+// Раскомментировать для билд версии *******
+// app.use(express.static(__dirname));
+// app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(session({
-  store: new RedisStore({
-    client,
-    host: 'localhost',
-    port: 6379,
-  }),
+  store: new MongoStore({mongooseConnection : db}),
   key: 'user_sid',
   secret: 'anything here',
   resave: false,

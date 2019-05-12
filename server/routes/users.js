@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/user')
 const Task = require('../models/task')
 
+//Получение подробных данных о всех активных заданиях пользователя
 const getUserTasks = async (activeTasks) => {
     let tasks = [];
     for (let i = 0; i < activeTasks.length; i++) {
@@ -12,6 +13,7 @@ const getUserTasks = async (activeTasks) => {
     return tasks
 }
 
+//Проверка на наличие сессии текущего пользователя
 router.get('/check', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
         let user = await User.findOne({ email: req.session.user.email })
@@ -20,6 +22,7 @@ router.get('/check', async (req, res) => {
     } else { res.send('false') }
 })
 
+//Выход пользователя из сессии
 router.get('/logout', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
         req.session.destroy()
@@ -27,6 +30,7 @@ router.get('/logout', async (req, res) => {
     res.status(200).send('Logged out')
 })
 
+//Регистрация пользователя
 router.post('/signup', async (req, res, next) => {
     try {
         let user = new User({
@@ -41,16 +45,17 @@ router.post('/signup', async (req, res, next) => {
         await user.save()
         req.session.user = user;
         res.json(user)
-    } catch (error) { res.status(400).send({ message: 'Указанная почта уже используется' }) }
+    } catch (error) { res.status(400).send({ message: 'Указанные ник или почта уже используются' }) }
 });
 
+//Вход пользователя
 router.post('/login', async (req, res, next) => {
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
     let user = await User.findOne({ email: req.body.email })
     if (user) {
         if (await user.comparePassword(req.body.password)) {
             let tasks = await getUserTasks(user.activeTasks)
             req.session.user = user;
+            delete user._doc.password;
             res.json({ user: user, tasks: tasks });
         } else res.status(400).send({ message: 'Неверный пароль' })
     } else res.status(400).send({ message: 'Пользователь не найден' })

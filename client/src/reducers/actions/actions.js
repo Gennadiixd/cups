@@ -1,16 +1,23 @@
 import {
-    ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER,
-    DEL_TASK_FROM_USER_REDUCER, ADD_TASK_TO_REDUCER, CHANGE_TASK_STATUS
+    ADD_COORDINATE,
+    DEL_TASK_FROM_REDUCER,
+    ADD_TASK_TO_USER_REDUCER,
+    DEL_TASK_FROM_USER_REDUCER,
+    ADD_TASK_TO_REDUCER,
+    MAKE_TASK_PENDING,
+    CHANGE_TASK_STATUS
+
 } from './actionTypes'
 import { LOGOUT_USER, LOGIN_USER } from './actionTypes'
 
-export const addCoordinateAC = (coordinates, title, description, addressId, mapCenter) => ({
+export const addCoordinateAC = (coordinates, title, description, addressId, status, mapCenter) => ({
     type: ADD_COORDINATE,
     payload: {
         id: addressId,
         coordinates: coordinates,
         title: title,
         description: description,
+        status: status,
         mapCenter: mapCenter ? mapCenter : coordinates,
     }
 })
@@ -38,7 +45,7 @@ export const placeMarksOnMapAC = (data) => {
         let res = await fetch("/tasks/getall");
         let data = await res.json();
         for (let i = 0; i < data.length; i++) {
-            dispatch(addCoordinateAC(data[i].coordinates[0], data[i].title, data[i].description, data[i]._id, [55.751574, 37.573856]))
+            dispatch(addCoordinateAC(data[i].coordinates[0], data[i].title, data[i].description, data[i]._id, data[i].status, [55.751574, 37.573856]))
         }
     }
 }
@@ -68,7 +75,7 @@ export const fetchCoordinatesAC = (address, title, description, expDate, author)
             body: JSON.stringify({ arrayWithCoordinates, title, description, expDate, author }),
         });
         let data1 = await resp.json();
-        dispatch(addCoordinateAC(arrayWithCoordinates, title, description, data1.id));
+        dispatch(addCoordinateAC(arrayWithCoordinates, title, description, data1.id, data1.status));
 
     }
 }
@@ -86,12 +93,14 @@ export const takeTaskAC = (id, task) => {
 //Логика *отказаться от задания
 export const delTaskAC = (id, task) => {
     return (dispatch) => {
+        //удалить из редьюсера пользователя
         dispatch(delTaskFromUserAC(id));
+        //добавить в редьюсер тасков
         dispatch(addTaskToReducerAC(task));
     }
 }
 
-export const delTaskFromUserAC = id => ({type: DEL_TASK_FROM_USER_REDUCER, taskid : id});
+export const delTaskFromUserAC = id => ({ type: DEL_TASK_FROM_USER_REDUCER, taskid: id });
 export const addTaskToReducerAC = task => ({
     type: ADD_TASK_TO_REDUCER,
     payload: {
@@ -99,6 +108,7 @@ export const addTaskToReducerAC = task => ({
         coordinates: [Number(task.coordinates[0][0]), Number(task.coordinates[0][1])],
         title: task.title,
         description: task.description,
+        status: task.status,
         mapCenter: [55.751574, 37.573856]
     }
 });
@@ -107,15 +117,22 @@ export const addTaskToReducerAC = task => ({
 export const userLogin = (user, tasks) => ({ type: LOGIN_USER, user: user, tasks: tasks });
 export const userLogout = () => ({ type: LOGOUT_USER });
 
-export const  convertCoordinatesToAddressAC = async (coordinates) => {    
-        const APIkey = await getAPIKey();
-        let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=` + coordinates[1] +' '+ coordinates[0])
-        let data = await res.json();       
-        return data.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text ;   
+export const convertCoordinatesToAddressAC = async (coordinates) => {
+    const APIkey = await getAPIKey();
+    let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=` + coordinates[1] + ' ' + coordinates[0])
+    let data = await res.json();
+    return data.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text;
 }
+
 
 export const changeTaskStatusAC = (id, status) => ({
     type: CHANGE_TASK_STATUS,
     id,
     status
 });
+
+export const makeTaskPendingAC = (id) => ({
+    type: MAKE_TASK_PENDING,
+    id,
+})
+
