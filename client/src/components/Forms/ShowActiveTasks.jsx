@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {delTaskAC, placeMarksOnMapAC} from "../../reducers/actions/actions";
-import { connect } from "react-redux";
 import { Card, Button } from 'react-bootstrap';
 
 const mapStateToProps = (state, ownProps) => ({

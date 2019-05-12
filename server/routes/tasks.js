@@ -7,10 +7,18 @@ const moment = require('moment');
 
 //Вывод всех заданий кроме с истёкшей датой(expDate) и тех которые уже кем-то взяты (executor не пустой)
 router.get('/getall', async function (req, res, next) {
-  let tasks = await Task.find()
-  let tasksFiltered = tasks.filter(tasks => tasks.expDate > new Date());
-  tasksFiltered = tasks.filter(tasks => tasks.executor === "");
-  //console.log(tasksFiltered);
+  if (!req.session.user) {
+    res.send({ message: "unauthorized" })
+    return;
+  } else if (req.session.user.role === 'worker') {
+    var tasksFiltered = await Task.find({ executor: "" })
+  } else if (req.session.user.role === 'author') {
+    var tasksFiltered = await Task.find({ author: req.session.user.name })
+  } else {
+    res.send({ message: "Something broke!" })
+    return;
+  }
+  tasksFiltered = tasksFiltered.filter(task => task.expDate > new Date());
   res.send(tasksFiltered);
 });
 
@@ -61,17 +69,17 @@ router.post('/savetask', async function (req, res, next) {
   res.send({ id: task._id });
 });
 router.post('/send', async (req, res) => {
-  let task = await Task.findByIdAndUpdate(req.body.id, {status: 'pending'});
+  let task = await Task.findByIdAndUpdate(req.body.id, { status: 'pending' });
   res.send();
 })
 
 //      Отказ от задания
-router.delete('/discardtask', async (req,res) => {
-      let taskId = req.body.id;
-      let userId = req.session.user._id
-      await Task.findByIdAndUpdate(taskId, {"executor" : ''})
-      await User.findByIdAndUpdate(userId, {$pull : {activeTasks: taskId}});
-      res.send('success')
+router.delete('/discardtask', async (req, res) => {
+  let taskId = req.body.id;
+  let userId = req.session.user._id
+  await Task.findByIdAndUpdate(taskId, { "executor": '' })
+  await User.findByIdAndUpdate(userId, { $pull: { activeTasks: taskId } });
+  res.send('success')
 })
 
 module.exports = router;
