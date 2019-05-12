@@ -4,6 +4,7 @@ import { userLogin } from '../../reducers/actions/actions';
 import { Form, Button } from 'react-bootstrap';
 import { placeMarksOnMapAC } from "../../reducers/actions/actions";
 import { makeTaskPendingAC } from '../../reducers/actions/actions'
+import Upload from '../upload/upload/Upload'
 
 class Complete extends React.Component {
     state = {
@@ -34,8 +35,9 @@ class Complete extends React.Component {
                     <Form.Group>
                         <Form.Label>Отчёт</Form.Label>
                         <Form.Control as='textarea' className='noResize' rows='5' type='text-field' required />
-                    </Form.Group>
+                    </Form.Group>                    
                     <Button variant="primary" type='submit'>Подтвердить</Button>
+                    <Upload />
                 </Form>
             </div>
         )

@@ -26,8 +26,8 @@ class YandexMaps extends React.Component {
       zoom: 9,
       width: 0,
       height: 0,
-      hint: [],
-      address: "",
+      hint: null,
+      address: '',
     };
   }
 
@@ -75,10 +75,14 @@ class YandexMaps extends React.Component {
               <Map
                 onClick={async (e) => {
                   if (this.props.role === 'author') {
-                    await this.setState({ hint: e.get('coords') });
-                    let res = await this.props.convertCoordinatesToAddress(e.get('coords'));
-                    let address = res.replace(/^(.*),(.*), (.*), (.*)/, '$3 $4, $2');
-                    await this.setState({ address: address });
+                    if (!this.state.hint) {
+                      await this.setState({ hint: e.get('coords') });
+                      let res = await this.props.convertCoordinatesToAddress(e.get('coords'));
+                      let address = res.replace(/^(.*),(.*), (.*), (.*)/, '$3 $4, $2');
+                      await this.setState({ address: address });
+                    } else {
+                      await this.setState({ hint: null })
+                    }
                   }
                 }}
                 width={this.state.width}
@@ -102,18 +106,18 @@ class YandexMaps extends React.Component {
                 {this.props.isAuth && this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
-                  balloonContentFooter: this.props.role==='worker' ? `<a href = '#tasks/${coordinate.id}'>Взять задание</a>` : this.props.role==='author' ? coordinate.status === 'pending' ? '<h7>задаиние ожидает подтверждения</h7>' : '<h7>задаиние ожидает выполнения</h7>' : '<h7>задаиние ожидает выполнения</h7>' ,
+                  balloonContentFooter: this.props.role === 'worker' ? `<a href = '#tasks/${coordinate.id}'>Взять задание</a>` : this.props.role === 'author' ? coordinate.status === 'pending' ? '<h7>Задание ожидает подтверждения</h7>' : '<h7>Задание ожидает выполнения</h7>' : '<h7>Задание ожидает выполнения</h7>',
                 }} modules={
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
-                } options={{preset: coordinate.status !== 'pending' ? 'default' : 'islands#yellowCircleDotIcon' }}/>)}
+                } options={{ preset: coordinate.status !== 'pending' ? 'default' : 'islands#yellowCircleDotIcon' }} />)}
 
-                {this.props.ownTasks && this.props.ownTasks.map(coordinate => <Placemark key={coordinate._id+'111'} geometry={coordinate.coordinates[0]} properties={{
+                {this.props.ownTasks && this.props.ownTasks.map(coordinate => <Placemark key={coordinate._id + '111'} geometry={coordinate.coordinates[0]} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
-                  balloonContentFooter: this.props.role==='worker' ? coordinate.status !== 'pending'?  `<h7>"Это ваше активное задание"</h7>` : `<h7>"Задание на проверке"</h7>` : null,
+                  balloonContentFooter: this.props.role === 'worker' ? coordinate.status !== 'pending' ? `<h7>"Это ваше активное задание"</h7>` : `<h7>"Задание на проверке"</h7>` : null,
                 }} modules={
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
-                } options={{preset: coordinate.status !== 'pending' ? 'islands#greenDotIconWithCaption' : 'islands#yellowCircleDotIcon' }} />)}
+                } options={{ preset: coordinate.status !== 'pending' ? 'islands#greenDotIconWithCaption' : 'islands#yellowCircleDotIcon' }} />)}
 
               </Map>
             </div>

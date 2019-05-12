@@ -4,6 +4,7 @@ const Task = require('../models/task');
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const moment = require('moment');
+const upload = require('../upload')
 
 //Вывод всех заданий кроме с истёкшей датой(expDate) и тех которые уже кем-то взяты (executor не пустой)
 router.get('/getall', async function (req, res, next) {
@@ -73,6 +74,9 @@ router.post('/complete', async (req, res) => {
   let task = await Task.findByIdAndUpdate(req.body.id, { status: 'pending' , report : req.body.report});
   res.send(task);
 })
+
+router.post('/upload', upload)
+
 
 //      Отказ от задания
 router.delete('/discardtask', async (req, res) => {
