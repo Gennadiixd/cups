@@ -60,11 +60,14 @@ router.get('/profile', async (req, res) => {
     let user = await User.findOne({ name: req.params.userName });
     res.json(user);
 });
+
 router.post('/:name', async (req, res) => {
     // if (req.body.role === 'author') {
-        let activeByAuthor = await Task.find({author: req.params.name, status: 'active'});
-        let completedByAuthor = await Task.find({author: req.params.name, status: 'completed'});
-        res.json({active: activeByAuthor, completed: completedByAuthor});
+        // let activeByAuthor = await Task.find({author: req.params.name, status: 'active'});
+        // let completedByAuthor = await Task.find({author: req.params.name, status: 'completed'});
+        let tasksByAuthor = await Task.find({author: req.params.name});
+        res.json(tasksByAuthor);
+        // res.json({active: activeByAuthor, completed: completedByAuthor});
     // } else {
     //     let completedByExecutor = await Task.find({ executor: req.params.name, status: 'completed' });
     //     res.json(completedByExecutor);

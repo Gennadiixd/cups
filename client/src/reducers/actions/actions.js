@@ -1,8 +1,6 @@
 import {
-    ADD_COORDINATE,
-    DEL_TASK_FROM_REDUCER,
-    ADD_TASK_TO_USER_REDUCER,
-    DEL_TASK_FROM_USER_REDUCER, ADD_TASK_TO_REDUCER
+    ADD_COORDINATE, DEL_TASK_FROM_REDUCER, ADD_TASK_TO_USER_REDUCER,
+    DEL_TASK_FROM_USER_REDUCER, ADD_TASK_TO_REDUCER, CHANGE_TASK_STATUS
 } from './actionTypes'
 import { LOGOUT_USER, LOGIN_USER } from './actionTypes'
 
@@ -115,3 +113,9 @@ export const  convertCoordinatesToAddressAC = async (coordinates) => {
         let data = await res.json();       
         return data.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text ;   
 }
+
+export const changeTaskStatusAC = (id, status) => ({
+    type: CHANGE_TASK_STATUS,
+    id,
+    status
+});

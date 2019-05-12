@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import YandexMaps from '../containers/YandexMaps/YandexMaps';
 import NotFound from './NotFound';
-import CompletedTasksByExecutor from './tasks/CompletedTasksByExecutor';
-import ActiveTasksByAuthor from './tasks/ActiveTasksByAuthor';
+import CompletedTasksByExecutor from './tasks/TasksForExecutor';
+import ActiveTasksByAuthor from './tasks/TasksForAuthor';
 
 const mapStateToProps = (state, ownProps) => ({
     isAuth: state.auth.isAuth,

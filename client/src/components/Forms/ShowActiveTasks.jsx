@@ -8,7 +8,6 @@ const mapStateToProps = (state, ownProps) => ({
     tasks: state.auth.tasks
 })
 
-
 class ShowActiveTasks extends React.Component {
     discardTaskHandler = async (id, task) => {
         await fetch('/tasks/discardtask', {
