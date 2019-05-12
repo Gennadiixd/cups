@@ -88,7 +88,9 @@ export const takeTaskAC = (id, task) => {
 //Логика *отказаться от задания
 export const delTaskAC = (id, task) => {
     return (dispatch) => {
+        //удалить из редьюсера пользователя
         dispatch(delTaskFromUserAC(id));
+        //добавить в редьюсер тасков
         dispatch(addTaskToReducerAC(task));
     }
 }

@@ -10,15 +10,19 @@ class Login extends React.Component {
         message : ''
     }
 
+    //Проверка правильности заполнения формы
     submitFormHandler = async (e) => {
         e.preventDefault();
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
+            //Если неправильно - показать пользователю
             this.setState({validated: true})
         } else
+            //Если все "ок" отправить на сервер
             this.submitLogin(e)
     }
 
+    //Отправка формы на сервер
     submitLogin = async (e) => {
         let [mail, password] = e.target.elements;
         let res = await fetch('/users/login', {
@@ -31,13 +35,14 @@ class Login extends React.Component {
             })
         });
         res = await res.json();
+        //Если нет сообщения об ошибке то занести данные в redux
         if (!res.message) {
-            this.props.login(res.user, res.tasks);
-            this.props.close();
-            this.props.placeMarksOnMap();
+            this.props.login(res.user, res.tasks); //Добавление данных о пользователе в redux
+            this.props.close(); //Закрыть модальное окно
+            this.props.placeMarksOnMap(); //Рендер точек на карте для пользователя
             window.location = '#/'
         }
-        else this.setState({message : res.message})
+        else this.setState({message : res.message}) //Сообщение об ошибке
     }
 
     render () {
