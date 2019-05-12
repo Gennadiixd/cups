@@ -22,6 +22,10 @@ const userRouter = require('./routes/users');
 
 const app = express();
 
+// Раскомментировать для билд версии *******
+// app.use(express.static(__dirname));
+// app.use(express.static(path.join(__dirname, 'build')));
+
 app.use(session({
   store: new MongoStore({mongooseConnection : db}),
   key: 'user_sid',
