@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const moment = require('moment');
 
 const taskSchema = new mongoose.Schema({
   title: String,
@@ -7,15 +6,10 @@ const taskSchema = new mongoose.Schema({
   reducerId: Number,
   description: String,
   expDate: Date,
+  prettyDate: String,
   executor: String,
-  completed: Boolean,
+  status: String, //completed, pending, declined, active
   author: String,
-  prettyDate: String
 })
-taskSchema.virtual('date')
-  .get(function () {
-    moment.locale('ru');
-    return moment(this.expDate).format('LT');
-  });
 
-module.exports = mongoose.model('Task', taskSchema)
+module.exports = mongoose.model('Task', taskSchema);

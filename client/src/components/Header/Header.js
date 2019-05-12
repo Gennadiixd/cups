@@ -1,15 +1,16 @@
 import React from "react";
-import { connect } from 'react-redux';
-import { Navbar, Nav, Modal } from 'react-bootstrap';
-import Login from '../Auth/Login';
-import Register from '../Auth/Register';
-import UserPage from '../UserPage';
+import { connect } from 'react-redux'
+import { Navbar, Nav, Modal } from 'react-bootstrap'
+import Login from '../Auth/Login'
+import Register from '../Auth/Register'
+import UserPage from '../UserPage'
 
 import { userLogout } from "../../reducers/actions/actions";
 
 const mapStateToProps = state => ({
     isAuth: state.auth.isAuth,
-    userName: state.auth.name
+    userName: state.auth.name,
+    role: state.auth.role
 })
 
 class Header extends React.Component {
@@ -54,9 +55,10 @@ class Header extends React.Component {
             <header className='sticky-top'>
                 <Navbar style={{ background: 'rgba(59,89,153 ,1 )' }} variant="dark" expand='sm'>
                     <Navbar.Brand href="#home">cups,_____?</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
+                            <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link>
                         </Nav>
                         <Nav inline="true" className="mr-sm-2">
                             {!this.props.isAuth ?
@@ -75,18 +77,18 @@ class Header extends React.Component {
 
                 </Navbar>
                 <Modal show={this.state.showLogin} onHide={this.handleCloseLogin}>
-                        <Modal.Header className="modals" style={{background : 'rgba(59,89,153 ,1 )'}} closeButton>
-                            <Modal.Title>Вход</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body><Login close={this.handleCloseLogin}/></Modal.Body>
-                    </Modal>
+                    <Modal.Header className="modals" style={{ background: 'rgba(59,89,153 ,1 )' }} closeButton>
+                        <Modal.Title>Вход</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body><Login close={this.handleCloseLogin} /></Modal.Body>
+                </Modal>
 
                 <Modal show={this.state.showRegister} onHide={this.handleCloseRegister}>
-                        <Modal.Header className="modals" closeButton>
-                            <Modal.Title>Регистрация</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body><Register close={this.handleCloseRegister}/></Modal.Body>
-                    </Modal>
+                    <Modal.Header className="modals" closeButton>
+                        <Modal.Title>Регистрация</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body><Register close={this.handleCloseRegister} /></Modal.Body>
+                </Modal>
 
                 <Modal show={this.state.showProfile} onHide={this.handleCloseProfile}>
                     <Modal.Header className="modals" closeButton>
