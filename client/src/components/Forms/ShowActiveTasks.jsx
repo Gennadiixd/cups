@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {delTaskAC, placeMarksOnMapAC} from "../../reducers/actions/actions";
-import { connect } from "react-redux";
 import { Card, Button } from 'react-bootstrap';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -20,7 +19,6 @@ class ShowActiveTasks extends React.Component {
             })
         })
         this.props.refresh(id);
-        alert(await res.text());
     }
     async handleClick(id) {
         // console.log(event.target)
