@@ -50,6 +50,10 @@ class Header extends React.Component {
         window.location = '#/'
     }
 
+    scrollDown = () => {
+        window.scrollTo({top : window.innerHeight+216, behavior: 'smooth'})
+    }
+
     render() {
         return (
             <header className='sticky-top'>
@@ -58,6 +62,9 @@ class Header extends React.Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
+                            <Nav.Link className="scrollButton" onClick={this.scrollDown}>
+                                {this.props.role === 'worker' ? 'Просмотреть задания' : 'Добавить задание'}
+                            </Nav.Link>
                             <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link>
                         </Nav>
                         <Nav inline="true" className="mr-sm-2">

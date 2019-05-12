@@ -20,6 +20,10 @@ code {
   border-top-right-radius: 0px !important;
 }
 
+.scrollButton {
+  display : none !important;
+}
+
 .yMap {
   position : absolute !important;
   padding : 0px !important;
@@ -52,6 +56,9 @@ code {
   }
   .yMap {
     position: relative !important;
+  }
+  .scrollButton {
+    display : inherit !important;
   }
   .task {
     background: white;
