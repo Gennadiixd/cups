@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import YandexMaps from '../containers/YandexMaps/YandexMaps';
-import UserRouter from './UserRouter';
 import NotFound from './NotFound';
 import CompletedTasksByExecutor from './tasks/CompletedTasksByExecutor';
 import ActiveTasksByAuthor from './tasks/ActiveTasksByAuthor';

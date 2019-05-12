@@ -1,8 +1,7 @@
 import React from "react";
-import { YMaps, Map, Placemark, GeoObject } from 'react-yandex-maps';
+import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import { connect } from "react-redux";
 import { fetchCoordinatesAC } from "../../reducers/actions/actions";
-import { addCoordinateAC } from "../../reducers/actions/actions";
 import { placeMarksOnMapAC } from "../../reducers/actions/actions";
 import { convertCoordinatesToAddressAC } from "../../reducers/actions/actions";
 
@@ -108,7 +107,8 @@ class YandexMaps extends React.Component {
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
                 } />)}
 
-                {this.props.ownTasks && this.props.ownTasks.map(coordinate => <Placemark key={coordinate._id} geometry={coordinate.coordinates[0]} properties={{
+
+                {this.props.ownTasks && this.props.ownTasks.map(coordinate => <Placemark key={coordinate._id+'111'} geometry={coordinate.coordinates[0]} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
                   balloonContentFooter: this.props.role==='worker' ? `<h7>"Это ваше активное задание"</h7>` : null,

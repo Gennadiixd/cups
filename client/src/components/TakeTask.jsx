@@ -1,5 +1,4 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom'
 import { connect } from "react-redux";
 import { delTaskFromReducerAC } from "../reducers/actions/actions"
 import { takeTaskAC } from "../reducers/actions/actions"
