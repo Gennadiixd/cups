@@ -75,7 +75,7 @@ componentWillReceiveProps = (newProps) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCoordinates: (address, title, description, expDate, author) => dispatch(fetchCoordinatesAC(address, title, description, expDate, author)),
+        fetchCoordinates: (address, title, description, expDate, author, status = "active") => dispatch(fetchCoordinatesAC(address, title, description, expDate, author, status)),
     }
 }
 

@@ -102,10 +102,10 @@ class YandexMaps extends React.Component {
                 {this.props.isAuth && this.props.coordinates.map(coordinate => <Placemark key={coordinate.id} geometry={coordinate.coordinates} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
-                  balloonContentFooter: this.props.role==='worker' ? `<a href = '#tasks/${coordinate.id}'>Взять задание</a>` : null,
+                  balloonContentFooter: this.props.role==='worker' ? `<a href = '#tasks/${coordinate.id}'>Взять задание</a>` : this.props.role==='author' ? coordinate.status === 'pending' ? '<h7>задаиние ожидает подтверждения</h7>' : '<h7>задаиние ожидает выполнения</h7>' : '<h7>задаиние ожидает выполнения</h7>' ,
                 }} modules={
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
-                } />)}
+                } options={{preset: coordinate.status !== 'pending' ? 'default' : 'islands#yellowCircleDotIcon' }}/>)}
 
                 {this.props.ownTasks && this.props.ownTasks.map(coordinate => <Placemark key={coordinate._id+'111'} geometry={coordinate.coordinates[0]} properties={{
                   balloonContentHeader: `${coordinate.title}`,
