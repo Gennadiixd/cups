@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 
 class ShowActiveTasks extends React.Component {
-    discardTaskHandler = async (id) => {
+    discardTaskHandler = async (id, task) => {
         let res = await fetch('/tasks/discardtask', {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'},
@@ -18,7 +18,7 @@ class ShowActiveTasks extends React.Component {
                 "id": id,
             })
         })
-        this.props.refresh(id);
+        this.props.refresh(id, task);
     }
     async handleClick(id) {
         // console.log(event.target)
@@ -43,7 +43,7 @@ class ShowActiveTasks extends React.Component {
                         <Card.Body>
                             <Card.Text>{task.description}</Card.Text>
                             <Button variant="primary" onClick={() => this.handleClick(task._id)}>Выполнено</Button>
-                            <Button variant="danger" onClick={() => this.discardTaskHandler(task._id)}>Отказаться</Button>
+                            <Button variant="danger" onClick={() => this.discardTaskHandler(task._id, task)}>Отказаться</Button>
                         </Card.Body>
                     </Card>
                 )}
@@ -54,7 +54,7 @@ class ShowActiveTasks extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        refresh: (id) => dispatch(delTaskAC(id)),
+        refresh: (id, task) => dispatch(delTaskAC(id, task)),
     }
 }
 

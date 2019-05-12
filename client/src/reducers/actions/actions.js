@@ -2,7 +2,7 @@ import {
     ADD_COORDINATE,
     DEL_TASK_FROM_REDUCER,
     ADD_TASK_TO_USER_REDUCER,
-    DEL_TASK_FROM_USER_REDUCER
+    DEL_TASK_FROM_USER_REDUCER, ADD_TASK_TO_REDUCER
 } from './actionTypes'
 import { LOGOUT_USER, LOGIN_USER } from './actionTypes'
 
@@ -86,7 +86,24 @@ export const takeTaskAC = (id, task) => {
 }
 
 //Логика *отказаться от задания
-export const delTaskAC = id => ({type: DEL_TASK_FROM_USER_REDUCER, taskid : id})
+export const delTaskAC = (id, task) => {
+    return (dispatch) => {
+        dispatch(delTaskFromUserAC(id));
+        dispatch(addTaskToReducerAC(task));
+    }
+}
+
+export const delTaskFromUserAC = id => ({type: DEL_TASK_FROM_USER_REDUCER, taskid : id});
+export const addTaskToReducerAC = task => ({
+    type: ADD_TASK_TO_REDUCER,
+    payload: {
+        id: task._id,
+        coordinates: [Number(task.coordinates[0][0]), Number(task.coordinates[0][1])],
+        title: task.title,
+        description: task.description,
+        mapCenter: [55.751574, 37.573856]
+    }
+});
 
 //Авторизация
 export const userLogin = (user, tasks) => ({ type: LOGIN_USER, user: user, tasks: tasks });
