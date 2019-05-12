@@ -16,7 +16,9 @@ class ShowActiveTasks extends React.Component {
         taskid: '',
     }
 
+    //Отказ от выполнения задания
     discardTaskHandler = async (id, task) => {
+        //Запрос на удаление исполнителя из базы данных
         await fetch('/tasks/discardtask', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
@@ -24,7 +26,7 @@ class ShowActiveTasks extends React.Component {
                 "id": id,
             })
         })
-        this.props.refresh(id, task);
+        this.props.refresh(id, task); //Занесение данных в redux
     }
 
     handleCloseComplete = () => {

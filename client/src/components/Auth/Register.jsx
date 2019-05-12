@@ -11,15 +11,19 @@ class SignUp extends React.Component {
         message : ''
     }
 
+    //Проверка правильности заполнения формы
     submitFormHandler = (e) => {
         e.preventDefault();
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
+            //Если неправильно - показать пользователю
             this.setState({validated: true})
         } else
+        //Если все "ок" отправить на сервер
             this.submitSignUp(e)
     }
 
+    //Отправка формы на сервер
     submitSignUp = async (e) => {
         let [name, mail, password] = e.target.elements;
         let res = await fetch('/users/signup', {
@@ -33,11 +37,12 @@ class SignUp extends React.Component {
             })
         });
         res = await res.json();
+        //Если нет сообщения об ошибке то занести данные в redux
         if (!res.message) {
-            this.props.login(res)
-            this.props.close();
+            this.props.login(res) //Добавление данных о пользователе в redux
+            this.props.close(); //Закрыть модальное окно
         }
-            else this.setState({message : res.message});
+            else this.setState({message : res.message}); //Сообщение об ошибке
     }
 
     render() {
