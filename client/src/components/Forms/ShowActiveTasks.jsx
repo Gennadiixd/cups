@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {delTaskAC, placeMarksOnMapAC} from "../../reducers/actions/actions";
+import {delTaskAC} from "../../reducers/actions/actions";
 import { Card, Button } from 'react-bootstrap';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 class ShowActiveTasks extends React.Component {
     discardTaskHandler = async (id, task) => {
-        let res = await fetch('/tasks/discardtask', {
+        await fetch('/tasks/discardtask', {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -21,8 +21,7 @@ class ShowActiveTasks extends React.Component {
         this.props.refresh(id, task);
     }
     async handleClick(id) {
-        // console.log(event.target)
-        let response = await fetch('/tasks/send', {
+        await fetch('/tasks/send', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -38,7 +37,7 @@ class ShowActiveTasks extends React.Component {
                     : <h5 style={{ textAlign: 'center' }}>У вас нет активных заданий</h5>}
                 <br />
                 {this.props.tasks.map((task, index) =>
-                    <Card>
+                    <Card key={task._id+task.title}>
                         <Card.Header as="h5">{index + 1}. {task.title}</Card.Header>
                         <Card.Body>
                             <Card.Text>{task.description}</Card.Text>
