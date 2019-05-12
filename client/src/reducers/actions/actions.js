@@ -33,6 +33,7 @@ async function getAPIKey() {
     let APIKey = res.text()
     return APIKey;
 }
+
 //Запрос к базе, получение всех меток, сохранение их в сторе.
 export const placeMarksOnMapAC = (data) => {
     return async (dispatch) => {
@@ -47,19 +48,19 @@ export const placeMarksOnMapAC = (data) => {
 //получаем координаты из яндекса по API Яндекса по аддресу
 export const fetchCoordinatesAC = (address, title, description, expDate, author) => {
     return async (dispatch) => {
-        if (typeof (address) == "string") {            
+        if (typeof (address) == "string") {
             const APIkey = await getAPIKey();
             let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=Москва ${address}`)
             let data = await res.json();
             address = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
             address = address.split(' ');
             address = address.reverse()
-            
+
         }
         let long = Number(address[0]);
         let lat = Number(address[1])
-        let arrayWithCoordinates = [long ,lat];
-        console.log(arrayWithCoordinates )
+        let arrayWithCoordinates = [long, lat];
+        console.log(arrayWithCoordinates)
         let resp = await fetch('/tasks/savetask', {
             method: "POST",
             headers: {
@@ -73,7 +74,6 @@ export const fetchCoordinatesAC = (address, title, description, expDate, author)
 
     }
 }
-
 
 //Логика *взять задание
 export const takeTaskAC = (id, task) => {
@@ -91,3 +91,10 @@ export const delTaskAC = id => ({type: DEL_TASK_FROM_USER_REDUCER, taskid : id})
 //Авторизация
 export const userLogin = (user, tasks) => ({ type: LOGIN_USER, user: user, tasks: tasks });
 export const userLogout = () => ({ type: LOGOUT_USER });
+
+export const  convertCoordinatesToAddressAC = async (coordinates) => {    
+        const APIkey = await getAPIKey();
+        let res = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${APIkey}&format=json&geocode=` + coordinates[1] +' '+ coordinates[0])
+        let data = await res.json();       
+        return data.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text ;   
+}

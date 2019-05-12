@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import { addCoordinateAC } from "../../reducers/actions/actions";
 import { placeMarksOnMapAC } from "../../reducers/actions/actions";
+import { convertCoordinatesToAddressAC } from "../../reducers/actions/actions";
 
 import AddTaskForm from "../../components/Forms/AddTaskForm";
 import HashRouter from '../../components/HashRouter';
@@ -27,9 +28,10 @@ class YandexMaps extends React.Component {
       width: 0,
       height: 0,
       hint: [],
+      address: "",
     };
   }
-  
+
   updateWindowDimensions = () => {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
@@ -72,17 +74,25 @@ class YandexMaps extends React.Component {
           <YMaps>
             <div>
               <Map
-                onClick={(e) => {
-                  console.log(e.get('coords'));
-                  if (this.props.role==='author')
-                  this.setState({ hint: e.get('coords') });
+                onClick={async (e) => {
+                  if (this.props.role === 'author') {
+                    await this.setState({ hint: e.get('coords') });
+                    let res = await this.props.convertCoordinatesToAddress(e.get('coords'));
+                    let address = res.replace(/^(.*),(.*), (.*), (.*)/, '$3 $4, $2');
+                    await this.setState({ address: address });
+                  }
                 }}
                 width={this.state.width}
                 height={this.state.height}
                 defaultState={mapData}
                 state={{ center: this.props.coordinates[this.props.coordinates.length - 1].mapCenter, zoom: this.state.zoom, }} >
 
-                {this.props.role==='author' ? this.state.hint && <Placemark onDragEnd={(e) => { this.setState({hint : e.originalEvent.target.geometry._coordinates})}} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
+                {this.props.role === 'author' ? this.state.hint && <Placemark onDragEnd={async (e) => {
+                  this.setState({ hint: e.originalEvent.target.geometry._coordinates });
+                  let res = await this.props.convertCoordinatesToAddress(e.originalEvent.target.geometry._coordinates);
+                  let address = res.replace(/^(.*),(.*), (.*), (.*)/, '$3 $4, $2');
+                  await this.setState({ address: address });
+                }} onClick={(e) => { console.log(e.get('coords')); }} geometry={this.state.hint} properties={{
                   balloonContentHeader: ``,
                   balloonContentBody: ``,
                   balloonContentFooter: ``,
@@ -111,8 +121,8 @@ class YandexMaps extends React.Component {
           </YMaps>
         </div>
         <HashRouter />
-        {this.props.isAuth ? this.props.role==='author' ?
-          <AddTaskForm address={this.state.hint}/> : <ShowActiveTasks/> :
+        {this.props.isAuth ? this.props.role === 'author' ?
+          <AddTaskForm address={this.state.address} /> : <ShowActiveTasks /> :
           <Info />}
       </div>
     );
@@ -124,6 +134,7 @@ const mapDispatchToProps = dispatch => {
     fetchCoordinates: (address) => dispatch(fetchCoordinatesAC(address)),
     //addCoordinates: (coordinates, title, description, addressId = 1, mapCenter) => dispatch(addCoordinateAC(coordinates, title, description, addressId, mapCenter)),
     placeMarksOnMap: () => dispatch(placeMarksOnMapAC()),
+    convertCoordinatesToAddress: (address) => convertCoordinatesToAddressAC(address),
   }
 }
 
