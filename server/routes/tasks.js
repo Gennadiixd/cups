@@ -70,8 +70,8 @@ router.post('/savetask', async function (req, res, next) {
 });
 router.post('/complete', async (req, res) => {
   console.log(req.body.report)
-  await Task.findByIdAndUpdate(req.body.id, { status: 'pending' , report : req.body.report});
-  res.send();
+  let task = await Task.findByIdAndUpdate(req.body.id, { status: 'pending' , report : req.body.report});
+  res.send(task);
 })
 
 //      Отказ от задания

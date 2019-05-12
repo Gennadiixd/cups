@@ -54,8 +54,7 @@ class ShowActiveTasks extends React.Component {
                         </Card.Body>
                     </Card>
                 )}
-
-
+                
                 <Modal show={this.state.showComplete} onHide={this.handleCloseComplete}>
                     <Modal.Header className="modals" style={{ background: 'rgba(59,89,153 ,1 )' }} closeButton>
                         <Modal.Title>Завершение</Modal.Title>
