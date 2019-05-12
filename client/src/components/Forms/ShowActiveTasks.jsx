@@ -1,51 +1,68 @@
 import React from 'react';
-import {connect} from "react-redux";
-import {delTaskAC} from "../../reducers/actions/actions";
-import { Card, Button } from 'react-bootstrap';
+import { connect } from "react-redux";
+import { delTaskAC } from "../../reducers/actions/actions";
+import { Card, Button, Modal } from 'react-bootstrap';
+import Complete from '../../components/tasks/Complete'
 
 const mapStateToProps = (state, ownProps) => ({
     name: state.auth.name,
-    tasks: state.auth.tasks
+    tasks: state.auth.tasks,    
 })
 
 
 class ShowActiveTasks extends React.Component {
+    state = {
+        showComplete: false,
+        taskid: '',
+    }
+
     discardTaskHandler = async (id, task) => {
         await fetch('/tasks/discardtask', {
             method: 'DELETE',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 "id": id,
             })
         })
         this.props.refresh(id, task);
     }
-    async handleClick(id) {
-        await fetch('/tasks/send', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id: id,
-            })
-        })
+
+    handleCloseComplete = () => {
+        this.setState({ showComplete: false })
     }
+
+    handleShow = (id) => {
+        this.setState({showComplete: true})
+        this.setState({taskid: id})
+    }
+  
     render() {
+        let notPendingTasks = this.props.tasks.filter((task)=>task.status !== 'pending')
         return (
             <div className="task col-lg-4">
-                {this.props.tasks.length !== 0 ?
+                {notPendingTasks.length !== 0 ?
                     <h5 style={{ textAlign: 'center' }}>Текущие задания</h5>
                     : <h5 style={{ textAlign: 'center' }}>У вас нет активных заданий</h5>}
                 <br />
-                {this.props.tasks.map((task, index) =>
-                    <Card key={task._id+task.title}>
+                {notPendingTasks.map((task, index) =>
+                    <Card key={task._id + task.title}>
                         <Card.Header as="h5">{index + 1}. {task.title}</Card.Header>
                         <Card.Body>
                             <Card.Text>{task.description}</Card.Text>
-                            <Button variant="primary" onClick={() => this.handleClick(task._id)}>Выполнено</Button>
+                            <Button variant="primary" onClick={() => this.handleShow(task._id)}>Выполнить</Button>
                             <Button variant="danger" onClick={() => this.discardTaskHandler(task._id, task)}>Отказаться</Button>
                         </Card.Body>
                     </Card>
                 )}
+
+
+                <Modal show={this.state.showComplete} onHide={this.handleCloseComplete}>
+                    <Modal.Header className="modals" style={{ background: 'rgba(59,89,153 ,1 )' }} closeButton>
+                        <Modal.Title>Завершение</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body><Complete id={this.state.taskid} close={this.handleCloseComplete} /></Modal.Body>
+                </Modal>
+
             </div>
         )
     }
