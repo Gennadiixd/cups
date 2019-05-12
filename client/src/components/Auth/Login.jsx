@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { userLogin } from '../../reducers/actions/actions';
 import { Form, Button } from 'react-bootstrap';
+import { placeMarksOnMapAC } from "../../reducers/actions/actions";
 
 class Login extends React.Component {
     state = {
@@ -31,8 +32,9 @@ class Login extends React.Component {
         });
         res = await res.json();
         if (!res.message) {
-            this.props.login(res.user, res.tasks)
+            this.props.login(res.user, res.tasks);
             this.props.close();
+            this.props.placeMarksOnMap();
             window.location = '#/'
         }
         else this.setState({message : res.message})
@@ -63,7 +65,8 @@ class Login extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: (user, tasks) => dispatch(userLogin(user, tasks))
+        login: (user, tasks) => dispatch(userLogin(user, tasks)),
+        placeMarksOnMap: () => dispatch(placeMarksOnMapAC()),
     }
 }
 
