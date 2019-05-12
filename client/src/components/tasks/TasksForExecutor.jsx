@@ -5,7 +5,7 @@ const mapStateToProps = (state, ownProps) => ({
     name: state.auth.name,
     role: state.auth.role
 })
-class CompletedTasksByExecutor extends React.Component {
+class TasksForExecutor extends React.Component {
     async componentDidMount() {
         console.log(this.props.match.url)
         let response = await fetch(this.props.match.url, {
@@ -28,4 +28,4 @@ class CompletedTasksByExecutor extends React.Component {
         )
     }
 }
-export default connect(mapStateToProps)(CompletedTasksByExecutor);
+export default connect(mapStateToProps)(TasksForExecutor);

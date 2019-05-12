@@ -58,7 +58,9 @@ class Header extends React.Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link>
+                            {this.props.role === 'author' ?
+                                <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link> :
+                                <Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}
                         </Nav>
                         <Nav inline="true" className="mr-sm-2">
                             {!this.props.isAuth ?
