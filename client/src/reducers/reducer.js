@@ -19,7 +19,6 @@ export default (state = initialState, action) => {
             return { coordinates: [{ mapCenter: [55.751574, 37.573856], id: 1 }], };
         }
         case CHANGE_TASK_STATUS: {
-            console.log(action)
             return Object.assign({}, state, { coordinates: [...state.coordinates.map(el => 
                 action.id === el.id ? { ...el, status: action.status} : el)]})
         }

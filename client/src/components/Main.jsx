@@ -1,10 +1,10 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import YandexMaps from '../containers/YandexMaps/YandexMaps';
 import NotFound from './NotFound';
-import CompletedTasksByExecutor from './tasks/TasksForExecutor';
-import ActiveTasksByAuthor from './tasks/TasksForAuthor';
+import TasksForExecutor from './tasks/TasksForExecutor';
+import TasksForAuthor from './tasks/TasksForAuthor';
 
 const mapStateToProps = (state, ownProps) => ({
     isAuth: state.auth.isAuth,
@@ -26,9 +26,10 @@ class Main extends React.Component {
     // }
     render() {
         return (<main>
+            {/* {!this.props.isAuth && <Redirect to="/login" />} */}
             <Switch>
-                <Route exact path='/users/:name' render={(props) => (this.props.isAuth &&
-                    this.props.role === 'worker' ? <CompletedTasksByExecutor {...props} /> : <ActiveTasksByAuthor {...props} />
+                <Route exact path='/users/:name' render={(props) => (
+                    this.props.role === 'worker' ? <TasksForExecutor {...props} /> : <TasksForAuthor {...props} />
                 )} />
                 <Route path='/' component={YandexMaps} />
                 <Route exact path='/404' component={NotFound} />

@@ -19,6 +19,7 @@ router.get('/getall', async function (req, res, next) {
     return;
   }
   tasksFiltered = tasksFiltered.filter(task => task.expDate > new Date());
+  console.log(tasksFiltered)
   res.send(tasksFiltered);
 });
 
@@ -88,7 +89,7 @@ router.delete('/discardtask', async (req, res) => {
   res.send('success')
 })
 router.put('/:id', async (req, res) => {
-  console.log(req.params.id);
+  console.log(req.params.id, req.body.status);
   await Task.findByIdAndUpdate(req.params.id, { status: req.body.status });
   res.send();
 })
