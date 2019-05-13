@@ -7,7 +7,7 @@ function TaskItemForAuthor(props) {
     //let props = this.props
     const changeStatus = async (newStatus) => {
         // const {props} = this
-        await fetch(`tasks/${props.item.id}`, {
+        await fetch(`tasks/${props.item._id}`, {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
