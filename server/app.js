@@ -5,12 +5,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
-
 //Сессии
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session)
 const {cookiesCleaner} = require('./middleware/auth');
-//
 
 mongoose.connect('mongodb://localhost/mysteryagent', {useNewUrlParser: true});
 
