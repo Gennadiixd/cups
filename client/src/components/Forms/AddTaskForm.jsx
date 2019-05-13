@@ -14,7 +14,7 @@ class AddTaskForm extends React.Component {
             title: '',
             description: '',
             address: '',
-            expDate: '',
+            expDate: '2019-06-01T12:00',
         };
     }
 

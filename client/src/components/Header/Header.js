@@ -51,6 +51,10 @@ class Header extends React.Component {
         window.location = '#/'
     }
 
+    scrollDown = () => {
+        window.scrollTo({top : window.innerHeight+216, behavior: 'smooth'})
+    }
+
     render() {
         let pendingTasks = this.props.tasks.filter(task => task.author === this.props.username && task.status === 'pending');
         return (
@@ -62,6 +66,14 @@ class Header extends React.Component {
                         <Nav className="mr-auto">
                             {this.props.role === 'author' && <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания <Badge variant="primary">{pendingTasks.length}</Badge></Nav.Link>}
                             {this.props.role === 'worker' && <Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}
+
+                            <Nav.Link className="scrollButton" onClick={this.scrollDown}>
+                                {this.props.role === 'worker' ? 'Просмотреть задания' : 'Добавить задание'}
+                            </Nav.Link>
+
+                            {this.props.role === 'author' ?
+                                <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link> :
+                                <Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}
                         </Nav>
                         <Nav inline="true" className="mr-sm-2">
                             {!this.props.isAuth ?
