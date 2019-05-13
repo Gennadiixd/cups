@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 //Сессии
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session)
+const MongoStore = require('connect-mongo')(session);
 const {cookiesCleaner} = require('./middleware/auth');
 //
 

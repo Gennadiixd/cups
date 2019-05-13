@@ -28,12 +28,12 @@ function TaskItem(props) {
                         }}>Отменить</Button>}
                     {props.item.status === 'pending' &&
                         <ButtonToolbar>
-                            <Button variant="secondary" onClick={changeStatus('declined')}>Отклонить</Button>
-                            <Button variant="primary" onClick={changeStatus('completed')}>Принять</Button>
+                            <Button variant="secondary" onClick={() => changeStatus('declined')}>Отклонить</Button>
+                            <Button variant="primary" onClick={() => changeStatus('completed')}>Принять</Button>
                             <Button variant='success'>Связаться с исполнителем</Button>
                         </ButtonToolbar>}
                     {(props.item.status === 'completed' || props.item.status === 'declined') &&
-                        <Button variant="secondary" onClick={changeStatus('active')}>Повторить</Button>}
+                        <Button variant="secondary" onClick={() => changeStatus('active')}>Повторить</Button>}
                 </Container>
             </Jumbotron>
         </div>
