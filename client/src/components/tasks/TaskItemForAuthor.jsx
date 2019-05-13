@@ -27,22 +27,22 @@ function TaskItemForAuthor(props) {
         // const {props, handleClick} = this
         switch (props.item.status) {
             case 'active':
+
                 return (
                     /* {props.item.executor ? <p>Задание выполняется пользователем {props.item.executor}</p> : null} */
                     <Button variant="secondary" onClick={() => handleClick(props.item._id, 'declined')}>Отменить</Button>
                 )
                 break;
+
             case 'pending':
                 console.log(props.item.executor)
                 return (
-                    /* {props.item.executor ? <p>Задание выполняется пользователем {props.item.executor}</p> : <p>Исполнитель отсутствует</p>} */
                     <ButtonToolbar>
                         <Button variant="secondary" onClick={() => handleClick(props.item._id, 'declined')}>Отклонить</Button>
                         <Button variant="primary" onClick={() => handleClick(props.item._id, 'completed')}>Принять</Button>
                         <Button variant='success'>Связаться с исполнителем</Button>
                     </ButtonToolbar>
                 )
-                break;
             case 'completed':
             case 'declined':
                 return (<Button variant="secondary" onClick={() => handleClick(props.item._id, 'active')}>Повторить</Button>);
@@ -54,8 +54,12 @@ function TaskItemForAuthor(props) {
             <Container>
                 <h2>{props.item.title}</h2>
                 <p>{props.item.description}</p>
+
+                {/* <p>Завершить не позднее {props.item.prettyDate}</p> */}
+
                 <p>{props.item.status}</p>
                 {reportRender(props.item)}
+
                 {footerRender()}
             </Container>
         </Jumbotron>

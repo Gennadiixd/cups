@@ -69,7 +69,6 @@ router.post('/savetask', async function (req, res, next) {
   res.send({ id: task._id });
 });
 
-
 //router.post('/send', async (req, res) => {//исполнитель отправляет задание на проверку заказчику
   //let task = await Task.findByIdAndUpdate(req.body.id, { status: 'pending' });
   //res.send();
