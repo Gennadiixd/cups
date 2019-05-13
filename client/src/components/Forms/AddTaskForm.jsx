@@ -14,7 +14,7 @@ class AddTaskForm extends React.Component {
             title: '',
             description: '',
             address: '',
-            expDate: '',
+            expDate: '2019-06-01T12:00',
         };
     }
 
@@ -43,7 +43,7 @@ componentWillReceiveProps = (newProps) => {
         this.props.fetchCoordinates(this.state.address, event.target.title.value, event.target.description.value, event.target.expDate.value, this.props.name);       
     }
     
-       render() {       
+       render() {
         return (
             <div className='task col-lg-4'>
             <Form style={{'paddingTop' : '10px'}} onSubmit={(event) => this.createTask(event)}>

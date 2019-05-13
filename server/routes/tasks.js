@@ -69,14 +69,20 @@ router.post('/savetask', async function (req, res, next) {
   await task.save();
   res.send({ id: task._id });
 });
+
+
+//router.post('/send', async (req, res) => {//исполнитель отправляет задание на проверку заказчику
+  //let task = await Task.findByIdAndUpdate(req.body.id, { status: 'pending' });
+  //res.send();
+
 router.post('/complete', async (req, res) => {
   console.log(req.body.report)
   let task = await Task.findByIdAndUpdate(req.body.id, { status: 'pending' , report : req.body.report});
   res.send(task);
 })
 
-router.post('/upload', upload)
 
+router.post('/upload', upload)
 
 //      Отказ от задания
 router.delete('/discardtask', async (req, res) => {
@@ -85,6 +91,11 @@ router.delete('/discardtask', async (req, res) => {
   await Task.findByIdAndUpdate(taskId, { "executor": '' })
   await User.findByIdAndUpdate(userId, { $pull: { activeTasks: taskId } });
   res.send('success')
+})
+router.put('/:id', async (req, res) => {
+  console.log(req.params.id);
+  await Task.findByIdAndUpdate(req.params.id, { status: req.body.status });
+  res.send();
 })
 
 module.exports = router;
