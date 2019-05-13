@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux'
-import { Navbar, Nav, Modal } from 'react-bootstrap'
+import { Navbar, Nav, Modal, Badge } from 'react-bootstrap'
 import Login from '../Auth/Login'
 import Register from '../Auth/Register'
 import UserPage from '../UserPage'
@@ -10,7 +10,8 @@ import { userLogout } from "../../reducers/actions/actions";
 const mapStateToProps = state => ({
     isAuth: state.auth.isAuth,
     userName: state.auth.name,
-    role: state.auth.role
+    role: state.auth.role,
+    tasks: state.maps.coordinates
 })
 
 class Header extends React.Component {
@@ -55,6 +56,7 @@ class Header extends React.Component {
     }
 
     render() {
+        let pendingTasks = this.props.tasks.filter(task => task.author === this.props.username && task.status === 'pending');
         return (
             <header className='sticky-top'>
                 <Navbar style={{ background: 'rgba(59,89,153 ,1 )' }} variant="dark" expand='sm'>
@@ -62,7 +64,7 @@ class Header extends React.Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            {this.props.role === 'author' && <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link>}
+                            {this.props.role === 'author' && <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания <Badge variant="primary">{pendingTasks.length}</Badge></Nav.Link>}
                             {this.props.role === 'worker' && <Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}
 
                             <Nav.Link className="scrollButton" onClick={this.scrollDown}>
