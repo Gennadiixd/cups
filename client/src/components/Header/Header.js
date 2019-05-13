@@ -46,9 +46,9 @@ class Header extends React.Component {
     }
 
     handleLogout = async () => {
+        window.location = '#/'
         this.props.logout()
         await fetch('users/logout');
-        window.location = '#/'
     }
 
     scrollDown = () => {

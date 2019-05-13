@@ -1,18 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import TaskItemForAuthor from './TaskItemForAuthor';
 import { Tabs, Tab } from 'react-bootstrap';
 
 const mapStateToProps = (state, ownProps) => ({
     name: state.auth.name,
-    tasks: state.maps.coordinates
+    tasks: state.auth.tasks
 })
 class TasksForAuthor extends React.Component {
     render() {
-        const activeList = this.props.tasks.map(item => item.status === 'active' && <TaskItemForAuthor key={item.id} item={item} />);
-        const pendingList = this.props.tasks.map(item => item.status === 'pending' && <TaskItemForAuthor key={item.id} item={item} />);
-        const archiveList = this.props.tasks.map(item => (item.status === 'completed' || item.status === 'declined') && <TaskItemForAuthor key={item.id} item={item}/>);
+        const activeList = this.props.tasks.map(item => item.status === 'active' && <TaskItemForAuthor key={item._id} item={item} />);
+        const pendingList = this.props.tasks.map(item => item.status === 'pending' && <TaskItemForAuthor key={item._id} item={item} />);
+        const archiveList = this.props.tasks.map(item => (item.status === 'completed' || item.status === 'declined') && <TaskItemForAuthor key={item._id} item={item}/>);
         return (
             // !this.props.name ?
             //     <Redirect to='/404' /> :
