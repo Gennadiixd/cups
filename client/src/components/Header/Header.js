@@ -52,7 +52,7 @@ class Header extends React.Component {
     }
 
     scrollDown = () => {
-        window.scrollTo({top : window.innerHeight+216, behavior: 'smooth'})
+        window.scrollTo({ top: window.innerHeight + 216, behavior: 'smooth' })
     }
 
     render() {
@@ -64,7 +64,10 @@ class Header extends React.Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            {this.props.role === 'author' && <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания <Badge variant="primary">{pendingTasks.length}</Badge></Nav.Link>}
+                            {this.props.role === 'author' && 
+                            <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания {pendingTasks.length > 0 && 
+                                <Badge variant="primary">{pendingTasks.length}</Badge>}
+                            </Nav.Link>}
                             {this.props.role === 'worker' && <Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}
 
                             <Nav.Link className="scrollButton" onClick={this.scrollDown}>
@@ -72,8 +75,8 @@ class Header extends React.Component {
                             </Nav.Link>
 
                             {/*{this.props.role === 'author' ?*/}
-                                {/*<Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link> :*/}
-                                {/*<Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}*/}
+                            {/*<Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link> :*/}
+                            {/*<Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}*/}
                         </Nav>
                         <Nav inline="true" className="mr-sm-2">
                             {!this.props.isAuth ?
