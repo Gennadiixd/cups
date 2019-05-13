@@ -29,7 +29,8 @@ class Main extends React.Component {
             {/* {!this.props.isAuth && <Redirect to="/login" />} */}
             <Switch>
                 <Route exact path='/users/:name' render={(props) => (
-                    this.props.role === 'worker' ? <TasksForExecutor {...props} /> : <TasksForAuthor {...props} />
+                    this.props.role === 'worker' ? <TasksForExecutor {...props}/> :
+                        this.props.role === 'author' ? <TasksForAuthor {...props}/> : <Redirect to="/"/>
                 )} />
                 <Route path='/' component={YandexMaps} />
                 <Route exact path='/404' component={NotFound} />

@@ -46,9 +46,9 @@ class Header extends React.Component {
     }
 
     handleLogout = async () => {
+        window.location = '#/'
         this.props.logout()
         await fetch('users/logout');
-        window.location = '#/'
     }
 
     scrollDown = () => {
@@ -74,9 +74,6 @@ class Header extends React.Component {
                                 {this.props.role === 'worker' ? 'Просмотреть задания' : 'Добавить задание'}
                             </Nav.Link>
 
-                            {/*{this.props.role === 'author' ?*/}
-                            {/*<Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link> :*/}
-                            {/*<Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}*/}
                         </Nav>
                         <Nav inline="true" className="mr-sm-2">
                             {!this.props.isAuth ?

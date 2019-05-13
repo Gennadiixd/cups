@@ -38,7 +38,8 @@ class ShowActiveTasks extends React.Component {
     }
   
     render() {
-        let notPendingTasks = this.props.tasks.filter((task)=>task.status !== 'pending')
+        let notPendingTasks = this.props.tasks.filter( (task) => task.status !== 'pending')
+        notPendingTasks = notPendingTasks.filter( (task) => task.status !== 'completed')
         return (
             <div className="task col-lg-4">
                 {notPendingTasks.length !== 0 ?
