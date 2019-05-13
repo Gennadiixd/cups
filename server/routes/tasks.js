@@ -20,7 +20,6 @@ router.get('/getall', async function (req, res, next) {
     return;
   }
   tasksFiltered = tasksFiltered.filter(task => task.expDate > new Date());
-  console.log(tasksFiltered)
   res.send(tasksFiltered);
 });
 
@@ -44,7 +43,6 @@ router.post('/take', async function (req, res) {
       task.executor = req.body.userName;
       await task.save();
       user = await User.findOneAndUpdate({ name: req.body.userName }, { $push: { activeTasks: req.body.taskId } });
-      console.log(task, req.body.taskId)
       res.send({ respond: 'full', taskID: req.body.taskId, task: task });
     } else {
       res.send({ respond: 'empty' })
