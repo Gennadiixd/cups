@@ -4,20 +4,15 @@ const User = require('../models/user')
 const Task = require('../models/task')
 
 //Получение подробных данных о всех активных заданиях пользователя
-const getUserTasks = async (activeTasks) => {
-    let tasks = [];
-    for (let i = 0; i < activeTasks.length; i++) {
-        task = await Task.findOne({ _id: activeTasks[i] });
-        tasks.push(task);
-    }
-    return tasks
+const getUserTasks = async (user) => {
+    return user.role==='worker' ? await Task.find({executor : user.name}) : await Task.find({author : user.name})
 }
 
 //Проверка на наличие сессии текущего пользователя
 router.get('/check', async (req, res) => {
     if (req.cookies.user_sid && req.session.user) {
         let user = await User.findOne({ email: req.session.user.email })
-        let tasks = await getUserTasks(user.activeTasks)
+        let tasks = await getUserTasks(req.session.user)
         res.json({ user: user, tasks: tasks })
     } else { res.send('false') }
 })
@@ -53,8 +48,8 @@ router.post('/login', async (req, res, next) => {
     let user = await User.findOne({ email: req.body.email })
     if (user) {
         if (await user.comparePassword(req.body.password)) {
-            let tasks = await getUserTasks(user.activeTasks)
             req.session.user = user;
+            let tasks = await getUserTasks(req.session.user)
             delete user._doc.password;
             res.json({ user: user, tasks: tasks });
         } else res.status(400).send({ message: 'Неверный пароль' })

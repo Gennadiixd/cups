@@ -93,6 +93,7 @@ router.delete('/discardtask', async (req, res) => {
   await User.findByIdAndUpdate(userId, { $pull: { activeTasks: taskId } });
   res.send('success')
 })
+
 router.put('/:id', async (req, res) => {
   console.log(req.params.id, req.body.status);
   await Task.findByIdAndUpdate(req.params.id, { status: req.body.status });

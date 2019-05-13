@@ -111,7 +111,8 @@ class YandexMaps extends React.Component {
                   ['geoObject.addon.balloon', 'geoObject.addon.hint']
                 } options={{ preset: coordinate.status !== 'pending' ? 'default' : 'islands#yellowCircleDotIcon' }} />)}
 
-                {this.props.ownTasks && this.props.ownTasks.map(coordinate => <Placemark key={coordinate._id + '111'} geometry={coordinate.coordinates[0]} properties={{
+
+                {this.props.ownTasks && this.props.role==='worker' && this.props.ownTasks.map(coordinate => <Placemark key={coordinate._id + '111'} geometry={coordinate.coordinates[0]} properties={{
                   balloonContentHeader: `${coordinate.title}`,
                   balloonContentBody: `${coordinate.description}`,
                   balloonContentFooter: this.props.role === 'worker' ? coordinate.status !== 'pending' ? `<h7>"Это ваше активное задание"</h7>` : `<h7>"Задание на проверке"</h7>` : null,

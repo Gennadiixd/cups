@@ -21,7 +21,7 @@ class TasksForExecutor extends React.Component {
     //     console.log(completedArr);
     // }
     render() {
-        const pendingList = this.props.tasks.map(item => <TaskItemForExecutor key={item.id} item={item} />);
+        const pendingList = this.props.tasks.map(item => item.status === 'pending' && <TaskItemForExecutor key={item.id} item={item} />);
         const completedList = this.props.tasks.map(item => item.status === 'completed' && <TaskItemForExecutor key={item.id} item={item} />);
         console.log('list', pendingList)
         return (
