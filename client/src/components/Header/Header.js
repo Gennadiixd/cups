@@ -62,6 +62,8 @@ class Header extends React.Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
+                            {this.props.role === 'author' && <Nav.Link href={`#/users/${this.props.userName}`}>Мои задания</Nav.Link>}
+                            {this.props.role === 'worker' && <Nav.Link href={`#/users/${this.props.userName}`}>Выполненные</Nav.Link>}
 
                             <Nav.Link className="scrollButton" onClick={this.scrollDown}>
                                 {this.props.role === 'worker' ? 'Просмотреть задания' : 'Добавить задание'}
