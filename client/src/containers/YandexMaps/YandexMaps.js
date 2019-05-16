@@ -1,5 +1,5 @@
 import React from "react";
-import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import { YMaps, Map, Placemark, GeolocationControl } from 'react-yandex-maps';
 import { connect } from "react-redux";
 import { fetchCoordinatesAC } from "../../reducers/actions/actions";
 import { placeMarksOnMapAC } from "../../reducers/actions/actions";
@@ -23,11 +23,12 @@ class YandexMaps extends React.Component {
     this.state = {
       input: '',
       center: [55.751574, 37.573856],
-      zoom: 9,
+      zoom: 10.5,
       width: 0,
       height: 0,
       hint: null,
       address: '',
+      geolocation: false
     };
   }
 
@@ -58,9 +59,16 @@ class YandexMaps extends React.Component {
   };
 
   async componentWillMount() {
+    if ("geolocation" in navigator) {
+      await navigator.geolocation.getCurrentPosition(async (pos) => {
+        await this.setState({geolocation : true, center: [pos.coords.latitude, pos.coords.longitude]})
+      });
+    }
     if (this.props.coordinates.length===1)
     this.props.placeMarksOnMap();
   }
+
+
 
   render() {
     const mapData = {
@@ -72,7 +80,6 @@ class YandexMaps extends React.Component {
     let ownTasks = []
     if (this.props.ownTasks)
     ownTasks = this.props.ownTasks.filter(task => task.status!=='completed')
-
     return (
       <div>
 
@@ -95,7 +102,14 @@ class YandexMaps extends React.Component {
                 width={this.state.width}
                 height={this.state.height}
                 defaultState={mapData}
-                state={{ center: tasks[tasks.length - 1].mapCenter, zoom: this.state.zoom, }} >
+                state={{ center: mapData.center, zoom: this.state.zoom, }} >
+
+                {this.state.geolocation &&
+                <Placemark geometry={mapData.center} properties={{
+                  balloonContentHeader: `Вы Здесь`,
+                  balloonContentBody: ``,
+                  balloonContentFooter: ``,
+                }} options={{ preset: 'islands#darkGreenIcon'}} />}
 
                 {this.props.role === 'author' ? this.state.hint && <Placemark onDragEnd={async (e) => {
                   this.setState({ hint: e.originalEvent.target.geometry._coordinates });

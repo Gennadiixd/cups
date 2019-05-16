@@ -20,16 +20,13 @@ function TaskItemForAuthor(props) {
         changeStatus(status);
         props.changeStatusStore(id, status);
     }
-    const reportRender = (item) => {
-        return (<p>Отчет : {item.report}</p>)
-    }
     const footerRender = () => {
         // const {props, handleClick} = this
         switch (props.item.status) {
             case 'active':
 
                 return (
-                    /* {props.item.executor ? <p>Задание выполняется пользователем {props.item.executor}</p> : null} */
+
                     <Button variant="secondary" onClick={() => handleClick(props.item._id, 'declined')}>Отменить</Button>
                 )
                 break;
@@ -55,10 +52,10 @@ function TaskItemForAuthor(props) {
                 <h2>{props.item.title}</h2>
                 <p>{props.item.description}</p>
 
-                {/* <p>Завершить не позднее {props.item.prettyDate}</p> */}
-
-                <p>{props.item.status}</p>
-                {reportRender(props.item)}
+                 <p>Завершить не позднее {props.item.prettyDate}</p>
+                {props.item.executor && <p>Задание выполняется пользователем {props.item.executor}</p>}
+                {/*<p>{props.item.status}</p>*/}
+                {props.item.executor && <p>Отчет : {props.item.report}</p>}
 
                 {footerRender()}
             </Container>

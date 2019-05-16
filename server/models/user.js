@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
   role : {type : String, required : true}, //author, worker
   balance : {type : Number, required : true},
   statistics : {type : Number, required : true},
-  activeTasks : {type : Array}
 });
 
 userSchema.pre('save', function(next) {

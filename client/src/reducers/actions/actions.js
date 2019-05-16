@@ -135,4 +135,3 @@ export const makeTaskPendingAC = (id) => ({
     type: MAKE_TASK_PENDING,
     id,
 })
-
